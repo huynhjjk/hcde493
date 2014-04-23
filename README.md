@@ -1,3 +1,3 @@
-# Angular Express Seed Example App
+# HCDE 493 - Senior Capstone Project
 
-Based on the [Angular Express Seed](https://github.com/btford/angular-express-seed), this simple app illustrates how to use [AngularJS](http://angularjs.org/) and [Express](http://expressjs.com/) on a [Node.js](http://nodejs.org/) server to make a simple blog.
+Time-Lapse Camera Web Application using [AngularJS](http://angularjs.org/) and [Express](http://expressjs.com/) on a [Node.js](http://nodejs.org/) server to interact with the [Raspberry Pi](http://www.raspberrypi.org/)
