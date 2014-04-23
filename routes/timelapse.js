@@ -15,7 +15,7 @@ exports.getImages = function(req, res) {
 	res.json({
 		images: images
 	}, 200);
-	console.log('GET IMAGES - ' + JSON.stringify(images));
+	// console.log('GET IMAGES - ' + JSON.stringify(images));
 }
 
 exports.getCamera = function(req, res) {
