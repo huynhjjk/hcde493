@@ -1,8 +1,44 @@
 'use strict';
 
 /* Controllers */
+function DashboardCtrl($scope, $http) {
+  $http.get('/getCamera').
+    success(function(data, status, headers, config) {
+      $scope.setting = data.setting;
+      console.log('Camera settings has been retrieved.')
+    });
 
-function MainCtrl($scope, $http) {
+  $scope.startCamera = function () {
+    $http.get('/startCamera').
+      success(function(data, status) {
+        console.log('Camera has started.')
+    });
+  }
+
+  $scope.stopCamera = function () {
+    $http.get('/stopCamera').
+      success(function(data, status) {
+        console.log('Camera has stopped.')
+    });
+  }
+}
+
+function SettingsCtrl($scope, $http) {
+  $http.get('/getCamera').
+    success(function(data, status, headers, config) {
+      $scope.setting = data.setting;
+      console.log('Camera settings has been retrieved.')
+    });
+
+  $scope.setCamera = function () {
+    $http.put('/setCamera', $scope.setting).
+      success(function(data, status) {
+        console.log('Camera has been set.')
+    });
+  }
+}
+
+function ListPostCtrl($scope, $http) {
   $http.get('/api/posts').
     success(function(data, status, headers, config) {
       $scope.posts = data.posts;
@@ -14,7 +50,7 @@ function AddPostCtrl($scope, $http, $location) {
   $scope.submitPost = function () {
     $http.post('/api/post', $scope.form).
       success(function(data) {
-        $location.path('/');
+        $location.path('/listPost');
       });
   };
 }
@@ -50,7 +86,7 @@ function DeletePostCtrl($scope, $http, $location, $routeParams) {
   $scope.deletePost = function () {
     $http.delete('/api/post/' + $routeParams.id).
       success(function(data) {
-        $location.url('/');
+        $location.url('/listPost');
       });
   };
 }

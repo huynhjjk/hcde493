@@ -7,6 +7,8 @@ var express = require('express'),
   routes = require('./routes'),
   api = require('./routes/api')
 
+var timelapse = require('./routes/timelapse');
+
 var app = module.exports = express.createServer();
 
 // Configuration
@@ -48,6 +50,12 @@ app.delete('/api/post/:id', api.deletePost);
 
 // redirect all others to the index (HTML5 history)
 // app.get('*', routes.index);
+
+// TIMELAPSE API
+app.get('/getCamera', timelapse.getCamera);
+app.get('/startCamera', timelapse.startCamera);
+app.get('/stopCamera', timelapse.stopCamera);
+app.put('/setCamera', timelapse.setCamera);
 
 // Start server
 
