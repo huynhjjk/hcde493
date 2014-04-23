@@ -1,0 +1,17 @@
+<h2>Camera Settings</h2>
+<h4>Mode</h4>
+<input type="text" class="form-control" ng-model="setting.mode" placeholder="Mode">
+<h4>Output</h4>
+<input type="text" class="form-control" ng-model="setting.output" placeholder="Output">
+<h4>Encoding</h4>
+<input type="text" class="form-control" ng-model="setting.encoding" placeholder="Encoding">
+<h4>Timelapse</h4>
+<input type="number" class="form-control" min=0 ng-model="setting.timelapse" placeholder="Timelapse">
+<h4>Timeout</h4>
+<input type="number" class="form-control" min=0 ng-model="setting.timeout" placeholder="Timeout">
+
+<br>
+
+<button type="btn" class="btn btn-info" ng-click='setCamera()'>Set</button>
+
+<p><pre>{{setting | json}}</pre></p>
