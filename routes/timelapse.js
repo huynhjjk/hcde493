@@ -1,4 +1,5 @@
 var RaspiCam = require("raspicam");
+var camera;
 
 // default settings
 var setting = {
@@ -39,7 +40,8 @@ exports.setCamera = function(req, res) {
 }
 
 exports.startCamera = function(req, res) {
-	var camera = new RaspiCam(setting);
+	camera = new RaspiCam(setting);
+
 	camera.on("start", function( err, timestamp ){
 	  console.log("timelapse started at " + timestamp);
 	});
