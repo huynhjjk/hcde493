@@ -34,7 +34,6 @@ exports.setCamera = function(req, res) {
 		timelapse: req.body.timelapse,
 		timeout: req.body.timeout
 	}
-	req.body;
  	res.json(setting, 200);
 	console.log('SET CAMERA - ' + JSON.stringify(setting));
 }
