@@ -8,6 +8,12 @@ function DashboardCtrl($scope, $http) {
       console.log('Camera settings has been retrieved.')
     });
 
+  $http.get('/getImages').
+    success(function(data, status, headers, config) {
+      $scope.images = data.images;
+      console.log('Images has been retrieved.' + JSON.stringify($scope.images));
+    });
+
   $scope.startCamera = function () {
     $http.get('/startCamera').
       success(function(data, status) {

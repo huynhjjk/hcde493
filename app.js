@@ -52,6 +52,7 @@ app.delete('/api/post/:id', api.deletePost);
 // app.get('*', routes.index);
 
 // TIMELAPSE API
+app.get('/getImages', timelapse.getImages);
 app.get('/getCamera', timelapse.getCamera);
 app.get('/startCamera', timelapse.startCamera);
 app.get('/stopCamera', timelapse.stopCamera);

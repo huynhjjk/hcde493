@@ -9,6 +9,15 @@ var setting = {
 	timeout: 12000 // take a total of 4 pictures over 12 seconds
 }
 
+var images = [];
+
+exports.getImages = function(req, res) {
+	res.json({
+		images: images
+	}, 200);
+	console.log('GET IMAGES - ' + JSON.stringify(images));
+}
+
 exports.getCamera = function(req, res) {
 	res.json({
 		setting: setting
@@ -37,6 +46,7 @@ exports.startCamera = function(req, res) {
 
 	camera.on("read", function( err, timestamp, filename ){
 	  console.log("timelapse image captured with filename: " + filename);
+	  images.push(filename);
 	});
 
 	camera.on("exit", function( timestamp ){
