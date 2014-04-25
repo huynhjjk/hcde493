@@ -47,7 +47,7 @@ exports.startCamera = function(req, res) {
 
 	camera.on("read", function( err, timestamp, filename ){
 	  console.log("timelapse image captured with filename: " + filename);
-	  if (!filename.indexOf('~')) {
+	  if (filename.indexOf('~') == -1) {
 		  images.push(filename);
 	  }
 	});
