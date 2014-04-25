@@ -51,12 +51,20 @@ app.delete('/api/post/:id', api.deletePost);
 // redirect all others to the index (HTML5 history)
 // app.get('*', routes.index);
 
-// TIMELAPSE API
-app.get('/getImages', timelapse.getImages);
+/* ------ TIMELAPSE API ------ */
+
+// Timelapse settings
 app.get('/getCamera', timelapse.getCamera);
+app.put('/setCamera', timelapse.setCamera);
+
+// Timelapse controls
 app.get('/startCamera', timelapse.startCamera);
 app.get('/stopCamera', timelapse.stopCamera);
-app.put('/setCamera', timelapse.setCamera);
+
+// Timelapse Images
+app.get('/getImages', timelapse.getImages);
+app.delete('/deleteImage/:imageFile', timelapse.deleteImage);
+
 
 // Start server
 

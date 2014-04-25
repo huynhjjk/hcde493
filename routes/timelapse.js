@@ -1,3 +1,4 @@
+var fs = require('fs');
 var RaspiCam = require("raspicam");
 var camera;
 
@@ -10,14 +11,30 @@ var setting = {
 	timeout: 12000 // take a total of 4 pictures over 12 seconds
 }
 
-var images = [];
-
 exports.getImages = function(req, res) {
-	res.json({
-		images: images
-	}, 200);
-	console.log('GET IMAGES - ' + JSON.stringify(images));
+	fs.readdir(process.cwd() + '/public/images', function (err, files) {
+	  if (err) {
+	    console.log(err);
+	    return;
+	  }
+		res.json({
+		images: files
+		}, 200);
+		console.log('GET IMAGES - ' + JSON.stringify(files));
+	});
 }
+
+exports.deleteImage = function (req, res) {
+  var imageName = req.params.imageFile;
+	fs.unlink(process.cwd() + '/public/images/' + imageName, function (err) {
+	  if (err) {
+		console.log(err);
+		return;	  	
+	  } 
+		res.json(imageName, 200);
+		console.log('DELETE IMAGE - ' + JSON.stringify(imageName));
+	});
+};
 
 exports.getCamera = function(req, res) {
 	res.json({

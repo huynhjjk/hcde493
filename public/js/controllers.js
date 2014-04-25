@@ -29,6 +29,30 @@ function DashboardCtrl($scope, $http, $route) {
         console.log('Camera has stopped.')
     });
   }
+
+  $scope.deleteImage = function (imageFile) {
+    $http.delete('/deleteImage/' + imageFile).
+      success(function(data) {
+        console.log(data + ' has been deleted.');
+        $route.reload();
+      });
+  };
+}
+
+function GalleryCtrl($scope, $http, $route) {
+  $http.get('/getImages').
+    success(function(data, status, headers, config) {
+      $scope.images = data.images;
+      console.log('Images has been retrieved.' + JSON.stringify($scope.images));
+    });
+
+  $scope.deleteImage = function (imageFile) {
+    $http.delete('/deleteImage/' + imageFile).
+      success(function(data) {
+        console.log(data + ' has been deleted.');
+        $route.reload();
+      });
+  };
 }
 
 function SettingsCtrl($scope, $http) {

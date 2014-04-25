@@ -8,6 +8,10 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
         templateUrl: 'partials/dashboard',
         controller: DashboardCtrl
       }).
+      when('/gallery', {
+        templateUrl: 'partials/gallery',
+        controller: GalleryCtrl
+      }).
       when('/settings', {
         templateUrl: 'partials/settings',
         controller: SettingsCtrl

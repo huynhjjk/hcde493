@@ -1,0 +1,9 @@
+<h2>Gallery</h2>
+<div class="row">
+	<div class="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 col-lg-8 col-lg-offset-2 ">
+		<div ng-if="images" ng-repeat="image in images" class="text-center">
+			<img class="thumbnail img-responsive" ng-src="images/{{image}}" alt="images/{{image}}">	
+			<h4>{{image}} <button type="btn" class="btn btn-danger" ng-click='deleteImage(image)'>Delete</button></h4>
+		</div>
+	</div>
+</div>
