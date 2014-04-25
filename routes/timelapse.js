@@ -54,10 +54,12 @@ exports.startCamera = function(req, res) {
 
 	camera.on("exit", function( timestamp ){
 	  console.log("timelapse child process has exited");
+ 	  res.json(setting, 200);
 	});
 
 	camera.on("stop", function( err, timestamp ){
 	  console.log("timelapse child process has been stopped at " + timestamp);
+ 	  res.json(setting, 200);
 	});
 
 	camera.start();
@@ -66,7 +68,6 @@ exports.startCamera = function(req, res) {
 	  camera.stop();
 	}, setting.timeout);
 
- 	res.json(setting, 200);
 	console.log('START CAMERA - ' + JSON.stringify(setting));
 }
 
