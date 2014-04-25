@@ -11,7 +11,7 @@ function DashboardCtrl($scope, $http) {
   $http.get('/getImages').
     success(function(data, status, headers, config) {
       $scope.images = data.images;
-      // console.log('Images has been retrieved.' + JSON.stringify($scope.images));
+      console.log('Images has been retrieved.' + JSON.stringify($scope.images));
     });
 
   $scope.startCamera = function () {
