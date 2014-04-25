@@ -1,7 +1,7 @@
 'use strict';
 
 /* Controllers */
-function DashboardCtrl($scope, $http) {
+function DashboardCtrl($scope, $http, $route) {
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.setting = data.setting;
@@ -15,9 +15,11 @@ function DashboardCtrl($scope, $http) {
     });
 
   $scope.startCamera = function () {
+    console.log('Camera has started.')
     $http.get('/startCamera').
       success(function(data, status) {
-        console.log('Camera has started.')
+        console.log('Camera has stopped.')
+        $route.reload();
     });
   }
 
