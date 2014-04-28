@@ -37,6 +37,14 @@ function DashboardCtrl($scope, $http, $route) {
         $route.reload();
       });
   };
+
+  $("#start").click(function() {
+      var $btn = $(this);
+      $btn.button('loading');
+      setTimeout(function () {
+          $btn.button('reset');
+      }, $scope.setting.timeout);
+  });
 }
 
 function GalleryCtrl($scope, $http, $route) {
