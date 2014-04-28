@@ -39,10 +39,21 @@ function DashboardCtrl($scope, $http, $route) {
   };
 
   $("#start").click(function() {
+      // Countdown
+      $scope.countDown = (angular.copy($scope.setting.timeout) / 1000);
+      var timer = setInterval(function(){
+          $scope.countDown--;
+          $scope.$apply();
+          if ($scope.countDown == 0) {
+            window.clearInterval(timer);
+          }
+      }, 1000);
+
+      // Disable
       var $btn = $(this);
-      $btn.button('loading');
+      $btn.attr('disabled', true);
       setTimeout(function () {
-          $btn.button('reset');
+        $btn.attr('disabled', false);
       }, $scope.setting.timeout);
   });
 }

@@ -12,7 +12,7 @@
 		<h4>Timeout</h4>
 		<p>{{setting.timeout}}</p>
 		<br>
-		<button type="button" id="start" data-loading-text="Capturing..." class="btn btn-primary" ng-click='startCamera()'>Start</button>
+		<button type="button" id="start" class="btn btn-primary" ng-click='startCamera()'>{{countDown && (countDown + ' seconds') || ('Start')}}</button>
 		<button type="btn" class="btn btn-warning" ng-click='stopCamera()'>Stop</button>
 	</div>
 	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
