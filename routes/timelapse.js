@@ -79,7 +79,7 @@ exports.startCamera = function(req, res) {
 
 	setTimeout(function(){
 	  camera.stop();
-	}, setting.timeout + 3000);
+	}, setting.timeout + 1000);
 
 	console.log('START CAMERA - ' + JSON.stringify(setting));
 }
