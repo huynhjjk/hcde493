@@ -86,7 +86,9 @@ exports.startCamera = function(req, res) {
 
 exports.stopCamera = function(req, res) {
 	console.log('What is camera in stopCamera function? ' + camera);
-	camera.stop();
+    if(camera && typeof(camera.stop) == "function") {
+        camera.stop();
+    }
 	res.json(setting, 200);
 	console.log('STOP CAMERA - ' + JSON.stringify(setting));
 }
