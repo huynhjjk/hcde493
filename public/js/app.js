@@ -20,10 +20,6 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
         templateUrl: 'partials/listPost',
         controller: ListPostCtrl
       }).
-      when('/listPost', {
-        templateUrl: 'partials/listPost',
-        controller: ListPostCtrl
-      }).
       when('/addPost', {
         templateUrl: 'partials/addPost',
         controller: AddPostCtrl
