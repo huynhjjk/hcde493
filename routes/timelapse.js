@@ -1,8 +1,5 @@
 var shell = require('shelljs');
  
-shell.cd('bash_scripts');
-shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1);
-
 var fs = require('fs');
 var RaspiCam = require("raspicam");
 var camera;
@@ -118,4 +115,12 @@ exports.startShellCommand = function(req, res) {
 	});
 	res.json(shellCommand.text, 200);
 	console.log('START SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
+}
+
+exports.mihirsCommand = function(req, res) {
+	shell.cd('bash_scripts');
+	shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1,function(code, output) {
+	  console.log('Exit code:', code);
+	  console.log('Program output:', output);
+	});
 }

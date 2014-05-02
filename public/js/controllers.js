@@ -93,6 +93,14 @@ function ShellCommandCtrl($scope, $http) {
         console.log('Camera has started.')
     });
   }
+
+  $scope.mihirsCommand = function () {
+    $http.get('/mihirsCommand').
+      success(function(data, status) {
+        console.log('Mihirs command executed')
+    });
+  }
+
 }
 
 function ListPostCtrl($scope, $http) {
