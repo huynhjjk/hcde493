@@ -1,7 +1,7 @@
 var shell = require('shelljs');
  
 shell.cd('public/images');
-var str = "avconv -r 1 -i image%d.jpg -r 1 -vcodec libx264 -crf 20 -g 15 -vf crop=1000:1000,scale=1000:1000 timelapse.mp4"
+var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 -vf crop=1000:1000,scale=1000:1000 timelapse.avi"
 shell.exec(str,function(code, output) {
   console.log('Exit code:', code);
   console.log('Program output:', output);
