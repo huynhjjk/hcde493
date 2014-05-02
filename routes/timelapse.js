@@ -1,12 +1,10 @@
 var shell = require('shelljs');
  
-shell.cd('public/images');
-var str = "avconv -r 1 -i image%d.jpg -r 1 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+var str = "avconv -r 1 -i public/images/image%d.jpg -r 1 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 shell.exec(str,function(code, output) {
   console.log('Exit code:', code);
   console.log('Program output:', output);
 });
-shell.cd('..');
 
 var fs = require('fs');
 var RaspiCam = require("raspicam");
