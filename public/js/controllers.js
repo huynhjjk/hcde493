@@ -15,10 +15,13 @@ function DashboardCtrl($scope, $http, $route) {
     });
 
   $scope.startCamera = function () {
+    var $btn = $("#start");
+    $btn.attr('disabled', true);
     console.log('Camera has started.')
     $http.get('/startCamera').
       success(function(data, status) {
         console.log('Camera has stopped.')
+        $btn.attr('disabled', false);
         $route.reload();
     });
   }
@@ -37,25 +40,6 @@ function DashboardCtrl($scope, $http, $route) {
         $route.reload();
       });
   };
-
-  $("#start").click(function() {
-      // Countdown
-      $scope.countDown = (angular.copy($scope.setting.timeout) / 1000);
-      var timer = setInterval(function(){
-          $scope.countDown--;
-          $scope.$apply();
-          if ($scope.countDown == 0) {
-            window.clearInterval(timer);
-          }
-      }, 1000);
-
-      // Disable
-      var $btn = $(this);
-      $btn.attr('disabled', true);
-      setTimeout(function () {
-        $btn.attr('disabled', false);
-      }, $scope.setting.timeout);
-  });
 }
 
 function GalleryCtrl($scope, $http, $route) {
