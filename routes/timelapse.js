@@ -1,6 +1,6 @@
 var shell = require('shelljs');
  
-shell.exec("raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + 1000 + " " + "-o" + " " + "public/images/image%d.jpg");
+shell.exec("raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg");
 // shell.cd('bash_scripts');
 // shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1);
 
