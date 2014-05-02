@@ -1,7 +1,9 @@
 var shell = require('shelljs');
  
-shell.cd('bash_scripts');
-shell.exec('time.sh ' + 10 + ' ' + 0 + ' ' + 1);
+shell.exec("raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + 1000 + " " + "-o" + " " + "public/images/image%d.jpg");
+// shell.cd('bash_scripts');
+// shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1);
+
 
 var fs = require('fs');
 var RaspiCam = require("raspicam");
