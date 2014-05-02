@@ -2,9 +2,9 @@
 
 /* Filters */
 
-angular.module('myApp.filters', []).
-  filter('interpolate', ['version', function(version) {
-    return function(text) {
-      return String(text).replace(/\%VERSION\%/mg, version);
+var app = angular.module('myApp.filters', [])
+app.filter('imagePath', function() {
+    return function(image) {
+      return "images/" + image;
     }
-  }]);
+  });
