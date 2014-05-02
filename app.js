@@ -4,8 +4,7 @@
  */
 
 var express = require('express'),
-  routes = require('./routes'),
-  api = require('./routes/api')
+  routes = require('./routes')
 
 var timelapse = require('./routes/timelapse');
 
@@ -25,7 +24,6 @@ app.configure(function(){
   app.use(app.router);
 });
 
-
 app.configure('development', function(){
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
@@ -38,15 +36,6 @@ app.configure('production', function(){
 
 app.get('/', routes.index);
 app.get('/partials/:name', routes.partials);
-
-// JSON API
-
-app.get('/api/posts', api.posts);
-
-app.get('/api/post/:id', api.post);
-app.post('/api/post', api.addPost);
-app.put('/api/post/:id', api.editPost);
-app.delete('/api/post/:id', api.deletePost);
 
 // redirect all others to the index (HTML5 history)
 // app.get('*', routes.index);
@@ -69,10 +58,8 @@ app.get('/getShellCommand', timelapse.getShellCommand);
 app.put('/setShellCommand', timelapse.setShellCommand);
 app.get('/startShellCommand', timelapse.startShellCommand);
 
-
 // Start server
 
 app.listen(3000, function(){
   console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
 });
-
