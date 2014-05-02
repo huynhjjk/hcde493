@@ -117,7 +117,10 @@ exports.setShellCommand = function(req, res) {
 }
 
 exports.startShellCommand = function(req, res) {
-	shell.exec(shellCommand.text);
+	shell.exec(shellCommand.text,function(code, output) {
+	  console.log('Exit code:', code);
+	  console.log('Program output:', output);
+	}
 	res.json(shellCommand.text, 200);
 	console.log('START SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
 }
