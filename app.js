@@ -65,6 +65,10 @@ app.get('/stopCamera', timelapse.stopCamera);
 app.get('/getImages', timelapse.getImages);
 app.delete('/deleteImage/:imageFile', timelapse.deleteImage);
 
+app.get('/getShellCommand', timelapse.getShellCommand);
+app.put('/setShellCommand', timelapse.setShellCommand);
+app.get('/startShellCommand', timelapse.startShellCommand);
+
 
 // Start server
 

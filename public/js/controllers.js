@@ -89,6 +89,28 @@ function SettingsCtrl($scope, $http) {
   }
 }
 
+function ShellCommandCtrl($scope, $http) {
+  $http.get('/getShellCommand').
+    success(function(data, status, headers, config) {
+      $scope.shellCommand = data;
+      console.log('Shell Command has been retrieved.')
+    });
+
+  $scope.setShellCommand = function () {
+    $http.put('/setShellCommand', $scope.shellCommand).
+      success(function(data, status) {
+        console.log('Shell Command has been set.')
+    });
+  }
+
+  $scope.startShellCommand = function () {
+    $http.get('/startShellCommand').
+      success(function(data, status) {
+        console.log('Camera has started.')
+    });
+  }
+}
+
 function ListPostCtrl($scope, $http) {
   $http.get('/api/posts').
     success(function(data, status, headers, config) {

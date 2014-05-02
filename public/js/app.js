@@ -16,6 +16,10 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
         templateUrl: 'partials/settings',
         controller: SettingsCtrl
       }).
+      when('/shellCommand', {
+        templateUrl: 'partials/shellCommand',
+        controller: ShellCommandCtrl
+      }).
       when('/listPost', {
         templateUrl: 'partials/listPost',
         controller: ListPostCtrl

@@ -1,6 +1,5 @@
 var shell = require('shelljs');
  
-shell.exec("raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg");
 // shell.cd('bash_scripts');
 // shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1);
 
@@ -16,6 +15,10 @@ var setting = {
 	encoding: "jpg",
 	timelapse: 3000, // take a picture every 3 seconds
 	timeout: 12000 // take a total of 4 pictures over 12 seconds
+}
+
+var shellCommand = {
+	text: "raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg"
 }
 
 exports.getImages = function(req, res) {
@@ -98,4 +101,23 @@ exports.stopCamera = function(req, res) {
     }
 	res.json(setting, 200);
 	console.log('STOP CAMERA - ' + JSON.stringify(setting));
+}
+
+exports.getShellCommand = function(req, res) {
+ 	res.json(shellCommand, 200);
+	console.log('GET SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
+}
+
+exports.setShellCommand = function(req, res) {
+	shellCommand = {
+		text: req.body.text
+	}
+ 	res.json(shellCommand, 200);
+	console.log('SET SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
+}
+
+exports.startShellCommand = function(req, res) {
+	shell.exec(shellCommand.text);
+	res.json(shellCommand.text, 200);
+	console.log('START SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
 }
