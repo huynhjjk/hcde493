@@ -1,7 +1,7 @@
-// var shell = require('shelljs');
+var shell = require('shelljs');
  
-// shell.cd('bash_scripts');
-// shell.exec('time.sh ' + 10 + ' ' + 0 + ' ' + 1);
+shell.cd('bash_scripts');
+shell.exec('time.sh ' + 10 + ' ' + 0 + ' ' + 1);
 
 var fs = require('fs');
 var RaspiCam = require("raspicam");
