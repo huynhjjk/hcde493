@@ -1,5 +1,11 @@
 var shell = require('shelljs');
  
+var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 -vf crop=2592:1458,scale=1280:720 timelapse.mp4"
+shell.exec(str,function(code, output) {
+  console.log('Exit code:', code);
+  console.log('Program output:', output);
+});
+
 var fs = require('fs');
 var RaspiCam = require("raspicam");
 var camera;
@@ -123,4 +129,6 @@ exports.mihirsCommand = function(req, res) {
 	  console.log('Exit code:', code);
 	  console.log('Program output:', output);
 	});
+	shell.cd('..');
+	res.json(200);
 }
