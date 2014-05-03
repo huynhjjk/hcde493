@@ -1,32 +1,28 @@
 var shell = require('shelljs');
- 
-// shell.cd('public/images');
-// var str = "avconv -r 1 -i image%d.jpg -r 1 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
-// shell.exec(str,function(code, output) {
-//   console.log('Exit code:', code);
-//   console.log('Program output:', output);
-// });
-// shell.cd('..');
-// shell.cd('..');
-
 var fs = require('fs');
 var RaspiCam = require("raspicam");
 var camera;
 
-// default settings
-var setting = {
+var settings = {
+	hours: 2,
+	minutes: 15,
+	seconds: 30,
+	fps: 5,
+	startDate: new Date("May 3, 2014 9:30:00"),
+	endDate: new Date("May 4, 2014 12:00:00")
+}
+
+var options = {
 	mode: "timelapse",
-	output: "public/images/image%d.jpg", // image_000001.jpg, image_000002.jpg,...
+	output: "public/images/image%d.jpg",
 	encoding: "jpg",
-	timelapse: 3000, // take a picture every 3 seconds
-	timeout: 12000, // take a total of 4 pictures over 12 seconds
+	timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
+	timeout: settings.endDate - settings.startDate,
 	width: 1000,
 	height: 1000
 }
 
-var shellCommand = {
-	text: "raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg"
-}
+console.log(JSON.stringify(options));
 
 exports.getImages = function(req, res) {
 	fs.readdir(process.cwd() + '/public/images', function (err, files) {
@@ -55,44 +51,53 @@ exports.deleteImage = function (req, res) {
 
 exports.getCamera = function(req, res) {
 	res.json({
-		setting: setting
+		settings: settings
 	}, 200);
-	console.log('GET CAMERA - ' + JSON.stringify(setting));
+	console.log('GET CAMERA - ' + JSON.stringify(settings));
 }
 
 exports.setCamera = function(req, res) {
-	setting = req.body;
- 	res.json(setting, 200);
-	console.log('SET CAMERA - ' + JSON.stringify(setting));
+	settings = req.body;
+ 	res.json(settings, 200);
+	console.log('SET CAMERA - ' + JSON.stringify(settings));
 }
 
 exports.startCamera = function(req, res) {
-	camera = new RaspiCam(setting);
+	var options = {
+		mode: "timelapse",
+		output: "public/images/image%d.jpg",
+		encoding: "jpg",
+		timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
+		timeout: settings.endDate - settings.startDate, // settings must be date objects to work
+		width: 1000,
+		height: 1000
+	}
+	// camera = new RaspiCam(options);
 
-	camera.on("start", function( err, timestamp ){
-	  console.log("timelapse started at " + timestamp);
-	});
+	// camera.on("start", function( err, timestamp ){
+	//   console.log("timelapse started at " + timestamp);
+	// });
 
-	camera.on("read", function( err, timestamp, filename ){
-	  console.log("timelapse image captured with filename: " + filename);
-	});
+	// camera.on("read", function( err, timestamp, filename ){
+	//   console.log("timelapse image captured with filename: " + filename);
+	// });
 
-	camera.on("exit", function( timestamp ){
-	  console.log("timelapse child process has exited");
- 	  res.json(setting, 200);
-	});
+	// camera.on("exit", function( timestamp ){
+	//   console.log("timelapse child process has exited");
+ // 	  res.json(options, 200);
+	// });
 
-	camera.on("stop", function( err, timestamp ){
-	  console.log("timelapse child process has been stopped at " + timestamp);
-	});
+	// camera.on("stop", function( err, timestamp ){
+	//   console.log("timelapse child process has been stopped at " + timestamp);
+	// });
 
-	camera.start();
+	// camera.start();
 
-	setTimeout(function(){
-	  camera.stop();
-	}, setting.timeout + 3000);
+	// setTimeout(function(){
+	//   camera.stop();
+	// }, options.timeout + 3000);
 
-	console.log('START CAMERA - ' + JSON.stringify(setting));
+	console.log('START CAMERA - ' + JSON.stringify(options));
 }
 
 exports.stopCamera = function(req, res) {
@@ -100,8 +105,8 @@ exports.stopCamera = function(req, res) {
     if(camera && typeof(camera.stop) == "function") {
         camera.stop();
     }
-	res.json(setting, 200);
-	console.log('STOP CAMERA - ' + JSON.stringify(setting));
+	res.json(settings, 200);
+	console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }
 
 exports.getShellCommand = function(req, res) {
