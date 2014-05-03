@@ -7,53 +7,24 @@ function DashboardCtrl($scope, $http, $route) {
   the dashboard page again. You will get this data from the backend (using http.get(/getCamera),
   which has your previous settings */
   var backEnd = {
-    settings: {
-      mode: "timelapse", 
-      output: "public/images/image%d.jpg", 
-      encoding: "jpg", 
-      timelapse: 3000, // User will ONLY be able to modify this on dashboard page, based on your UI
-      timeout: 12000, // User will ONLY be able to modify this on dashboard page, based on your UI
-      width: 1000, 
-      height: 1000 
-    },
-    fps: 2 // User will ONLY be able to modify this on dashboard page, based on your UI
+    hours: 2, // 2 hours
+    minutes: 15, // 15 minutes
+    seconds: 30, // 3 seconds
+    startDate: new Date("May 3, 2014 9:30:00"), // use startDate for both datepicker and timepicker
+    endDate: new Date("May 4, 2014 12:00:00"), // use endDate for both datepicker and timepicker
+    fps: 2 // 2 frames per second
   }
 
-  /* Based on your UI for Interval, you will need to convert backEnd.settings.timelapse 
-  from milliseconds into individual hours, minutes, and seconds */
-  $scope.hours = 2 * backEnd.settings.timelapse;
-  $scope.minutes = 20 * backEnd.settings.timelapse;
-  $scope.seconds = 10 * backEnd.settings.timelapse;
-
-  // FPS should be an integer and not a string
-  $scope.fps = backEnd.fps;
-
-  /* Based on your UI for Timeout, you will need to convert backEnd.settings.timeout 
-  from milliseconds into  individual date objects consisting of startdate, endDate, startTime, and endTime */
-  $scope.startDate = 1 * backEnd.settings.timeout;
-  $scope.startTime = 1 * backEnd.settings.timeout;
-  $scope.endDate = 2 * backEnd.settings.timeout;
-  $scope.endTime = 2 * backEnd.settings.timeout;
-
+  /* In your html file, just bind your form fields to $scope.settings 
+    (i.e. {{settings.hours}}, {{settings.startDate}}, {{settings.fps}}, etc..)
+    Check if the settings JSON object dynamically change whenever you input a different value
+  */
+  $scope.settings = backEnd;
 
   // Press Temp Start Button to get an alert and see what data you are passing to backend
   $scope.tempStartCamera = function() {
-    var data = {};
-    data.settings = {
-      mode: "timelapse", // will not be changed
-      output: "public/images/image%d.jpg", // will not be changed
-      encoding: "jpg", // will not be changed
-      timelapse: ($scope.hours * 60 * 60) + ($scope.minutes * 60) + ($scope.seconds * 1), // convert date objects back to milliseconds
-      timeout: ($scope.endDate + $scope.endTime) - ($scope.startDate + $scope.startTime), // convert date objects back to milliseconds
-      width: 1000, // will not be changed
-      height: 1000 // will not be changed
-    }
-    data.fps = $scope.fps; // FPS should still be an integer and not a string
-
-    alert("This will be sent to backend " + JSON.stringify(data));
+    alert("This will be sent to backend " + JSON.stringify($scope.settings));
   }
-
-
 
 
   /* WRITE YOUR CODE ABOVE THIS LINE AND DON'T BOTHER LOOKING ANYTHING BELOW THIS*/

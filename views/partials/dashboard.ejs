@@ -8,44 +8,44 @@
 			<h4>Interval</h4>
 			<p>
 				Hours:   
-				<select ng-model="hours">
-					<option value="0">0 </option>
-					<option value="1">1 </option>
-					<option value="2">2 </option>
-					<option value="3">3 </option>
-					<option value="1">4 </option>
-					<option value="2">5 </option>
-					<option value="3">6 </option>
-					<option value="1">7 </option>
-					<option value="2">8 </option>
-					<option value="3">9 </option>
-					<option value="1">10 </option>
-					<option value="2">11 </option>
-					<option value="3">12 </option>
+				<select ng-model="settings.hours">
+					<option value=0>0 </option>
+					<option value=1>1 </option>
+					<option value=2>2 </option>
+					<option value=3>3 </option>
+					<option value=1>4 </option>
+					<option value=2>5 </option>
+					<option value=3>6 </option>
+					<option value=1>7 </option>
+					<option value=2>8 </option>
+					<option value=3>9 </option>
+					<option value=1>10 </option>
+					<option value=2>11 </option>
+					<option value=3>12 </option>
 				</select>	
 				Minutes:
 				<select>
-					<option value="0">0 </option>
-					<option value="0">5 </option>
-					<option value="1">10 </option>
-					<option value="2">15 </option>
-					<option value="3">20 </option>
-					<option value="1">25 </option>
-					<option value="2">30 </option>
-					<option value="3">35 </option>
-					<option value="1">40 </option>
-					<option value="2">45 </option>
-					<option value="3">50 </option>
-					<option value="1">55 </option>
+					<option value=0>0 </option>
+					<option value=0>5 </option>
+					<option value=1>10 </option>
+					<option value=2>15 </option>
+					<option value=3>20 </option>
+					<option value=1>25 </option>
+					<option value=2>30 </option>
+					<option value=3>35 </option>
+					<option value=1>40 </option>
+					<option value=2>45 </option>
+					<option value=3>50 </option>
+					<option value=1>55 </option>
 				</select>
 				Seconds:
 				<select>
-					<option value="0">0 </option>
-					<option value="1">10 </option>
-					<option value="2">20 </option>
-					<option value="3">30 </option>
-					<option value="1">40 </option>
-					<option value="2">50 </option>
+					<option value=0>0 </option>
+					<option value=1>10 </option>
+					<option value=2>20 </option>
+					<option value=3>30 </option>
+					<option value=1>40 </option>
+					<option value=2>50 </option>
 				</select>
 			</p>
 	
@@ -57,12 +57,12 @@
 			<p>
 				Frame rate:   
 				<select>
-					<option value="2">10 FPS</option>
-					<option value="3">20 FPS</option>
-					<option value="1">30 FPS</option>
-					<option value="2">40 FPS</option>
-					<option value="3">50 FPS</option>
-					<option value="1">60 FPS</option>
+					<option value=2>10 FPS</option>
+					<option value=3>20 FPS</option>
+					<option value=1>30 FPS</option>
+					<option value=2>40 FPS</option>
+					<option value=3>50 FPS</option>
+					<option value=1>60 FPS</option>
 				</select>	
 			</p>
 		</div>	
@@ -79,6 +79,8 @@
 			</form>
 		</div>
 		<br>
+		<h4>See if fields bind to JSON data using ng-model</h4>
+		<pre>{{settings | json}}</pre>
 		<div class="row">
 			<button type="button" class="btn btn-default col-sm-12" ng-click='tempStartCamera()'>Temp Start</button>
 		</div>
