@@ -1,0 +1,13 @@
+<h2>Folders</h2>
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-4 img-grid" ng-repeat="folder in folders">
+    	<div ng-if="folders" class="text-center">
+			<a href="#/folders/{{folder}}">
+				<button type="button" class="btn btn-default btn-lg">
+				  {{folder}} <span class="glyphicon glyphicon-folder-open"></span>
+				</button>
+			</a>
+			<button type="btn" class="btn btn-danger" ng-click='deleteFolder(folder)'>Delete</button>
+    	</div>
+	</div>
+</div>
