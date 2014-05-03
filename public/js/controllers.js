@@ -2,6 +2,7 @@
 
 /* Controllers */
 function DashboardCtrl($scope, $http, $route) {
+
   /* Pretend you have already set your timelapse settings and decide to visit
   the dashboard page again. You will get this data from the backend (using http.get(/getCamera),
   which has your previous settings */
@@ -34,6 +35,8 @@ function DashboardCtrl($scope, $http, $route) {
   $scope.endDate = 2 * backEnd.settings.timeout;
   $scope.endTime = 2 * backEnd.settings.timeout;
 
+
+  // Press Temp Start Button to get an alert and see what data you are passing to backend
   $scope.tempStartCamera = function() {
     var data = {};
     data.settings = {
@@ -47,9 +50,13 @@ function DashboardCtrl($scope, $http, $route) {
     }
     data.fps = $scope.fps; // FPS should still be an integer and not a string
 
-    // Press Temp Start Button to get an alert and see what data you are passing to backend
     alert("This will be sent to backend " + JSON.stringify(data));
   }
+
+
+
+
+  /* WRITE YOUR CODE ABOVE THIS LINE AND DON'T BOTHER LOOKING ANYTHING BELOW THIS*/
 
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
