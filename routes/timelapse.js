@@ -16,38 +16,17 @@ var settings = {
 	endDate: new Date("May 4, 2014 12:00:00")
 }
 
-var options = {
-	mode: "timelapse",
-	output: "public/images/image%d.jpg",
-	encoding: "jpg",
-	timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
-	timeout: settings.endDate - settings.startDate,
-	width: 1000,
-	height: 1000
-}
-
-console.log(JSON.stringify(options));
-
-// var path = process.cwd() + '/public/images';
-// var directory;
-// var images = [];
-// getFiles(path);
-// function getFiles(dir){
-//     var files = fs.readdirSync(dir);
-//     for(var i in files){
-//         if (!files.hasOwnProperty(i)) continue;
-//         var name = dir+'/'+files[i];
-//         if (fs.statSync(name).isDirectory()){
-// 			directory = files[i];
-//             getFiles(name);
-//         }else{
-//         	var image = {};
-//         	image[directory] = files[i];
-//         	images.push(image);
-//         }
-//     }
+// var options = {
+// 	mode: "timelapse",
+// 	output: "public/images/image%d.jpg",
+// 	encoding: "jpg",
+// 	timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
+// 	timeout: settings.endDate - settings.startDate,
+// 	width: 1000,
+// 	height: 1000
 // }
-// console.log(images);
+
+// console.log(JSON.stringify(options));
 
 exports.getFolders = function(req, res) {
 	var path = process.cwd() + '/public/images';
