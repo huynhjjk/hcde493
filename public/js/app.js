@@ -8,7 +8,11 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
         templateUrl: 'partials/dashboard',
         controller: DashboardCtrl
       }).
-      when('/gallery', {
+      when('/folders', {
+        templateUrl: 'partials/folders',
+        controller: FoldersCtrl
+      }).
+      when('/folders/:folderName', {
         templateUrl: 'partials/gallery',
         controller: GalleryCtrl
       }).

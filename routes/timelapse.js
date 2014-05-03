@@ -3,6 +3,10 @@ var fs = require('fs');
 var RaspiCam = require("raspicam");
 var camera;
 
+var shellCommand = {
+	text: "raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg"
+}
+
 var settings = {
 	hours: 2,
 	minutes: 15,
@@ -24,8 +28,90 @@ var options = {
 
 console.log(JSON.stringify(options));
 
+// var path = process.cwd() + '/public/images';
+// var directory;
+// var images = [];
+// getFiles(path);
+// function getFiles(dir){
+//     var files = fs.readdirSync(dir);
+//     for(var i in files){
+//         if (!files.hasOwnProperty(i)) continue;
+//         var name = dir+'/'+files[i];
+//         if (fs.statSync(name).isDirectory()){
+// 			directory = files[i];
+//             getFiles(name);
+//         }else{
+//         	var image = {};
+//         	image[directory] = files[i];
+//         	images.push(image);
+//         }
+//     }
+// }
+// console.log(images);
+
+exports.getFolders = function(req, res) {
+	var path = process.cwd() + '/public/images';
+	fs.readdir(path, function (err, folders) {
+	  if (err) {
+	    console.log(err);
+	    return;
+	  }
+		res.json({
+			folders: folders
+		}, 200);
+		console.log('GET FOLDERS - ' + JSON.stringify(folders));
+	});
+}
+
+exports.deleteFolder = function (req, res) {
+  var path = process.cwd() + '/public/images/' + req.params.folderName;
+  if( fs.existsSync(path) ) {
+    fs.readdirSync(path).forEach(function(file,index){
+      var curPath = path + "/" + file;
+      if(fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderRecursive(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+	res.json(req.params.folderName, 200);
+	console.log('DELETE FOLDER - ' + JSON.stringify(req.params.folderName));
+  } else {
+	res.json(req.params.folderName, 504);  	
+  }
+};
+
+exports.getAllImages = function(req, res) {
+	var path = process.cwd() + '/public/images';
+	var directory;
+	var images = [];
+	function getFiles(dir){
+	    var files = fs.readdirSync(dir);
+	    for(var i in files){
+	        if (!files.hasOwnProperty(i)) continue;
+	        var name = dir+'/'+files[i];
+	        if (fs.statSync(name).isDirectory()){
+				directory = files[i];
+	            getFiles(name);
+	        }else{
+	        	var image = {};
+	        	image.name = files[i];
+	        	image.directory = directory;
+	        	images.push(image);
+	        }
+	    }
+	}
+	getFiles(path);
+	res.json({
+		images: images
+	}, 200);
+	console.log('GET ALL IMAGES - ' + JSON.stringify(images));
+}
+
 exports.getImages = function(req, res) {
-	fs.readdir(process.cwd() + '/public/images', function (err, files) {
+  var path = process.cwd() + '/public/images/' + req.params.folderName;
+	fs.readdir(path, function (err, files) {
 	  if (err) {
 	    console.log(err);
 	    return;
@@ -38,15 +124,19 @@ exports.getImages = function(req, res) {
 }
 
 exports.deleteImage = function (req, res) {
-  var imageName = req.params.imageFile;
-	fs.unlink(process.cwd() + '/public/images/' + imageName, function (err) {
-	  if (err) {
-		console.log(err);
-		return;	  	
-	  } 
-		res.json(imageName, 200);
-		console.log('DELETE IMAGE - ' + JSON.stringify(imageName));
-	});
+	var path = process.cwd() + '/public/images/' + req.params.folderName + '/' + req.params.imageName;
+	  if( fs.existsSync(path) ) {
+		fs.unlink(path, function (err) {
+		  if (err) {
+			console.log(err);
+			return;	  	
+		  } 
+			res.json(req.params.imageName, 200);
+			console.log('DELETE IMAGE - ' + JSON.stringify(req.params.imageName));
+		});
+	} else {
+		res.json(req.params.imageName, 504)		
+	}
 };
 
 exports.getCamera = function(req, res) {
@@ -65,7 +155,7 @@ exports.setCamera = function(req, res) {
 exports.startCamera = function(req, res) {
 	var options = {
 		mode: "timelapse",
-		output: "public/images/image%d.jpg",
+		output: "public/images/test/image%d.jpg",
 		encoding: "jpg",
 		timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
 		timeout: settings.endDate - settings.startDate, // settings must be date objects to work
@@ -101,7 +191,6 @@ exports.startCamera = function(req, res) {
 }
 
 exports.stopCamera = function(req, res) {
-	console.log('What is camera in stopCamera function? ' + camera);
     if(camera && typeof(camera.stop) == "function") {
         camera.stop();
     }

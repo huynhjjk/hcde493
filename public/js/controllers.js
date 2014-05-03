@@ -34,10 +34,10 @@ function DashboardCtrl($scope, $http, $route) {
 
   /* WRITE YOUR CODE ABOVE THIS LINE AND DON'T BOTHER LOOKING ANYTHING BELOW THIS*/
 
-  $http.get('/getImages').
+  $http.get('/getAllImages').
     success(function(data, status, headers, config) {
       $scope.images = data.images;
-      console.log('Images has been retrieved.' + JSON.stringify($scope.images));
+      console.log('All Images has been retrieved.');
     });
 
   $scope.startCamera = function () {
@@ -45,7 +45,7 @@ function DashboardCtrl($scope, $http, $route) {
     $btn.attr('disabled', true);
     console.log('Camera has started.')
     $http.get('/startCamera').
-      success(function(data, status) {
+      success(function(data, status, headers, config) {
         console.log('Camera has stopped.')
         $btn.attr('disabled', false);
         $route.reload();
@@ -54,31 +54,41 @@ function DashboardCtrl($scope, $http, $route) {
 
   $scope.stopCamera = function () {
     $http.get('/stopCamera').
-      success(function(data, status) {
+      success(function(data, status, headers, config) {
         console.log('Camera has stopped.')
     });
   }
 
-  $scope.deleteImage = function (imageFile) {
-    $http.delete('/deleteImage/' + imageFile).
-      success(function(data) {
-        console.log(data + ' has been deleted.');
+}
+
+function FoldersCtrl($scope, $http, $route) {
+  $http.get('/getFolders').
+    success(function(data, status, headers, config) {
+      $scope.folders = data.folders;
+      console.log('folders has been retrieved.');
+    });
+
+  $scope.deleteFolder = function (folderName) {
+    $http.delete('/deleteFolder/' + folderName).
+      success(function(data, status, headers, config) {
+        console.log('folder has been deleted.');
         $route.reload();
       });
   };
 }
 
-function GalleryCtrl($scope, $http, $route) {
-  $http.get('/getImages').
+function GalleryCtrl($scope, $http, $route, $routeParams) {
+  $scope.folderName = $routeParams.folderName;
+  $http.get('/getImages/' + $scope.folderName).
     success(function(data, status, headers, config) {
       $scope.images = data.images;
-      console.log('Images has been retrieved.' + JSON.stringify($scope.images));
+      console.log('Images has been retrieved.');
     });
 
-  $scope.deleteImage = function (imageFile) {
-    $http.delete('/deleteImage/' + imageFile).
-      success(function(data) {
-        console.log(data + ' has been deleted.');
+  $scope.deleteImage = function (imageName) {
+    $http.delete('/deleteImage/' + $scope.folderName + '/' + imageName).
+      success(function(data, status, headers, config) {
+        console.log('image has been deleted.');
         $route.reload();
       });
   };
@@ -108,21 +118,21 @@ function ShellCommandCtrl($scope, $http) {
 
   $scope.setShellCommand = function () {
     $http.put('/setShellCommand', $scope.shellCommand).
-      success(function(data, status) {
+      success(function(data, status, headers, config) {
         console.log('Shell Command has been set.')
     });
   }
 
   $scope.startShellCommand = function () {
     $http.get('/startShellCommand').
-      success(function(data, status) {
+      success(function(data, status, headers, config) {
         console.log('Camera has started.')
     });
   }
 
   $scope.mihirsCommand = function () {
     $http.get('/mihirsCommand').
-      success(function(data, status) {
+      success(function(data, status, headers, config) {
         console.log('Mihirs command executed')
     });
   }
