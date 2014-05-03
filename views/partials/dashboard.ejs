@@ -1,29 +1,141 @@
-<h2>Dashboard</h2>
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+
+	<!-- Configuration -->
+	<div id="configuration" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<h2>Configuration</h2>
+		<!-- 
 		<h4>Mode</h4>
 		<p>{{setting.mode}}</p>
+		-->
+		<!--
 		<h4>Output</h4>
 		<p>{{setting.output}}></p>
+		-->
+		<!--
 		<h4>Encoding</h4>
 		<p>{{setting.encoding}}</p>
-		<h4>Timelapse</h4>
-		<p>{{setting.timelapse}}</p>
-		<h4>Timeout</h4>
-		<p>{{setting.timeout}}</p>
+		-->
+		<h3>Input</h3>
+		<div class="settings">
+			<h4>Interval</h4>
+			<p>
+				Hours:   
+				<select>
+					<option value="0">0 </option>
+					<option value="1">1 </option>
+					<option value="2">2 </option>
+					<option value="3">3 </option>
+					<option value="1">4 </option>
+					<option value="2">5 </option>
+					<option value="3">6 </option>
+					<option value="1">7 </option>
+					<option value="2">8 </option>
+					<option value="3">9 </option>
+					<option value="1">10 </option>
+					<option value="2">11 </option>
+					<option value="3">12 </option>
+				</select>	
+				Minutes:
+				<select>
+					<option value="0">0 </option>
+					<option value="0">5 </option>
+					<option value="1">10 </option>
+					<option value="2">15 </option>
+					<option value="3">20 </option>
+					<option value="1">25 </option>
+					<option value="2">30 </option>
+					<option value="3">35 </option>
+					<option value="1">40 </option>
+					<option value="2">45 </option>
+					<option value="3">50 </option>
+					<option value="1">55 </option>
+				</select>
+				Seconds:
+				<select>
+					<option value="0">0 </option>
+					<option value="1">10 </option>
+					<option value="2">20 </option>
+					<option value="3">30 </option>
+					<option value="1">40 </option>
+					<option value="2">50 </option>
+				</select>
+			</p>
+	
+			
+
+			<!-- 
+			<p>{{(setting.timelapse) / 1000 }}</p> 
+			-->
+		</div>	
+
+		<h3>Output</h3>
+		<div class="settings">
+			<h4>FPS</h4>
+			<p>
+				Frame rate:   
+				<select>
+					<option value="2">10 FPS</option>
+					<option value="3">20 FPS</option>
+					<option value="1">30 FPS</option>
+					<option value="2">40 FPS</option>
+					<option value="3">50 FPS</option>
+					<option value="1">60 FPS</option>
+				</select>	
+			</p>
+			<!-- <p>{{(setting.timelapse) / 1000 }}</p> -->
+		</div>	
+
+		<h3>Timer</h3>
+		<div class="settings">
+			<form action="demo_form.asp">
+				Start date: <input type="datetime-local" name="starttime">
+			</form>
+
+			<br>
+			<form action="demo_form.asp">
+				End date: <input type="datetime-local" name="endtime">
+			</form>
+			
+		</div>		
+		<!--
+		<h4>Duration</h4>
+		<p>{{(setting.timeout) / 1000 }}</p>
 		<br>
-		<button type="button" id="start" class="btn btn-primary" ng-click='startCamera()'>{{countDown && (countDown + ' seconds') || ('Start')}}</button>
-		<button type="btn" class="btn btn-warning" ng-click='stopCamera()'>Stop</button>
+		-->
+		<button type="button" id="start" class="btn btn-primary col-sm-6" ng-click='startCamera()'>{{countDown && (countDown + ' seconds') || ('Start')}}  <i class="fa fa-play"></i></button>
+		<button type="btn" id="stop" class="btn btn-danger col-sm-2 col-sm-offset-2" ng-click='stopCamera()'>Stop  <i class="fa fa-stop"></i></button>
 	</div>
-	<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-		<h4>Recent Images</h4>
+	<!-- /Configuration -->
+
+	<!-- Recent Videos -->
+	<div id="recent-vid"class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<!-- <h4>Recent Videos</h4> -->
 		<div class="row">
-			<div class="col-xs-12 col-sm-6 col-md-6 img-grid" ng-repeat="image in images">
+			<!-- The Most recent Timelapse Video-->
+			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="image in images" ng-if="$index == 0">
 				<div ng-if="images" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="images/{{image}}" alt="images/{{image}}">	
-					<h4>{{image}} <button type="btn" class="btn btn-danger" ng-click='deleteImage(image)'>Delete</button></h4>
+					<h4>{{image}} 
+					<!-- Temporary Disabling Delete Button
+					<button type="btn" class="btn btn-danger" ng-click='deleteImage(image)'>Delete</button></h4>
+					-->
 				</div>
 			</div>
+			<!-- /The Most recent Timelapse Video -->
+
+			<!-- The next four recent Timelapse Video -->
+			<div class="col-xs-6 col-sm-3 col-md-3 img-grid" ng-repeat="image in images" ng-if="$index > 0">
+				<div ng-if="images" class="text-center">
+					<img class="thumbnail img-responsive" ng-src="images/{{image}}" alt="images/{{image}}">	
+					<h4>{{image}} 
+					<!-- Temporary Disabling Delete Button
+					<button type="btn" class="btn btn-danger" ng-click='deleteImage(image)'>Delete</button></h4>
+					-->
+				</div>
+			</div>
+			<!-- /The next four recent Timelapse Video -->
 		</div>
 	</div>
+	<!-- /Recent Videos -->
+
 </div>
