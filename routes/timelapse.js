@@ -11,7 +11,7 @@ var settings = {
 	hours: 2,
 	minutes: 15,
 	seconds: 30,
-	fps: 5,
+	fps: 10,
 	startDate: new Date("May 3, 2014 9:30:00"),
 	endDate: new Date("May 4, 2014 12:00:00")
 }

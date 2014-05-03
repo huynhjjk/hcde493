@@ -16,7 +16,7 @@ function DashboardCtrl($scope, $http, $route) {
     // hours: 2, < -- Bind to html form using ng-model="$scope.settings.hours"
     // minutes: 15,  < -- Bind to html form using ng-model="$scope.settings.minutes"
     // seconds: 30,  < -- Bind to html form using ng-model="$scope.settings.seconds"
-    // fps: 5,  < -- Bind to html form using ng-model="$scope.settings.fps"
+    // fps: 10,  < -- Bind to html form using ng-model="$scope.settings.fps"
     // startDate: new Date("May 3, 2014 9:30:00"), < -- $scope.settings.startDate will be used for datepicker and timepicker
     // endDate: new Date("May 4, 2014 12:00:00") < -- $scope.settings.endDate will be used for datepicker and timepicker
 
