@@ -77,10 +77,18 @@
 			<form action="demo_form.asp">
 				End date: <input type="datetime-local" name="endtime">
 			</form>
-			
-		</div>		
-		<button type="button" id="start" class="btn btn-primary col-sm-6" ng-click='startCamera()'>Start <i class="fa fa-play"></i></button>
-		<button type="btn" class="btn btn-warning col-sm-2 col-sm-offset-2" ng-click='stopCamera()'>Stop <i class="fa fa-stop"></i></button>
+		</div>
+		<br>
+		<div class="row">
+			<button type="button" class="btn btn-default col-sm-12" ng-click='tempStartCamera()'>Temp Start</button>
+		</div>
+		<br>
+		<div class="row">
+			<div class="col-sm-12">
+				<button type="button" class="btn btn-primary col-8" ng-click='startCamera()'>Start <i class="fa fa-play"></i></button>
+				<button type="btn" class="btn btn-warning col-4" ng-click='stopCamera()'>Stop <i class="fa fa-stop"></i></button>
+			</div>
+		</div>
 	</div>
 	<!-- /Configuration -->
 

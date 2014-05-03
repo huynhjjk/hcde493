@@ -2,6 +2,55 @@
 
 /* Controllers */
 function DashboardCtrl($scope, $http, $route) {
+  /* Pretend you have already set your timelapse settings and decide to visit
+  the dashboard page again. You will get this data from the backend (using http.get(/getCamera),
+  which has your previous settings */
+  var backEnd = {
+    settings: {
+      mode: "timelapse", 
+      output: "public/images/image%d.jpg", 
+      encoding: "jpg", 
+      timelapse: 3000, // User will ONLY be able to modify this on dashboard page, based on your UI
+      timeout: 12000, // User will ONLY be able to modify this on dashboard page, based on your UI
+      width: 1000, 
+      height: 1000 
+    },
+    fps: 2 // User will ONLY be able to modify this on dashboard page, based on your UI
+  }
+
+  /* Based on your UI for Interval, you will need to convert backEnd.settings.timelapse 
+  from milliseconds into individual hours, minutes, and seconds */
+  $scope.hours = 2 * backEnd.settings.timelapse;
+  $scope.minutes = 20 * backEnd.settings.timelapse;
+  $scope.seconds = 10 * backEnd.settings.timelapse;
+
+  // FPS should be an integer and not a string
+  $scope.fps = backEnd.fps;
+
+  /* Based on your UI for Timeout, you will need to convert backEnd.settings.timeout 
+  from milliseconds into  individual date objects consisting of startdate, endDate, startTime, and endTime */
+  $scope.startDate = 1 * backEnd.settings.timeout;
+  $scope.startTime = 1 * backEnd.settings.timeout;
+  $scope.endDate = 2 * backEnd.settings.timeout;
+  $scope.endTime = 2 * backEnd.settings.timeout;
+
+  $scope.tempStartCamera = function() {
+    var data = {};
+    data.settings = {
+      mode: "timelapse", // will not be changed
+      output: "public/images/image%d.jpg", // will not be changed
+      encoding: "jpg", // will not be changed
+      timelapse: ($scope.hours * 60 * 60) + ($scope.minutes * 60) + ($scope.seconds * 1), // convert date objects back to milliseconds
+      timeout: ($scope.endDate + $scope.endTime) - ($scope.startDate + $scope.startTime), // convert date objects back to milliseconds
+      width: 1000, // will not be changed
+      height: 1000 // will not be changed
+    }
+    data.fps = $scope.fps; // FPS should still be an integer and not a string
+
+    // Press Temp Start Button to get an alert and see what data you are passing to backend
+    alert("This will be sent to backend " + JSON.stringify(data));
+  }
+
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.setting = data.setting;
