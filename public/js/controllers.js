@@ -15,10 +15,13 @@ function DashboardCtrl($scope, $http, $route) {
     });
 
   $scope.startCamera = function () {
+    var $btn = $("#start");
+    $btn.attr('disabled', true);
     console.log('Camera has started.')
     $http.get('/startCamera').
       success(function(data, status) {
         console.log('Camera has stopped.')
+        $btn.attr('disabled', false);
         $route.reload();
     });
   }
@@ -37,25 +40,6 @@ function DashboardCtrl($scope, $http, $route) {
         $route.reload();
       });
   };
-
-  $("#start").click(function() {
-      // Countdown
-      $scope.countDown = (angular.copy($scope.setting.timeout) / 1000);
-      var timer = setInterval(function(){
-          $scope.countDown--;
-          $scope.$apply();
-          if ($scope.countDown == 0) {
-            window.clearInterval(timer);
-          }
-      }, 1000);
-
-      // Disable
-      var $btn = $(this);
-      $btn.attr('disabled', true);
-      setTimeout(function () {
-        $btn.attr('disabled', false);
-      }, $scope.setting.timeout);
-  });
 }
 
 function GalleryCtrl($scope, $http, $route) {
@@ -87,6 +71,36 @@ function SettingsCtrl($scope, $http) {
         console.log('Camera has been set.')
     });
   }
+}
+
+function ShellCommandCtrl($scope, $http) {
+  $http.get('/getShellCommand').
+    success(function(data, status, headers, config) {
+      $scope.shellCommand = data;
+      console.log('Shell Command has been retrieved.')
+    });
+
+  $scope.setShellCommand = function () {
+    $http.put('/setShellCommand', $scope.shellCommand).
+      success(function(data, status) {
+        console.log('Shell Command has been set.')
+    });
+  }
+
+  $scope.startShellCommand = function () {
+    $http.get('/startShellCommand').
+      success(function(data, status) {
+        console.log('Camera has started.')
+    });
+  }
+
+  $scope.mihirsCommand = function () {
+    $http.get('/mihirsCommand').
+      success(function(data, status) {
+        console.log('Mihirs command executed')
+    });
+  }
+
 }
 
 function ListPostCtrl($scope, $http) {

@@ -1,7 +1,13 @@
-// var shell = require('shelljs');
+var shell = require('shelljs');
  
-// shell.cd('bash_scripts');
-// shell.exec('time.sh ' + 10 + ' ' + 0 + ' ' + 1);
+// shell.cd('public/images');
+// var str = "avconv -r 1 -i image%d.jpg -r 1 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+// shell.exec(str,function(code, output) {
+//   console.log('Exit code:', code);
+//   console.log('Program output:', output);
+// });
+// shell.cd('..');
+// shell.cd('..');
 
 var fs = require('fs');
 var RaspiCam = require("raspicam");
@@ -13,7 +19,13 @@ var setting = {
 	output: "public/images/image%d.jpg", // image_000001.jpg, image_000002.jpg,...
 	encoding: "jpg",
 	timelapse: 3000, // take a picture every 3 seconds
-	timeout: 12000 // take a total of 4 pictures over 12 seconds
+	timeout: 12000, // take a total of 4 pictures over 12 seconds
+	width: 1000,
+	height: 1000
+}
+
+var shellCommand = {
+	text: "raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg"
 }
 
 exports.getImages = function(req, res) {
@@ -49,13 +61,7 @@ exports.getCamera = function(req, res) {
 }
 
 exports.setCamera = function(req, res) {
-	setting = {
-		mode: req.body.mode,
-		output: req.body.output,
-		encoding: req.body.encoding,
-		timelapse: req.body.timelapse,
-		timeout: req.body.timeout
-	}
+	setting = req.body;
  	res.json(setting, 200);
 	console.log('SET CAMERA - ' + JSON.stringify(setting));
 }
@@ -84,7 +90,7 @@ exports.startCamera = function(req, res) {
 
 	setTimeout(function(){
 	  camera.stop();
-	}, setting.timeout + 1000);
+	}, setting.timeout + 3000);
 
 	console.log('START CAMERA - ' + JSON.stringify(setting));
 }
@@ -96,4 +102,36 @@ exports.stopCamera = function(req, res) {
     }
 	res.json(setting, 200);
 	console.log('STOP CAMERA - ' + JSON.stringify(setting));
+}
+
+exports.getShellCommand = function(req, res) {
+ 	res.json(shellCommand, 200);
+	console.log('GET SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
+}
+
+exports.setShellCommand = function(req, res) {
+	shellCommand = {
+		text: req.body.text
+	}
+ 	res.json(shellCommand, 200);
+	console.log('SET SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
+}
+
+exports.startShellCommand = function(req, res) {
+	shell.exec(shellCommand.text,function(code, output) {
+	  console.log('Exit code:', code);
+	  console.log('Program output:', output);
+	});
+	res.json(shellCommand.text, 200);
+	console.log('START SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
+}
+
+exports.mihirsCommand = function(req, res) {
+	shell.cd('bash_scripts');
+	shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1,function(code, output) {
+	  console.log('Exit code:', code);
+	  console.log('Program output:', output);
+	});
+	shell.cd('..');
+	res.json(200);
 }

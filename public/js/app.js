@@ -16,25 +16,9 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
         templateUrl: 'partials/settings',
         controller: SettingsCtrl
       }).
-      when('/listPost', {
-        templateUrl: 'partials/listPost',
-        controller: ListPostCtrl
-      }).
-      when('/addPost', {
-        templateUrl: 'partials/addPost',
-        controller: AddPostCtrl
-      }).
-      when('/readPost/:id', {
-        templateUrl: 'partials/readPost',
-        controller: ReadPostCtrl
-      }).
-      when('/editPost/:id', {
-        templateUrl: 'partials/editPost',
-        controller: EditPostCtrl
-      }).
-      when('/deletePost/:id', {
-        templateUrl: 'partials/deletePost',
-        controller: DeletePostCtrl
+      when('/shellCommand', {
+        templateUrl: 'partials/shellCommand',
+        controller: ShellCommandCtrl
       }).
       otherwise({
         redirectTo: '/'
