@@ -8,10 +8,13 @@ var shellCommand = {
 }
 
 var settings = {
-	hours: 2,
-	minutes: 15,
-	seconds: 30,
+	intervalHours: 0,
+	intervalMinutes: 0,
+	intervalSeconds: 3,
 	fps: 10,
+	durationHours: 0,
+	durationMinutes: 0,
+	durationSeconds: 12,
 	startDate: new Date("May 3, 2014 9:30:00"),
 	endDate: new Date("May 4, 2014 12:00:00")
 }
@@ -20,7 +23,7 @@ var settings = {
 // 	mode: "timelapse",
 // 	output: "public/images/image%d.jpg",
 // 	encoding: "jpg",
-// 	timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
+// 	timelapse: (settings.intervalHours * 3600000) + (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
 // 	timeout: settings.endDate - settings.startDate,
 // 	width: 1000,
 // 	height: 1000
@@ -136,7 +139,7 @@ exports.startCamera = function(req, res) {
 		mode: "timelapse",
 		output: "public/images/test/image%d.jpg",
 		encoding: "jpg",
-		timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
+		timelapse: (settings.intervalHours * 3600000) + (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
 		timeout: settings.endDate - settings.startDate, // settings must be date objects to work
 		width: 1000,
 		height: 1000
@@ -200,11 +203,45 @@ exports.startShellCommand = function(req, res) {
 }
 
 exports.mihirsCommand = function(req, res) {
-	shell.cd('bash_scripts');
-	shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1,function(code, output) {
-	  console.log('Exit code:', code);
-	  console.log('Program output:', output);
+	var d = new Date();
+	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
+	var pathname = "public/images/" + dirname;
+	shell.mkdir('-p', pathname);
+
+	//Seconds to millisecond
+	var interval =  (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000);
+	//Hours to millisecond
+	// var hours = 3600000 * ___________
+	//Minutes to millisecond
+	// var minutes = 60000 * ___________
+	var durations = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+
+
+	shell.cd(pathname)
+	var timelapse = "raspistill -o lapse_%04d.jpg -tl " + interval +" -t " + duration;
+	shell.exec(timelapse,function(code, output) {
+	    console.log('Exit code:', code);
+	    console.log('Program output:', output);
 	});
-	shell.cd('..');
+
+	var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+	shell.exec(scp,function(code, output) {
+	    console.log('Exit code:', code);
+	    console.log('Program output:', output);
+	});
+
+	var str = "avconv -r 10 -i lapse_%04d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+	shell.exec(str,function(code, output) {
+		console.log('Exit code:', code);
+	    console.log('Program output:', output);
+	});
+	shell.rm('-rf', pathname);
+
+	// shell.cd('bash_scripts');
+	// shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1,function(code, output) {
+	//   console.log('Exit code:', code);
+	//   console.log('Program output:', output);
+	// });
+	// shell.cd('..');
 	res.json(200);
 }
