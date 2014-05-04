@@ -3,10 +3,10 @@
 	<!-- Configuration -->
 	<div id="configuration" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<h2>Configuration</h2>
-		<h3>Input</h3>
-		<div class="settings">
-			<h4>Interval</h4>
-			<p>
+		<!-- <h3>Input</h3> -->
+		<div id="input" class="settings">
+			<h4>Take a photo every:</h4>
+			
 				Hours:   
 				<select ng-model="settings.intervalHours">
 					<option value=0>0 </option>
@@ -47,14 +47,63 @@
 					<option value=40>40 </option>
 					<option value=50>50 </option>
 				</select>
-			</p>
+			
 	
-		</div>	
+		</div>		
 
-		<h3>Output</h3>
-		<div class="settings">
-			<h4>FPS</h4>
-			<p>
+		<!-- <h3>Timer</h3> -->
+		<div id="timer" class="settings">
+
+			<h4>Total Photo Session:</h4>
+			
+				Hours:   
+				<select ng-model="settings.durationHours">
+					<option value=0>0 </option>
+					<option value=1>1 </option>
+					<option value=2>2 </option>
+					<option value=3>3 </option>
+					<option value=4>4 </option>
+					<option value=5>5 </option>
+					<option value=6>6 </option>
+					<option value=7>7 </option>
+					<option value=8>8 </option>
+					<option value=9>9 </option>
+					<option value=10>10 </option>
+					<option value=11>11 </option>
+					<option value=12>12 </option>
+				</select>	
+				Minutes:
+				<select ng-model="settings.durationMinutes">
+					<option value=0>0 </option>
+					<option value=5>5 </option>
+					<option value=10>10 </option>
+					<option value=15>15 </option>
+					<option value=20>20 </option>
+					<option value=25>25 </option>
+					<option value=30>30 </option>
+					<option value=35>35 </option>
+					<option value=40>40 </option>
+					<option value=45>45 </option>
+					<option value=50>50 </option>
+					<option value=55>55 </option>
+				</select>
+				Seconds:
+				<select ng-model="settings.durationSeconds">
+					<option value=0>0 </option>
+					<option value=10>10 </option>
+					<option value=20>20 </option>
+					<option value=30>30 </option>
+					<option value=40>40 </option>
+					<option value=50>50 </option>
+				</select>
+			
+
+		</div>
+
+		<!-- <h3>Output</h3> -->
+		<div id="output" class="settings">
+			<h4>Play the timelapse video at this rate:</h4>
+			
 				Frame rate:   
 				<select ng-model="settings.fps">
 					<option value=10>10 FPS</option>
@@ -64,31 +113,18 @@
 					<option value=50>50 FPS</option>
 					<option value=60>60 FPS</option>
 				</select>	
-			</p>
-		</div>	
-
-		<h3>Timer</h3>
-		<div class="settings">
-			<form action="demo_form.asp">
-				Start date: <input type="datetime-local" name="starttime">
-			</form>
-
-			<br>
-			<form action="demo_form.asp">
-				End date: <input type="datetime-local" name="endtime">
-			</form>
+			
 		</div>
-		<br>
 		<h4>See if fields bind to JSON data using ng-model</h4>
-		<pre>{{settings | json}}</pre>
+		<pre>{{settings | json}}</pre> 
 		<div class="row">
 			<button type="button" class="btn btn-default col-sm-12" ng-click='tempStartCamera()'>Temp Start</button>
 		</div>
 		<br>
-		<div class="row">
+		<div id="start-end-row" class="row">
 			<div class="col-sm-12">
-				<button type="button" class="btn btn-primary col-8" ng-click='startCamera()'>Start <i class="fa fa-play"></i></button>
-				<button type="btn" class="btn btn-warning col-4" ng-click='stopCamera()'>Stop <i class="fa fa-stop"></i></button>
+				<button type="button" class="btn btn-success btn-primary col-sm-6" ng-click='startCamera()'>GO</button>
+				<button type="btn" class="btn col-sm-4 col-sm-offset-2" ng-click='stopCamera()'>Stop</button>
 			</div>
 		</div>
 	</div>
@@ -96,6 +132,7 @@
 
 	<!-- Recent Videos -->
 	<div id="recent-vid"class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+		<h2>Latest Videos</h2>
 		<div class="row">
 			<!-- The Most recent Timelapse Video-->
 			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="image in images" ng-if="$index == 0">
@@ -121,7 +158,10 @@
 			</div>
 			<!-- /The next four recent Timelapse Video -->
 		</div>
+		<button id="all-video" type="button" class="btn btn-default col-xs-12 col-sm-12 col-md-12" href="#/folders">All Videos<i class="fa fa-chevron-right pull-right"></i></button>
 	</div>
+
+
 	<!-- /Recent Videos -->
 
 </div>
