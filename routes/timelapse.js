@@ -167,7 +167,7 @@ exports.startCamera = function(req, res) {
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    // shell.cd('~/hcde493');
-			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+			var scp = "scp -r jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 			console.log("this is scp " + scp);
 			// shell.exec(scp,function(code, output) {
 			//     console.log('scp reached output ' + output + ' code ' + code);
