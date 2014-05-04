@@ -209,33 +209,35 @@ exports.mihirsCommand = function(req, res) {
 	shell.mkdir('-p', pathname);
 
 	//Seconds to millisecond
-	var interval =  (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000);
+	var interval =  1000;
 	//Hours to millisecond
 	// var hours = 3600000 * ___________
 	//Minutes to millisecond
 	// var minutes = 60000 * ___________
-	var duration = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationeconds * 1000);
+	var duration = 10000;
 
-
-	shell.cd(pathname)
-	var timelapse = "raspistill -o lapse_%04d.jpg -tl " + interval +" -t " + duration;
+	var timelapse = "raspistill" + " " + "-t" + " " + interval + " " + "-tl" + " " + duration + " " + "-o" + " " + pathname + "/lapse_%04d.jpg";
 	shell.exec(timelapse,function(code, output) {
 	    console.log('Exit code:', code);
 	    console.log('Program output:', output);
+	    console.log('timelapse reached');
 	});
 
 	var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 	shell.exec(scp,function(code, output) {
 	    console.log('Exit code:', code);
 	    console.log('Program output:', output);
+	    console.log('scp reached');
 	});
 
 	var str = "avconv -r 10 -i lapse_%04d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 	shell.exec(str,function(code, output) {
 		console.log('Exit code:', code);
 	    console.log('Program output:', output);
+	    console.log('avconv reached');
 	});
 	shell.rm('-rf', pathname);
+	console.log('folder removed');
 
 	// shell.cd('bash_scripts');
 	// shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1,function(code, output) {
