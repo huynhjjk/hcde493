@@ -162,9 +162,11 @@ exports.startCamera = function(req, res) {
 
 	camera.on("exit", function( timestamp ){
 	  console.log("timelapse child process has exited");
-		var str = "avconv -r 10 -i " + pathname + "/image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+	 	shell.cd(pathname);
+		var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
+		    shell.cd('~/hcde493');
 			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 			shell.exec(scp,function(code, output) {
 			    console.log('scp reached output ' + output + ' code ' + code);
