@@ -211,22 +211,23 @@ exports.startShellCommand = function(req, res) {
 exports.mihirsCommand = function(req, res) {
 	var d = new Date();
 	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
-	var pathname = "public/images/" + dirname;
+	var pathname = "public/images/test";
 	shell.mkdir('-p', pathname);
 
-	var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-	shell.exec(scp,function(code, output) {
-	    console.log('Exit code:', code);
-	    console.log('Program output:', output);
-	});
-    console.log('scp reached');
-
-	// var str = "avconv -r 10 -i lapse_%04d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
-	// shell.exec(str,function(code, output) {
-	// 	console.log('Exit code:', code);
+	// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+	// shell.exec(scp,function(code, output) {
+	//     console.log('Exit code:', code);
 	//     console.log('Program output:', output);
-	//     console.log('avconv reached');
 	// });
+ //    console.log('scp reached');
+
+ 	shell.cd(pathname);
+	var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+	shell.exec(str,function(code, output) {
+		console.log('Exit code:', code);
+	    console.log('Program output:', output);
+	    console.log('avconv reached');
+	});
 
 	// shell.rm('-rf', pathname);
 	// console.log('folder removed');
