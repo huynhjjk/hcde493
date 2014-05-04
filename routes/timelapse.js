@@ -140,7 +140,7 @@ exports.startCamera = function(req, res) {
 		output: "public/images/test/image%d.jpg",
 		encoding: "jpg",
 		timelapse: (settings.intervalHours * 3600000) + (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
-		timeout: settings.endDate - settings.startDate, // settings must be date objects to work
+		timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
 		width: 1000,
 		height: 1000
 	}
@@ -214,7 +214,7 @@ exports.mihirsCommand = function(req, res) {
 	// var hours = 3600000 * ___________
 	//Minutes to millisecond
 	// var minutes = 60000 * ___________
-	var durations = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+	var duration = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationeconds * 1000);
 
 
 	shell.cd(pathname)
