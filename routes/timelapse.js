@@ -9,11 +9,11 @@ var shellCommand = {
 
 var settings = {
 	intervalMinutes: 0,
-	intervalSeconds: 10,
+	intervalSeconds: 5,
 	durationHours: 0,
 	durationMinutes: 0,
 	durationSeconds: 55,
-	fps: 5
+	fps: 10
 }
 
 exports.getFolders = function(req, res) {
