@@ -141,7 +141,7 @@ exports.startCamera = function(req, res) {
 		var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
 		shell.exec(str,function(code, output) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		    shell.rm('*jpg');
+		    shell.rm('*jpeg');
 		    shell.cd('../../..');
 			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 			console.log("this is scp " + scp);
