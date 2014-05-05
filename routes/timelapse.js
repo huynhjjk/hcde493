@@ -166,7 +166,7 @@ exports.startCamera = function(req, res) {
 					//     console.log('scp reached. output: ' + output + ' code: ' + code);
 					 	var data = {};
 					 	data.dirname = dirname;
-					 	res.json(dirname, 200);
+					 	res.json(data, 200);
 					// });
 			//     }
 			// });
