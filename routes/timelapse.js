@@ -167,9 +167,9 @@ exports.startCamera = function(req, res) {
 			var scpPromise = scpFunction().exec();
 			scpPromise.onResolve(function (err,review){
 				res.json(settings, 200);
-			}
-		}
-	}
+			});
+		});
+	});
 
 	// var options = {
 	// 	mode: "timelapse",
