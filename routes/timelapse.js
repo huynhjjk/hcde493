@@ -134,7 +134,7 @@ exports.startCamera = function(req, res) {
 	var height = 1080;
 
  	shell.cd(pathname);
-	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse + " -t " + timeout + "-w " + width + " -h " + height
+	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse + " -t " + timeout + "-w 1920 -h 1080"
 	shell.exec(startTimeLapse,function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
 		//settings.fps
