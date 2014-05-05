@@ -62,15 +62,6 @@ function FoldersCtrl($scope, $http, $route) {
 
 function GalleryCtrl($scope, $http, $route, $routeParams) {
   $scope.folderName = $routeParams.folderName;
-
-  $scope.convertImages = function () {
-    $http.put('/convertImages/' + $scope.folderName).
-      success(function(data, status) {
-        console.log('Images have been converted.')
-        $route.reload();
-    });
-  }
-
   $http.get('/getImages/' + $scope.folderName).
     success(function(data, status, headers, config) {
       $scope.images = data.images;

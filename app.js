@@ -61,8 +61,6 @@ app.get('/getShellCommand', timelapse.getShellCommand);
 app.put('/setShellCommand', timelapse.setShellCommand);
 app.get('/startShellCommand', timelapse.startShellCommand);
 
-app.get('/convertImages/:folderName', timelapse.convertImages);
-
 app.get('/mihirsCommand', timelapse.mihirsCommand);
 
 // Start server
