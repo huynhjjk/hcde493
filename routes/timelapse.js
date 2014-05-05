@@ -161,7 +161,7 @@ exports.startCamera = function(req, res) {
 	camera.on("exit", function( timestamp ){
 	  console.log("timelapse child process has exited");
 	 	shell.cd(pathname);
-		var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+		var str = "avconv -r " + req.body.settings.fps + " -i image%d.jpg -r " + req.body.settings.fps + " -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    shell.rm('*jpg');
