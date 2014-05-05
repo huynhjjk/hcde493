@@ -125,7 +125,7 @@ exports.startCamera = function(req, res) {
 
 	var d = new Date();
 	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
-	var pathname = "public/images/" + dirname;
+	var pathname = process.cwd() + '/public/images/' + dirname;
 	var output = "image%d.jpg";
 	shell.mkdir('-p', pathname);
 
