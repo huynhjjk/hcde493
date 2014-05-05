@@ -133,7 +133,7 @@ exports.startCamera = function(req, res) {
 	var width = 1920;
 	var height = 1080;
 
-	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse " -t " + timeout + "-w " + width + " -h " + height
+	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse + " -t " + timeout + "-w " + width + " -h " + height
 	shell.exec(startTimeLapse,function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
 	 	shell.cd(pathname);
