@@ -132,9 +132,9 @@ exports.startCamera = function(req, res) {
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
-	Q.fcall(timelapseFunction)
-	.then(convertFunction)
-	.then(scpFunction)
+	Q.fcall(timelapseFunction())
+	.then(convertFunction())
+	.then(scpFunction())
 	.then(function () {
 	 	res.json(settings, 200);
 	})
