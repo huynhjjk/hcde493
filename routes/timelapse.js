@@ -142,7 +142,7 @@ exports.startCamera = function(req, res) {
 			// console.log("this is scp " + scp);
 			// shell.exec(scp,function(code, output) {
 			//     console.log('scp reached. output: ' + output + ' code: ' + code);
-			//  	res.json(settings, 200);
+			 	res.json(settings, 200);
 			// });
 		});
 	});
