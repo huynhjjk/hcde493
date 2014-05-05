@@ -9,6 +9,7 @@ function DashboardCtrl($scope, $http, $route) {
   $scope.durationMinutes = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
   $scope.durationSeconds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
+  $scope.fps = [1, 5, 10, 15, 20, 25, 30];
 
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
