@@ -142,8 +142,8 @@ exports.startCamera = function(req, res) {
 		mode: "timelapse",
 		output: output,
 		encoding: "jpg",
-		timelapse: (req.body.settings.intervalHours * 3600000) + (req.body.settings.intervalMinutes * 60000) + (req.body.settings.intervalSeconds * 1000),
-		timeout: (req.body.settings.durationHours * 3600000) + (req.body.settings.durationMinutes * 60000) + (req.body.settings.durationSeconds * 1000),
+		timelapse: (settings.intervalHours * 3600000) + (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
+		timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
 		width: 1000,
 		height: 1000
 	}
@@ -163,7 +163,7 @@ exports.startCamera = function(req, res) {
 	camera.on("exit", function( timestamp ){
 	  console.log("timelapse child process has exited");
 	 	shell.cd(pathname);
-		var str = "avconv -r " + req.body.settings.fps + " -i image%d.jpg -r " + req.body.settings.fps + " -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+		var str = "avconv -r " + settings.fps + " -i image%d.jpg -r " + settings.fps + " -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    shell.rm('*jpg');
