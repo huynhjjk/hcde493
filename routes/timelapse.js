@@ -135,7 +135,7 @@ exports.startCamera = function(req, res) {
 
  	shell.cd(pathname);
 	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse + " -t " + timeout + "-w " + width + " -h " + height
-	shell.exec("raspistill -o timelapse%04d.jpeg -tl 2500 -t 3600000 -w 1920 -h 1080",function(code, output) {
+	shell.exec("raspistill -o timelapse%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
 		settings.fps
 		var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
