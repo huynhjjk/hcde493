@@ -137,19 +137,19 @@ exports.startCamera = function(req, res) {
 	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse + " -t " + timeout + "-w " + width + " -h " + height
 	shell.exec("raspistill -o timelapse%04d.jpeg -tl 2500 -t 3600000 -w 1920 -h 1080",function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-		//settings.fps
-		// var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
-		// shell.exec(str,function(code, output) {
-		//     console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		//     shell.rm('*jpg');
-		//     shell.cd('../../..');
-		// 	var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-		// 	console.log("this is scp " + scp);
-		// 	shell.exec(scp,function(code, output) {
-		// 	    console.log('scp reached. output: ' + output + ' code: ' + code);
-		// 	 	res.json(settings, 200);
-		// 	});
-		// });
+		settings.fps
+		var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
+		shell.exec(str,function(code, output) {
+		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+		    shell.rm('*jpg');
+		    shell.cd('../../..');
+			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+			console.log("this is scp " + scp);
+			shell.exec(scp,function(code, output) {
+			    console.log('scp reached. output: ' + output + ' code: ' + code);
+			 	res.json(settings, 200);
+			});
+		});
 	});
 
 	// var options = {
