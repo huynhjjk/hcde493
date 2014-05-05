@@ -121,7 +121,7 @@ exports.setCamera = function(req, res) {
 }
 
 exports.convertImages = function(req, res) {
-  var pathname = process.cwd() + '/public/images/' + req.params.folderName;
+  var pathname = 'public/images/' + req.params.folderName;
  	shell.cd(pathname);
 	shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
 	    if (code === 0) {
