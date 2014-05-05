@@ -10,12 +10,10 @@ var shellCommand = {
 var settings = {
 	intervalMinutes: 0,
 	intervalSeconds: 10,
-	fps: 10,
 	durationHours: 0,
 	durationMinutes: 0,
-	durationSeconds: 50,
-	startDate: new Date("May 3, 2014 9:30:00"),
-	endDate: new Date("May 4, 2014 12:00:00")
+	durationSeconds: 55,
+	fps: 5
 }
 
 exports.getFolders = function(req, res) {
@@ -150,7 +148,7 @@ exports.startCamera = function(req, res) {
 	camera.on("exit", function( timestamp ){
 	  console.log("timelapse child process has exited");
 	 	shell.cd(pathname);
-		var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
+		var str = "avconv -r " + req.body.fps + " -i image%d.jpg -r " + req.body.fps + " -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    shell.rm('*jpg');
