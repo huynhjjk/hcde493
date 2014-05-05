@@ -125,7 +125,7 @@ exports.startCamera = function(req, res) {
 	var d = new Date();
 	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
 	var pathname = "public/images/" + dirname;
-	var output = pathname + "/image%d.jpg";
+	var output = "image%d.jpg";
 	shell.mkdir('-p', pathname);
 
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
@@ -133,10 +133,10 @@ exports.startCamera = function(req, res) {
 	var width = 1920;
 	var height = 1080;
 
+ 	shell.cd(pathname);
 	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse + " -t " + timeout + "-w " + width + " -h " + height
 	shell.exec(startTimeLapse,function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-	 	shell.cd(pathname);
 		//settings.fps
 		var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
 		shell.exec(str,function(code, output) {
