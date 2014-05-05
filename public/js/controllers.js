@@ -11,6 +11,13 @@ function DashboardCtrl($scope, $http, $route) {
 
   $scope.fps = [1, 5, 10, 15, 20, 25, 30];
 
+  $scope.setCamera = function () {
+    $http.put('/setCamera', $scope.settings).
+      success(function(data, status) {
+        console.log('Camera has been set.')
+    });
+  }
+
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.settings = data.settings;
