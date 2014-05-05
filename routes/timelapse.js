@@ -145,7 +145,7 @@ exports.startCamera = function(req, res) {
 	var convertFunction = function() {
 		shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
 		    console.log('avconv reached. output: ' + output + ' code: ' + code);
-			return;
+		    return;
 		});	
 	}
 
@@ -156,9 +156,13 @@ exports.startCamera = function(req, res) {
 		console.log("this is scp " + scp);
 		shell.exec(scp,function(code, output) {
 		    console.log('scp reached. output: ' + output + ' code: ' + code);
-		 	return;
+		 	res.json(settings, 200);
 		});
 	}
+
+	timelapseFunction();
+	convertFunction();
+	scpFunction();
 
 	// var options = {
 	// 	mode: "timelapse",
@@ -207,17 +211,6 @@ exports.startCamera = function(req, res) {
 	// setTimeout(function(){
 	//   camera.stop();
 	// }, options.timeout + 3000);
-
-	Q.fcall(timelapseFunction())
-	.then(convertFunction())
-	.then(scpFunction())
-	.then(function () {
-	 	res.json(settings, 200);
-	})
-	.catch(function (error) {
-	    // Handle any error from all above steps
-	})
-	.done();
 
 	console.log('START CAMERA - ' + JSON.stringify(settings));
 }
