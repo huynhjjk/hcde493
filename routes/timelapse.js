@@ -135,10 +135,10 @@ exports.startCamera = function(req, res) {
  	shell.cd(pathname);
 	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-	    if (code == 0) {
+	    if (code === 0) {
 			// "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
 			shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
-			    if (code == 0) {
+			    if (code === 0) {
 				    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
 				    shell.rm('*jpeg');
 				    shell.cd('../../..');
