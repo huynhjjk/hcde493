@@ -167,13 +167,13 @@ exports.startCamera = function(req, res) {
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    shell.rm('*jpg');
-		 //    shell.cd('../../..');
-			// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-			// console.log("this is scp " + scp);
-			// shell.exec(scp,function(code, output) {
-			//     console.log('scp reached output ' + output + ' code ' + code);
+		    shell.cd('../../..');
+			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+			console.log("this is scp " + scp);
+			shell.exec(scp,function(code, output) {
+			    console.log('scp reached output ' + output + ' code ' + code);
 			 	res.json(options, 200);
-			// });
+			});
 		});
 	});
 
