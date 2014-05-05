@@ -148,6 +148,7 @@ exports.startCamera = function(req, res) {
 		height: 1000
 	}
 	shell.mkdir('-p', pathname);
+
 	camera = new RaspiCam(options);
 
 	camera.on("start", function( err, timestamp ){
@@ -165,25 +166,19 @@ exports.startCamera = function(req, res) {
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    shell.rm('*jpg');
-		    shell.cd('../../..');
-			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-			console.log("this is scp " + scp);
-			shell.exec(scp,function(code, output) {
-			    console.log('scp reached output ' + output + ' code ' + code);
-			 	res.json(options, 200);
-			});
+		 //    shell.cd('../../..');
+			// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+			// console.log("this is scp " + scp);
+			// shell.exec(scp,function(code, output) {
+			//     console.log('scp reached output ' + output + ' code ' + code);
+			//  	res.json(options, 200);
+			// });
 		});
 	});
 
 	camera.on("stop", function( err, timestamp ){
 	  console.log("timelapse child process has been stopped at " + timestamp);
 	});
-
-	camera.start();
-
-	setTimeout(function(){
-	  camera.stop();
-	}, options.timeout + 3000);
 
 	console.log('START CAMERA - ' + JSON.stringify(req.body));
 }
