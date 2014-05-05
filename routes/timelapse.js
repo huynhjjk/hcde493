@@ -200,7 +200,7 @@ exports.startCamera = function(req, res) {
 	//   camera.stop();
 	// }, options.timeout + 3000);
 
-	console.log('START CAMERA - ' + JSON.stringify(options));
+	console.log('START CAMERA - ' + JSON.stringify(settings));
 }
 
 exports.stopCamera = function(req, res) {
