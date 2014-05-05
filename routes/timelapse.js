@@ -128,60 +128,85 @@ exports.startCamera = function(req, res) {
 	var output = pathname + "/image%d.jpg";
 	shell.mkdir('-p', pathname);
 
-	var options = {
-		mode: "timelapse",
-		output: output,
-		encoding: "jpg",
-		timelapse: (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
-		timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
-		width: 1000,
-		height: 1000
-	}
-	camera = new RaspiCam(options);
+	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
+	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+	var width = 1920;
+	var height = 1080;
 
-	camera.on("start", function( err, timestamp ){
-	  console.log("timelapse started at " + timestamp);
-	});
-
-	camera.on("read", function( err, timestamp, filename ){
-	  console.log("timelapse image captured with filename: " + filename);
-	});
-
-	camera.on("exit", function( timestamp ){
-	  console.log("timelapse child process has exited");
+	var startTimeLapse = "raspistill -o " + output + " -tl " + timelapse " -t " + timeout + "-w " + width + " -h " + height
+	shell.exec(startTimeLapse,function(code, output) {
+	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
 	 	shell.cd(pathname);
 		//settings.fps
 		var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
 		shell.exec(str,function(code, output) {
-		    console.log('avconv reached output ' + output + ' code ' + code);
+		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
 		    shell.rm('*jpg');
 		    shell.cd('../../..');
 			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 			console.log("this is scp " + scp);
 			shell.exec(scp,function(code, output) {
-			    console.log('scp reached output ' + output + ' code ' + code);
+			    console.log('scp reached. output: ' + output + ' code: ' + code);
 			 	res.json(options, 200);
 			});
 		});
 	});
 
-	camera.on("stop", function( err, timestamp ){
-	  console.log("timelapse child process has been stopped at " + timestamp);
-	});
+	// var options = {
+	// 	mode: "timelapse",
+	// 	output: output,
+	// 	encoding: "jpg",
+	// 	timelapse: (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
+	// 	timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
+	// 	width: 1000,
+	// 	height: 1000
+	// }
 
-	camera.start();
+	// camera = new RaspiCam(options);
 
-	setTimeout(function(){
-	  camera.stop();
-	}, options.timeout + 3000);
+	// camera.on("start", function( err, timestamp ){
+	//   console.log("timelapse started at " + timestamp);
+	// });
+
+	// camera.on("read", function( err, timestamp, filename ){
+	//   console.log("timelapse image captured with filename: " + filename);
+	// });
+
+	// camera.on("exit", function( timestamp ){
+	//   console.log("timelapse child process has exited");
+	//  	shell.cd(pathname);
+	// 	//settings.fps
+	// 	var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
+	// 	shell.exec(str,function(code, output) {
+	// 	    console.log('avconv reached output ' + output + ' code ' + code);
+	// 	    shell.rm('*jpg');
+	// 	    shell.cd('../../..');
+	// 		var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+	// 		console.log("this is scp " + scp);
+	// 		shell.exec(scp,function(code, output) {
+	// 		    console.log('scp reached output ' + output + ' code ' + code);
+	// 		 	res.json(options, 200);
+	// 		});
+	// 	});
+	// });
+
+	// camera.on("stop", function( err, timestamp ){
+	//   console.log("timelapse child process has been stopped at " + timestamp);
+	// });
+
+	// camera.start();
+
+	// setTimeout(function(){
+	//   camera.stop();
+	// }, options.timeout + 3000);
 
 	console.log('START CAMERA - ' + JSON.stringify(options));
 }
 
 exports.stopCamera = function(req, res) {
-    if(camera && typeof(camera.stop) == "function") {
-        camera.stop();
-    }
+    // if(camera && typeof(camera.stop) == "function") {
+    //     camera.stop();
+    // }
 	res.json(settings, 200);
 	console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }
