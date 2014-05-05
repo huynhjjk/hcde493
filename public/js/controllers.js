@@ -19,7 +19,9 @@ function DashboardCtrl($scope, $http, $route) {
     var $btn = $("#startButton");
     $btn.attr('disabled', true);
     console.log('Camera has started.')
-    $http.get('/startCamera', $scope.settings).
+    var data = {};
+    data.settings = $scope.settings;
+    $http.post('/startCamera', data).
       success(function(data, status, headers, config) {
         console.log('Camera has stopped.')
         $btn.attr('disabled', false);

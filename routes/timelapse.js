@@ -142,8 +142,8 @@ exports.startCamera = function(req, res) {
 		mode: "timelapse",
 		output: output,
 		encoding: "jpg",
-		timelapse: (req.body.intervalHours * 3600000) + (req.body.intervalMinutes * 60000) + (req.body.intervalSeconds * 1000),
-		timeout: (req.body.durationHours * 3600000) + (req.body.durationMinutes * 60000) + (req.body.durationSeconds * 1000),
+		timelapse: (req.body.settings.intervalHours * 3600000) + (req.body.settings.intervalMinutes * 60000) + (req.body.settings.intervalSeconds * 1000),
+		timeout: (req.body.settings.durationHours * 3600000) + (req.body.settings.durationMinutes * 60000) + (req.body.settings.durationSeconds * 1000),
 		width: 1000,
 		height: 1000
 	}
