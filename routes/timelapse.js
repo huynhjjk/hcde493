@@ -132,17 +132,6 @@ exports.startCamera = function(req, res) {
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
-	Q.fcall(timelapseFunction())
-	.then(convertFunction())
-	.then(scpFunction())
-	.then(function () {
-	 	res.json(settings, 200);
-	})
-	.catch(function (error) {
-	    // Handle any error from all above steps
-	})
-	.done();
-
 	var timelapseFunction = function() {
 		// "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
 	 	shell.cd(pathname);
@@ -218,6 +207,17 @@ exports.startCamera = function(req, res) {
 	// setTimeout(function(){
 	//   camera.stop();
 	// }, options.timeout + 3000);
+
+	Q.fcall(timelapseFunction())
+	.then(convertFunction())
+	.then(scpFunction())
+	.then(function () {
+	 	res.json(settings, 200);
+	})
+	.catch(function (error) {
+	    // Handle any error from all above steps
+	})
+	.done();
 
 	console.log('START CAMERA - ' + JSON.stringify(settings));
 }
