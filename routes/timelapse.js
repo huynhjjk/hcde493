@@ -160,10 +160,24 @@ exports.startCamera = function(req, res) {
 		});
 	}
 
-	var functions = [timelapseFunction(), convertFunction(), scpFunction()]
-	Q.all(functions)
-	  .then(function (functions) {
-		res.json(settings, 200);
+	var t = [timelapseFunction()]
+	Q.all(t)
+	  .then(function (t) {
+		
+		var c = [convertFunction()]
+		Q.all(c)
+		  .then(function (c) {
+
+			var s = [scpFunction()]
+			Q.all(s)
+			  .then(function (s) {
+		
+				res.json(settings, 200);
+
+			  })
+
+		  })
+
 	  })
 
 	// var options = {
