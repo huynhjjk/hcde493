@@ -135,6 +135,8 @@ exports.setCamera = function(req, res) {
 }
 
 exports.startCamera = function(req, res) {
+	settings = req.body.settings;	
+
 	var d = new Date();
 	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
 	var pathname = "public/images/" + dirname;
