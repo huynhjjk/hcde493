@@ -160,16 +160,11 @@ exports.startCamera = function(req, res) {
 		});
 	}
 
-	var timelapsePromise = timelapseFunction();
-	timelapsePromise.onResolve(function (err,review){
-		var convertPromise = convertFunction();
-		convertPromise.onResolve(function (err,review){
-			var scpPromise = scpFunction();
-			scpPromise.onResolve(function (err,review){
-				res.json(settings, 200);
-			});
-		});
-	});
+	var functions = [timelapseFunction(), convertFunction(), scpFunction()]
+	Q.all(functions)
+	  .then(function (functions) {
+		res.json(settings, 200);
+	  })
 
 	// var options = {
 	// 	mode: "timelapse",
