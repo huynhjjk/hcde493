@@ -147,6 +147,7 @@ exports.startCamera = function(req, res) {
 		width: 1000,
 		height: 1000
 	}
+	console.log(JSON.stringify(options));
 	shell.mkdir('-p', pathname);
 
 	camera = new RaspiCam(options);
