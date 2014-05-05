@@ -55,7 +55,7 @@
 				<div ng-if="images" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{image.name | imagePath:image.directory}}" alt="{{image.name}}" ng-if="image.name.indexOf('jpeg') != -1">	
 					<video width="100%" height="100%" controls ng-if="image.name.indexOf('jpeg') == -1">
-					  <source ng-src="{{image.name | imagePath:image.directory}}" type="video/mp4">
+					  <source ng-src="{{image.name | imagePath:image.directory}}" type="video/avi">
 					</video>
 					<h4>{{image.name}} from {{image.directory}}</h4> 
 				</div>
@@ -67,7 +67,7 @@
 				<div ng-if="images" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{image.name | imagePath:image.directory}}" alt="{{image.name}}" ng-if="image.name.indexOf('jpeg') != -1">	
 					<video width="100%" height="100%" controls ng-if="image.name.indexOf('jpeg') == -1">
-					  <source ng-src="{{image.name | imagePath:image.directory}}" type="video/mp4">
+					  <source ng-src="{{image.name | imagePath:image.directory}}" type="video/avi">
 					</video>
 					<h4>{{image.name}} from {{image.directory}}</h4> 
 				</div>
