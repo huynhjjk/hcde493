@@ -150,8 +150,8 @@ exports.startCamera = function(req, res) {
 	camera.on("exit", function( timestamp ){
 	  console.log("timelapse child process has exited");
 	 	shell.cd(pathname);
-		// settings.fps
-		var str = "gst-launch-1.0 multifilesrc location=image%d.jpg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
+		//settings.fps
+		var str = "avconv -r 10 -i image%d.jpg -r 10 -vcodec libx264 -crf 20 -g 15 timelapse.mp4"
 		shell.exec(str,function(code, output) {
 		    console.log('avconv reached output ' + output + ' code ' + code);
 		    shell.rm('*jpg');
