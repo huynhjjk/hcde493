@@ -10,13 +10,11 @@ var shellCommand = {
 var settings = {
 	intervalHours: 0,
 	intervalMinutes: 0,
-	intervalSeconds: 3,
-	fps: 10,
+	intervalSeconds: 10,
 	durationHours: 0,
 	durationMinutes: 0,
-	durationSeconds: 12,
-	startDate: new Date("May 3, 2014 9:30:00"),
-	endDate: new Date("May 4, 2014 12:00:00")
+	durationSeconds: 50,
+	fps: 10
 }
 
 // var options = {
@@ -139,17 +137,17 @@ exports.startCamera = function(req, res) {
 	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
 	var pathname = "public/images/" + dirname;
 	var output = pathname + "/image%d.jpg";
-	shell.mkdir('-p', pathname);
 
 	var options = {
 		mode: "timelapse",
 		output: output,
 		encoding: "jpg",
-		timelapse: (settings.intervalHours * 3600000) + (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
-		timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
+		timelapse: (req.body.intervalHours * 3600000) + (req.body.intervalMinutes * 60000) + (req.body.intervalSeconds * 1000),
+		timeout: (req.body.durationHours * 3600000) + (req.body.durationMinutes * 60000) + (req.body.durationSeconds * 1000),
 		width: 1000,
 		height: 1000
 	}
+	shell.mkdir('-p', pathname);
 	camera = new RaspiCam(options);
 
 	camera.on("start", function( err, timestamp ){
@@ -187,7 +185,7 @@ exports.startCamera = function(req, res) {
 	  camera.stop();
 	}, options.timeout + 3000);
 
-	console.log('START CAMERA - ' + JSON.stringify(options));
+	console.log('START CAMERA - ' + JSON.stringify(req.body));
 }
 
 exports.stopCamera = function(req, res) {

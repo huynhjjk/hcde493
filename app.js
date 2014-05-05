@@ -47,7 +47,7 @@ app.get('/getCamera', timelapse.getCamera);
 app.put('/setCamera', timelapse.setCamera);
 
 // Timelapse controls
-app.get('/startCamera', timelapse.startCamera);
+app.post('/startCamera', timelapse.startCamera);
 app.get('/stopCamera', timelapse.stopCamera);
 
 // Timelapse Files
