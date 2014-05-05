@@ -181,6 +181,7 @@ exports.startCamera = function(req, res) {
 	  console.log("timelapse child process has been stopped at " + timestamp);
 	});
 
+	camera.start();
 	console.log('START CAMERA - ' + JSON.stringify(req.body));
 }
 
