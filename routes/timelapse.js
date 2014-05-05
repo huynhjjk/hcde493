@@ -124,7 +124,7 @@ exports.convertImages = function(req, res) {
   var pathname = 'public/images/' + req.params.folderName;
  	shell.cd(pathname);		
 	// "avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4"
-	shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.mp4",function(code, output) {
+	shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi",function(code, output) {
 	    if (code === 0) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
 			shell.rm('*jpeg');
