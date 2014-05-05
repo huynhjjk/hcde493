@@ -132,22 +132,44 @@ exports.startCamera = function(req, res) {
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
- 	shell.cd(pathname);
-	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
-	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-// "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
+	Q.fcall(timelapseFunction)
+	.then(convertFunction)
+	.then(scpFunction)
+	.then(function () {
+	 	res.json(settings, 200);
+	})
+	.catch(function (error) {
+	    // Handle any error from all above steps
+	})
+	.done();
+
+	var timelapseFunction = function() {
+		// "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
+	 	shell.cd(pathname);
+		shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
+		    console.log('raspistill reached. output: ' + output + ' code: ' + code);
+		    return;
+		});
+	}
+
+
+	var convertFunction = function() {
 		shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
 		    console.log('avconv reached. output: ' + output + ' code: ' + code);
-		    shell.rm('*jpeg');
-		    shell.cd('../../..');
-			// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-			// console.log("this is scp " + scp);
-			// shell.exec(scp,function(code, output) {
-			//     console.log('scp reached. output: ' + output + ' code: ' + code);
-			 	// res.json(settings, 200);
-			// });
+			return;
+		});	
+	}
+
+	var scpFunction = function() {
+	    shell.rm('*jpeg');
+	    shell.cd('../../..');
+		var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+		console.log("this is scp " + scp);
+		shell.exec(scp,function(code, output) {
+		    console.log('scp reached. output: ' + output + ' code: ' + code);
+		 	return;
 		});
-	});
+	}
 
 	// var options = {
 	// 	mode: "timelapse",
