@@ -130,16 +130,13 @@ exports.startCamera = function(req, res) {
 
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
-	var width = 1920;
-	var height = 1080;
 
  	shell.cd(pathname);
 	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-		var str = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
-		shell.exec(str,function(code, output) {
+		shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=1/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi",function(code, output) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		    // shell.rm('*jpeg');
+		    shell.rm('*jpeg');
 		    shell.cd('../../..');
 			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 			console.log("this is scp " + scp);
