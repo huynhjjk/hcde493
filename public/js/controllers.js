@@ -75,6 +75,15 @@ function GalleryCtrl($scope, $http, $route, $routeParams) {
         $route.reload();
       });
   };
+
+  $scope.convertImages = function () {
+    $http.get('/convertImages/' + $scope.folderName).
+      success(function(data, status, headers, config) {
+          console.log('images have been converted.');
+          $route.reload();
+      });
+  }
+
 }
 
 function SettingsCtrl($scope, $http) {
