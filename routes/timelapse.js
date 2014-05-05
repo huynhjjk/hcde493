@@ -8,28 +8,15 @@ var shellCommand = {
 }
 
 var settings = {
-	intervalHours: 0,
 	intervalMinutes: 0,
-	intervalSeconds: 3,
+	intervalSeconds: 10,
 	fps: 10,
 	durationHours: 0,
 	durationMinutes: 0,
-	durationSeconds: 12,
+	durationSeconds: 50,
 	startDate: new Date("May 3, 2014 9:30:00"),
 	endDate: new Date("May 4, 2014 12:00:00")
 }
-
-// var options = {
-// 	mode: "timelapse",
-// 	output: "public/images/image%d.jpg",
-// 	encoding: "jpg",
-// 	timelapse: (settings.intervalHours * 3600000) + (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
-// 	timeout: settings.endDate - settings.startDate,
-// 	width: 1000,
-// 	height: 1000
-// }
-
-// console.log(JSON.stringify(options));
 
 exports.getFolders = function(req, res) {
 	var path = process.cwd() + '/public/images';
@@ -145,7 +132,7 @@ exports.startCamera = function(req, res) {
 		mode: "timelapse",
 		output: output,
 		encoding: "jpg",
-		timelapse: (req.body.settings.intervalHours * 3600000) + (req.body.settings.intervalMinutes * 60000) + (req.body.settings.intervalSeconds * 1000),
+		timelapse: (req.body.settings.intervalMinutes * 60000) + (req.body.settings.intervalSeconds * 1000),
 		timeout: (req.body.settings.durationHours * 3600000) + (req.body.settings.durationMinutes * 60000) + (req.body.settings.durationSeconds * 1000),
 		width: 1000,
 		height: 1000

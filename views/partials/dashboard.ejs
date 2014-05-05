@@ -7,48 +7,10 @@
 		<div id="input" class="settings">
 			<h4>Take a photo every:</h4>
 			
-				Hours:   
-				<select ng-model="settings.intervalHours">
-					<option value=0>0 </option>
-					<option value=1>1 </option>
-					<option value=2>2 </option>
-					<option value=3>3 </option>
-					<option value=4>4 </option>
-					<option value=5>5 </option>
-					<option value=6>6 </option>
-					<option value=7>7 </option>
-					<option value=8>8 </option>
-					<option value=9>9 </option>
-					<option value=10>10 </option>
-					<option value=11>11 </option>
-					<option value=12>12 </option>
-				</select>	
 				Minutes:
-				<select ng-model="settings.intervalMinutes">
-					<option value=0>0 </option>
-					<option value=5>5 </option>
-					<option value=10>10 </option>
-					<option value=15>15 </option>
-					<option value=20>20 </option>
-					<option value=25>25 </option>
-					<option value=30>30 </option>
-					<option value=35>35 </option>
-					<option value=40>40 </option>
-					<option value=45>45 </option>
-					<option value=50>50 </option>
-					<option value=55>55 </option>
-				</select>
+				<select ng-model="settings.intervalMinutes" ng-options="minute for minute in intervalMinutes"></select>
 				Seconds:
-				<select ng-model="settings.intervalSeconds">
-					<option value=0>0 </option>
-					<option value=10>10 </option>
-					<option value=20>20 </option>
-					<option value=30>30 </option>
-					<option value=40>40 </option>
-					<option value=50>50 </option>
-				</select>
-			
-	
+				<select ng-model="settings.intervalSeconds" ng-options="second for second in intervalSeconds"></select>
 		</div>		
 
 		<!-- <h3>Timer</h3> -->
@@ -57,45 +19,11 @@
 			<h4>Total Photo Session:</h4>
 			
 				Hours:   
-				<select ng-model="settings.durationHours">
-					<option value=0>0 </option>
-					<option value=1>1 </option>
-					<option value=2>2 </option>
-					<option value=3>3 </option>
-					<option value=4>4 </option>
-					<option value=5>5 </option>
-					<option value=6>6 </option>
-					<option value=7>7 </option>
-					<option value=8>8 </option>
-					<option value=9>9 </option>
-					<option value=10>10 </option>
-					<option value=11>11 </option>
-					<option value=12>12 </option>
-				</select>	
+				<select ng-model="settings.durationHours" ng-options="hour for hour in durationHours"></select>
 				Minutes:
-				<select ng-model="settings.durationMinutes">
-					<option value=0>0 </option>
-					<option value=5>5 </option>
-					<option value=10>10 </option>
-					<option value=15>15 </option>
-					<option value=20>20 </option>
-					<option value=25>25 </option>
-					<option value=30>30 </option>
-					<option value=35>35 </option>
-					<option value=40>40 </option>
-					<option value=45>45 </option>
-					<option value=50>50 </option>
-					<option value=55>55 </option>
-				</select>
+				<select ng-model="settings.durationMinutes" ng-options="minute for minute in durationMinutes"></select>
 				Seconds:
-				<select ng-model="settings.durationSeconds">
-					<option value=0>0 </option>
-					<option value=10>10 </option>
-					<option value=20>20 </option>
-					<option value=30>30 </option>
-					<option value=40>40 </option>
-					<option value=50>50 </option>
-				</select>
+				<select ng-model="settings.durationSeconds" ng-options="second for second in durationSeconds"></select>
 			
 
 		</div>
