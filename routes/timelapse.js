@@ -156,13 +156,20 @@ exports.startCamera = function(req, res) {
 		console.log("this is scp " + scp);
 		shell.exec(scp,function(code, output) {
 		    console.log('scp reached. output: ' + output + ' code: ' + code);
-		 	res.json(settings, 200);
+		    return;
 		});
 	}
 
-	timelapseFunction();
-	convertFunction();
-	scpFunction();
+	var timelapsePromise = timelapseFunction().exec();
+	timelapsePromise.onResolve(function (err,review){
+		var convertPromise = convertFunction().exec();
+		convertPromise.onResolve(function (err,review){
+			var scpPromise = scpFunction().exec();
+			scpPromise.onResolve(function (err,review){
+				res.json(settings, 200);
+			}
+		}
+	}
 
 	// var options = {
 	// 	mode: "timelapse",
