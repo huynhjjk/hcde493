@@ -1,3 +1,4 @@
+var Q = require('q');
 var shell = require('shelljs');
 var fs = require('fs');
 var RaspiCam = require("raspicam");
@@ -131,23 +132,37 @@ exports.startCamera = function(req, res) {
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
-	// "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
- 	shell.cd(pathname);
-	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
-	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
+	Q.fcall(function(){
+	 	shell.cd(pathname);
+	 	return;
+	})
+	.then(function(){
+		shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
+		    console.log('raspistill reached. output: ' + output + ' code: ' + code);
+			return;		    
+		});
+	})
+	.then(function(){
+		shell.exec("avconv -r 10 -i image%04d.jpeg -r 10 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
+		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+		    return;
+		});		
+	})
+	.then(function(){
+		var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+		shell.exec(scp,function(code, output) {
+		    console.log('scp reached. output: ' + output + ' code: ' + code);
+		    return;
+		});
+	})
+	.catch(function (error) {
+	    // Handle any error from all above steps
+	})
+	.done(function() {
+	    shell.rm('*jpeg');
+	    shell.cd('../../..');
+	 	res.json(settings, 200);
 	});
-	shell.exec("avconv -r 10 -i image%04d.jpeg -r 10 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
-	    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-		// console.log("this is scp " + scp);
-		// shell.exec(scp,function(code, output) {
-		//     console.log('scp reached. output: ' + output + ' code: ' + code);
-		// });
-	});
-    shell.rm('*jpeg');
-    shell.cd('../../..');
- 	res.json(settings, 200);
-
 
 	// var options = {
 	// 	mode: "timelapse",
