@@ -139,21 +139,21 @@ exports.startCamera = function(req, res) {
 	.then(function(){
 		shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
 		    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-			return;		    
 		});
+		return;		    
 	})
 	.then(function(){
 		shell.exec("avconv -r 10 -i image%04d.jpeg -r 10 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		    return;
 		});		
+	    return;
 	})
 	.then(function(){
 		var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 		shell.exec(scp,function(code, output) {
 		    console.log('scp reached. output: ' + output + ' code: ' + code);
-		    return;
 		});
+	    return;
 	})
 	.catch(function (error) {
 	    // Handle any error from all above steps
