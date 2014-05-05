@@ -135,7 +135,7 @@ exports.setCamera = function(req, res) {
 }
 
 exports.startCamera = function(req, res) {
-	settings = req.body.settings;	
+	settings = req.body;
 
 	var d = new Date();
 	var dirname = "pics_" + d.toUTCString().replace(/\s+/g, '').replace(/:/g, '_');
