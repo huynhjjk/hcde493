@@ -129,7 +129,7 @@ exports.convertImages = function(req, res) {
 	    if (code === 0) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
 			shell.rm('*jpeg');
-		    shell.cd('../../..');
+		    shell.cd('/pi/hcde493');
 			// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 			// console.log("this is scp " + scp);
 			// shell.exec(scp,function(code, output) {
