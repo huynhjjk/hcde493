@@ -127,16 +127,16 @@ exports.startCamera = function(req, res) {
 	var hour = date.getHours();
 	var dirname = (date.getMonth() + 1) +"-"+ date.getDate() +"-"+ date.getFullYear();
 	var pathname = "public/images/" + dirname;
-	// var output = "image%04d.jpeg";
+	var outputName = date.getHours() + "hours" + date.getMinutes() + "min"
 	shell.mkdir('-p', pathname);
 
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
  	shell.cd(pathname);
-	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
+	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720",function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
-		shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi",function(code, output) {
+		shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi",function(code, output) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
 		    shell.rm('*jpeg');
 		    shell.cd('../../..');
