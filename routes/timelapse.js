@@ -9,10 +9,10 @@ var shellCommand = {
 
 var settings = {
 	intervalMinutes: 0,
-	intervalSeconds: 3,
+	intervalSeconds: 5,
 	durationHours: 0,
-	durationMinutes: 0,
-	durationSeconds: 12,
+	durationMinutes: 1,
+	durationSeconds: 0,
 	fps: 10
 }
 
@@ -138,14 +138,14 @@ exports.startCamera = function(req, res) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
 		shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi",function(code, output) {
 		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		    // shell.rm('*jpeg');
+		    shell.rm('*jpeg');
 		    shell.cd('../../..');
-			// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-			// console.log("this is scp " + scp);
-			// shell.exec(scp,function(code, output) {
-			//     console.log('scp reached. output: ' + output + ' code: ' + code);
+			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+			console.log("this is scp " + scp);
+			shell.exec(scp,function(code, output) {
+			    console.log('scp reached. output: ' + output + ' code: ' + code);
 			 	res.json(settings, 200);
-			// });
+			});
 		});
 	});
 
