@@ -120,6 +120,7 @@ exports.setCamera = function(req, res) {
 	console.log('SET CAMERA - ' + JSON.stringify(settings));
 }
 
+//dirname = folder
 exports.convertImages = function(req, res) {
   var pathname = 'public/images/' + req.params.folderName;
  	shell.cd(pathname);
@@ -145,22 +146,45 @@ exports.startCamera = function(req, res) {
 	var date = new Date();
 	var minutes = date.getMinutes();
 	var hour = date.getHours();
-	var dirname = date.getMonth() +"-"+ date.getDay() +"-"+ date.getFullYear();
-
-	// if(mkdir('p',dirname)){
-	//     shell.cd(dirname);
-	//     START TAKING PICTURES>>>>>
-	// }else{
-	//     shell.mkdir('p',dirname);
-	//     shell.cd(dirname);
-	//     START TAKING PICTURES
-	// }
-
+	var dirname = (date.getMonth() + 1) +"-"+ date.getDate() +"-"+ date.getFullYear();
 
 	var pathname = "public/images/" + dirname;
 	var output = "image%d.jpg";
-	shell.mkdir('-p', pathname);
 
+	//created directory and goes in
+	shell.cd('public/images');
+	shell.mkdir(dirname);
+	shell.cd(dirname);
+
+	//take pictures
+	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
+	var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+
+	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
+	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
+	    if (code === 0) {
+			// "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
+			// shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
+			//     if (code === 0) {
+				    // console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+				    // shell.rm('*jpeg');
+				    shell.cd('../../..');
+					// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+					// console.log("this is scp " + scp);
+					// shell.exec(scp,function(code, output) {
+					//     console.log('scp reached. output: ' + output + ' code: ' + code);
+					 	var data = {};
+					 	data.dirname = dirname;
+					 	res.json(data, 200);
+					// });
+			//     }
+			// });
+	    }
+	});
+
+
+
+	shell.cd('../../..');
 	// var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
 	// var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 

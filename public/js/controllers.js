@@ -30,12 +30,12 @@ function DashboardCtrl($scope, $http, $route) {
     $http.put('/startCamera', $scope.settings).
       success(function(data, status, headers, config) {
 
-      $http.get('/convertImages/' + data.dirname).
-        success(function(data, status, headers, config) {
+      // $http.get('/convertImages/' + data.dirname).
+      //   success(function(data, status, headers, config) {
           console.log('Camera has stopped and images have been converted.')
           $btn.attr('disabled', false);
           $route.reload();
-        });
+        // });
 
     });
   }
