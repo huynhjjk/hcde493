@@ -125,7 +125,7 @@ exports.startCamera = function(req, res) {
 	var date = new Date();
 	var minutes = date.getMinutes();
 	var hour = date.getHours();
-	var dirname = (date.getMonth() + 1) +"-"+ date.getDate() +"-"+ date.getFullYear();
+	var dirname = "time-" + (date.getMonth() + 1) +"-"+ date.getDate() +"-"+ date.getFullYear();
 	var pathname = "public/images/" + dirname;
 	var outputName = date.getHours() + "-" + date.getMinutes()
 	shell.mkdir('-p', pathname);
