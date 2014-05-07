@@ -127,8 +127,7 @@ exports.startCamera = function(req, res) {
 	var hour = date.getHours();
 	var dirname = (date.getMonth() + 1) +"-"+ date.getDate() +"-"+ date.getFullYear();
 	var pathname = "public/images/" + dirname;
-	var output = "image%04d.jpeg";
-	// var output = "image%0d.jpg";
+	// var output = "image%04d.jpeg";
 	shell.mkdir('-p', pathname);
 
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
@@ -138,17 +137,17 @@ exports.startCamera = function(req, res) {
 	shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1920 -h 1080",function(code, output) {
 	    console.log('raspistill reached. output: ' + output + ' code: ' + code);
 // "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=timelapse.avi"
-		shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
-		    console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-		    shell.rm('*jpeg');
+		// shell.exec("avconv -r 1 -i image%04d.jpeg -r 1 -vcodec libx264 -crf 20 -g 15 -vf scale=1280:720 timelapse.mp4",function(code, output) {
+		//     console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+		//     shell.rm('*jpeg');
 		    shell.cd('../../..');
-			var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
-			console.log("this is scp " + scp);
-			shell.exec(scp,function(code, output) {
-			    console.log('scp reached. output: ' + output + ' code: ' + code);
+			// var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+			// console.log("this is scp " + scp);
+			// shell.exec(scp,function(code, output) {
+			//     console.log('scp reached. output: ' + output + ' code: ' + code);
 			 	res.json(settings, 200);
-			});
-		});
+		// 	});
+		// });
 	});
 
 	// var options = {
