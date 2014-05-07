@@ -147,14 +147,14 @@ exports.startCamera = function(req, res) {
 	var hour = d.getHours();
 	var dirname = date.getDay() +"-"+ date.getMonth() +"-"+ date.getFullYear();
 
-	if(mkdir('p',dirname)){
-	    shell.cd(dirname);
-	    START TAKING PICTURES>>>>>
-	}else{
-	    shell.mkdir('p',dirname);
-	    shell.cd(dirname);
-	    START TAKING PICTURES
-	}
+	// if(mkdir('p',dirname)){
+	//     shell.cd(dirname);
+	//     START TAKING PICTURES>>>>>
+	// }else{
+	//     shell.mkdir('p',dirname);
+	//     shell.cd(dirname);
+	//     START TAKING PICTURES
+	// }
 
 
 	var pathname = "public/images/" + dirname;
