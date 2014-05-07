@@ -29,9 +29,14 @@ function DashboardCtrl($scope, $http, $route) {
     console.log('Camera has started.')
     $http.put('/startCamera', $scope.settings).
       success(function(data, status, headers, config) {
-        console.log('Camera has stopped.')
-        $btn.attr('disabled', false);
-        $route.reload();
+
+      // $http.get('/convertImages/' + data.dirname).
+      //   success(function(data, status, headers, config) {
+          console.log('Camera has stopped and images have been converted.')
+          $btn.attr('disabled', false);
+          $route.reload();
+        // });
+
     });
   }
 
@@ -75,6 +80,7 @@ function GalleryCtrl($scope, $http, $route, $routeParams) {
         $route.reload();
       });
   };
+
 }
 
 function SettingsCtrl($scope, $http) {
