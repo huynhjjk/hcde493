@@ -127,7 +127,7 @@ exports.startCamera = function(req, res) {
 	var hour = date.getHours();
 	var dirname = (date.getMonth() + 1) +"-"+ date.getDate() +"-"+ date.getFullYear();
 	var pathname = "public/images/" + dirname;
-	var outputName = date.getHours() + "hours" + date.getMinutes() + "min"
+	var outputName = date.getHours() + "-" + date.getMinutes()
 	shell.mkdir('-p', pathname);
 
 	var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
