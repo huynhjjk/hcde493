@@ -143,8 +143,8 @@ exports.startCamera = function(req, res) {
 	settings = req.body;
 
 	var date = new Date();
-	var minutes = d.getMinutes();
-	var hour = d.getHours();
+	var minutes = date.getMinutes();
+	var hour = date.getHours();
 	var dirname = date.getMonth() +"-"+ date.getDay() +"-"+ date.getFullYear();
 
 	// if(mkdir('p',dirname)){
