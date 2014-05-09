@@ -19,14 +19,6 @@ angular.module('myApp', ['myApp.filters', 'myApp.services', 'myApp.directives', 
         templateUrl: 'partials/gallery',
         controller: GalleryCtrl
       }).
-      when('/settings', {
-        templateUrl: 'partials/settings',
-        controller: SettingsCtrl
-      }).
-      when('/shellCommand', {
-        templateUrl: 'partials/shellCommand',
-        controller: ShellCommandCtrl
-      }).
       otherwise({
         redirectTo: '/'
       });

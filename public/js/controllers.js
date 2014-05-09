@@ -17,10 +17,10 @@ function DashboardCtrl($scope, $http, $route) {
       console.log('Camera settings has been retrieved.')
     });
 
-  $http.get('/getAllImages').
+  $http.get('/getAllFiles').
     success(function(data, status, headers, config) {
-      $scope.images = data.images;
-      console.log('All Images has been retrieved.');
+      $scope.files = data.files;
+      console.log('All files has been retrieved.');
     });
 
   $scope.startCamera = function () {
@@ -29,7 +29,7 @@ function DashboardCtrl($scope, $http, $route) {
     console.log('Camera has started.')
     $http.put('/startCamera', $scope.settings).
       success(function(data, status, headers, config) {
-          console.log('Camera has stopped and images have been converted.')
+          console.log('Camera has stopped and files have been converted.')
           $btn.attr('disabled', false);
           $route.reload();
     });
@@ -54,53 +54,9 @@ function FoldersCtrl($scope, $http, $route) {
 
 function GalleryCtrl($scope, $http, $route, $routeParams) {
   $scope.folderName = $routeParams.folderName;
-  $http.get('/getImages/' + $scope.folderName).
+  $http.get('/getFiles/' + $scope.folderName).
     success(function(data, status, headers, config) {
-      $scope.images = data.images;
-      console.log('Images has been retrieved.');
+      $scope.files = data.files;
+      console.log('Files has been retrieved.');
     });
-}
-
-function SettingsCtrl($scope, $http) {
-  $http.get('/getCamera').
-    success(function(data, status, headers, config) {
-      $scope.settings = data.settings;
-      console.log('Camera settings has been retrieved.')
-    });
-
-  $scope.setCamera = function () {
-    $http.put('/setCamera', $scope.settings).
-      success(function(data, status) {
-        console.log('Camera has been set.')
-    });
-  }
-}
-
-function ShellCommandCtrl($scope, $http) {
-  $http.get('/getShellCommand').
-    success(function(data, status, headers, config) {
-      $scope.shellCommand = data;
-      console.log('Shell Command has been retrieved.')
-    });
-
-  $scope.setShellCommand = function () {
-    $http.put('/setShellCommand', $scope.shellCommand).
-      success(function(data, status, headers, config) {
-        console.log('Shell Command has been set.')
-    });
-  }
-
-  $scope.startShellCommand = function () {
-    $http.get('/startShellCommand').
-      success(function(data, status, headers, config) {
-        console.log('Camera has started.')
-    });
-  }
-
-  $scope.mihirsCommand = function () {
-    $http.get('/mihirsCommand').
-      success(function(data, status, headers, config) {
-        console.log('Mihirs command executed')
-    });
-  }
 }
