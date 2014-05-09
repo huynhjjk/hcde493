@@ -5,6 +5,7 @@
 var app = angular.module('myApp.filters', [])
 app.filter('imagePath', function() {
     return function(image, folderName) {
-      return "images/" + folderName + "/" + image;
+      var url = "http://students.washington.edu/jmzhwng/Images/" + folderName + "/" + image
+      return url
     }
   });

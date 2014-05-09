@@ -52,10 +52,8 @@ app.get('/stopCamera', timelapse.stopCamera);
 
 // Timelapse Files
 app.get('/getFolders', timelapse.getFolders);
-app.delete('/deleteFolder/:folderName', timelapse.deleteFolder);
 app.get('/getAllImages', timelapse.getAllImages);
 app.get('/getImages/:folderName', timelapse.getImages);
-app.delete('/deleteImage/:folderName/:imageName', timelapse.deleteImage);
 
 app.get('/getShellCommand', timelapse.getShellCommand);
 app.put('/setShellCommand', timelapse.setShellCommand);

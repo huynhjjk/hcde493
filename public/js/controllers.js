@@ -29,14 +29,9 @@ function DashboardCtrl($scope, $http, $route) {
     console.log('Camera has started.')
     $http.put('/startCamera', $scope.settings).
       success(function(data, status, headers, config) {
-
-      // $http.get('/convertImages/' + data.dirname).
-      //   success(function(data, status, headers, config) {
           console.log('Camera has stopped and images have been converted.')
           $btn.attr('disabled', false);
           $route.reload();
-        // });
-
     });
   }
 
@@ -55,14 +50,6 @@ function FoldersCtrl($scope, $http, $route) {
       $scope.folders = data.folders;
       console.log('folders has been retrieved.');
     });
-
-  $scope.deleteFolder = function (folderName) {
-    $http.delete('/deleteFolder/' + folderName).
-      success(function(data, status, headers, config) {
-        console.log('folder has been deleted.');
-        $route.reload();
-      });
-  };
 }
 
 function GalleryCtrl($scope, $http, $route, $routeParams) {
@@ -72,15 +59,6 @@ function GalleryCtrl($scope, $http, $route, $routeParams) {
       $scope.images = data.images;
       console.log('Images has been retrieved.');
     });
-
-  $scope.deleteImage = function (imageName) {
-    $http.delete('/deleteImage/' + $scope.folderName + '/' + imageName).
-      success(function(data, status, headers, config) {
-        console.log('image has been deleted.');
-        $route.reload();
-      });
-  };
-
 }
 
 function SettingsCtrl($scope, $http) {
@@ -125,5 +103,4 @@ function ShellCommandCtrl($scope, $http) {
         console.log('Mihirs command executed')
     });
   }
-
 }

@@ -4,10 +4,8 @@
     <div class="col-xs-12 col-sm-6 col-md-4 img-grid" ng-repeat="image in images">
 		<div ng-if="images" class="text-center">
 			<img class="thumbnail img-responsive" ng-src="{{image | imagePath:folderName}}" alt="{{image}}" ng-if="image.indexOf('jpeg') != -1">	
-			<video width="100%" height="100%" controls ng-if="image.indexOf('jpeg') == -1">
-			  <source ng-src="{{image | imagePath:folderName}}" type="video/mp4">
-			</video>
-			<h4>{{image}} <button type="btn" class="btn btn-danger" ng-click='deleteImage(image)'>Delete</button></h4>
+			<embed ng-src="{{image | imagePath:folderName}}" ng-if="image.indexOf('jpeg') == -1"/>
+			<h4><a href="{{image | imagePath:folderName}}">{{image}}</a></h4>
 		</div>
 	</div>
 </div>
