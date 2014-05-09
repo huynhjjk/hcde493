@@ -17,6 +17,10 @@ app.filter('filePath', function() {
 });
 app.filter('reverse', function() {
   return function(items) {
-    return items.slice().reverse();
+    if (items && (items.length > 1)) {
+      return items.slice().reverse();
+    } else {
+      return items;
+    }
   };
 });
