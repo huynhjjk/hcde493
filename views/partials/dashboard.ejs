@@ -3,32 +3,74 @@
 	<!-- Configuration -->
 	<div id="configuration" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<h2>Configuration</h2>
-		<!-- <h3>Input</h3> -->
-		<div id="input" class="settings">
+
+		<form  action="">
+			<div id="input" class="settings">
+				<h4>Take a photo every:</h4>
+				Mins: 
+				<input type="number" ng-model="settings.intervalMinutes" min="0" max="59">
+				Secs:
+				<input type="number" ng-model="settings.intervalSeconds" min="0" max="59">
+			</div>	
+
+			<div id="timer" class="settings">
+				<h4>Total Photo Session:</h4>
+				
+				Hours:   
+				<input type="number" ng-model="settings.durationHours" min="0" max="12">
+				Mins:
+				<input type="number" ng-model="settings.durationMinutes" min="0" max="59">
+				Secs:
+				<input type="number" ng-model="settings.durationSeconds" min="0" max="59">
+			</div>
+
+			<div id="output" class="settings">
+				<h4>Play the timelapse video at this rate:</h4>
+				
+				Frames Per Second (FPS):   
+				<input type="number" ng-model="settings.fps" min="10" max="60">
+				<p>
+				Video Length: 0
+				</p>
+			</div>
+
+			<!--
+			Total Frames = (total time/ interval)  
+			Video Length = (Total Frames / FPS )
+			-->
+			<div id="start-end-row" class="row">
+				<div class="col-xs-12">
+					<button type="button" id="startButton" class="btn btn-success btn-primary col-xs-5  col-sm-6" ng-click='startCamera()'>GO</button>
+					<button type="btn" class="btn col-xs-3 col-xs-offset-1 col-sm-4 col-sm-offset-1" ng-click='stopCamera()'>Stop</button>
+				</div>
+			</div>
+
+		</form>
+
+
+		<!--<div id="input" class="settings">
 			<h4>Take a photo every:</h4>
 			
-				Minutes:
+				Mins:
 				<select ng-model="settings.intervalMinutes" ng-options="minute for minute in intervalMinutes"></select>
-				Seconds:
+				Secs:
 				<select ng-model="settings.intervalSeconds" ng-options="second for second in intervalSeconds"></select>
-		</div>		
+		</div>	-->	
 
-		<!-- <h3>Timer</h3> -->
+		<!--
 		<div id="timer" class="settings">
 
 			<h4>Total Photo Session:</h4>
 			
 				Hours:   
 				<select ng-model="settings.durationHours" ng-options="hour for hour in durationHours"></select>
-				Minutes:
+				Mins:
 				<select ng-model="settings.durationMinutes" ng-options="minute for minute in durationMinutes"></select>
-				Seconds:
+				Secs:
 				<select ng-model="settings.durationSeconds" ng-options="second for second in durationSeconds"></select>
-			
-
 		</div>
-
-		<!-- <h3>Output</h3> -->
+		-->
+		<!--
 		<div id="output" class="settings">
 			<h4>Play the timelapse video at this rate:</h4>
 			
@@ -36,12 +78,13 @@
 				<select ng-model="settings.fps" ng-options="frame for frame in fps"></select>
 			
 		</div>
-		<div id="start-end-row" class="row">
-			<div class="col-sm-12">
-				<button type="button" id="startButton" class="btn btn-success btn-primary col-sm-6" ng-click='startCamera()'>GO</button>
-				<button type="btn" class="btn col-sm-4 col-sm-offset-2" ng-click='stopCamera()'>Stop</button>
+		-->
+		<!--<div id="start-end-row" class="row">
+			<div class="col-xs-12">
+				<button type="button" id="startButton" class="btn btn-success btn-primary col-xs-5  col-sm-6" ng-click='startCamera()'>GO</button>
+				<button type="btn" class="btn col-xs-3 col-xs-offset-1 col-sm-4 col-sm-offset-1" ng-click='stopCamera()'>Stop</button>
 			</div>
-		</div>
+		</div>-->
 	</div>
 	<!-- /Configuration -->
 
@@ -64,7 +107,7 @@
 				<div ng-if="files" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
 					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/>
-					<h4><a ng-href="{{file.name | filePath:file.directory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
+					<h4><a ng-href="{{file.name | filePath:file.adirectory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
 				</div>
 			</div>
 			<!-- /The next four recent Timelapse Video -->

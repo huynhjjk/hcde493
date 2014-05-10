@@ -1,7 +1,7 @@
 <a href="#/folders"><button type="btn" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Folders</button></a>
 <h2>{{folderName}} Gallery</h2>
 <div class="row">
-    <div class="col-xs-12 col-sm-6 col-md-4 img-grid" ng-repeat="file in files | reverse">
+    <div class="col-xs-6 col-sm-6 col-md-3 img-grid" ng-repeat="file in files | reverse">
 		<div ng-if="files" class="text-center">
 			<img class="thumbnail img-responsive" ng-src="{{file | filePath:folderName}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1">	
 			<embed ng-src="{{file | filePath:folderName}}" ng-if="file.indexOf('jpeg') == -1"/>
