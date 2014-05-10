@@ -42,26 +42,14 @@ app.get('/partials/:name', routes.partials);
 
 /* ------ TIMELAPSE API ------ */
 
-// Timelapse settings
-app.get('/getCamera', timelapse.getCamera);
-app.put('/setCamera', timelapse.setCamera);
-
-// Timelapse controls
-app.get('/startCamera', timelapse.startCamera);
+// Timelapse Controls
+app.put('/startCamera', timelapse.startCamera);
 app.get('/stopCamera', timelapse.stopCamera);
 
 // Timelapse Files
 app.get('/getFolders', timelapse.getFolders);
-app.delete('/deleteFolder/:folderName', timelapse.deleteFolder);
-app.get('/getAllImages', timelapse.getAllImages);
-app.get('/getImages/:folderName', timelapse.getImages);
-app.delete('/deleteImage/:folderName/:imageName', timelapse.deleteImage);
-
-app.get('/getShellCommand', timelapse.getShellCommand);
-app.put('/setShellCommand', timelapse.setShellCommand);
-app.get('/startShellCommand', timelapse.startShellCommand);
-
-app.get('/mihirsCommand', timelapse.mihirsCommand);
+app.get('/getFiles/:folderName', timelapse.getFiles);
+app.get('/getAllFiles', timelapse.getAllFiles);
 
 // Start server
 

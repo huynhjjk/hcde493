@@ -1,210 +1,133 @@
+// Enable HTTP request client
+var request = require('request');
+// Enable jQuery
+var cheerio = require('cheerio');
+// Enable unix shell commands
 var shell = require('shelljs');
-var fs = require('fs');
-var RaspiCam = require("raspicam");
-var camera;
 
-var shellCommand = {
-	text: "raspistill" + " " + "-t" + " " + 3000 + " " + "-tl" + " " + 1000 + " " + "-o" + " " + "public/images/image%d.jpg"
-}
-
+// Default settings
 var settings = {
-	hours: 2,
-	minutes: 15,
-	seconds: 30,
-	fps: 10,
-	startDate: new Date("May 3, 2014 9:30:00"),
-	endDate: new Date("May 4, 2014 12:00:00")
+    intervalMinutes: 0,
+    intervalSeconds: 5,
+    durationHours: 0,
+    durationMinutes: 1,
+    durationSeconds: 0,
+    fps: 10
 }
 
-// var options = {
-// 	mode: "timelapse",
-// 	output: "public/images/image%d.jpg",
-// 	encoding: "jpg",
-// 	timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
-// 	timeout: settings.endDate - settings.startDate,
-// 	width: 1000,
-// 	height: 1000
-// }
+// Base url for file output
+var baseUrl = 'http://students.washington.edu/jmzhwng/Images/';
 
-// console.log(JSON.stringify(options));
-
-exports.getFolders = function(req, res) {
-	var path = process.cwd() + '/public/images';
-	fs.readdir(path, function (err, folders) {
-	  if (err) {
-	    console.log(err);
-	    return;
-	  }
-		res.json({
-			folders: folders
-		}, 200);
-		console.log('GET FOLDERS - ' + JSON.stringify(folders));
-	});
-}
-
-exports.deleteFolder = function (req, res) {
-  var path = process.cwd() + '/public/images/' + req.params.folderName;
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file,index){
-      var curPath = path + "/" + file;
-      if(fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolderRecursive(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
+// Get only attributes containing '-'
+function folderLinks($) {
+    return $('a:contains(-)').get().map(function (a) {
+        return a.attribs.href;
     });
-    fs.rmdirSync(path);
-	res.json(req.params.folderName, 200);
-	console.log('DELETE FOLDER - ' + JSON.stringify(req.params.folderName));
-  } else {
-	res.json(req.params.folderName, 504);  	
-  }
+}
+
+// Get only attributes containing '.'
+function fileLinks($) {
+    return $('a:contains(.)').get().map(function (a) {
+        return a.attribs.href;
+    });
+}
+
+// Get existing folders on base url
+exports.getFolders = function (req, res) {
+    request(baseUrl, function (error, response, body) {
+        var folders = folderLinks(cheerio.load(body));
+        res.json({
+            folders: folders
+        }, 200);
+        console.log('GET FOLDERS - ' + JSON.stringify(folders));
+    });
 };
 
-exports.getAllImages = function(req, res) {
-	var path = process.cwd() + '/public/images';
-	var directory;
-	var images = [];
-	function getFiles(dir){
-	    var files = fs.readdirSync(dir);
-	    for(var i in files){
-	        if (!files.hasOwnProperty(i)) continue;
-	        var name = dir+'/'+files[i];
-	        if (fs.statSync(name).isDirectory()){
-				directory = files[i];
-	            getFiles(name);
-	        }else{
-	        	var image = {};
-	        	image.name = files[i];
-	        	image.directory = directory;
-	        	images.push(image);
-	        }
-	    }
-	}
-	getFiles(path);
-	res.json({
-		images: images
-	}, 200);
-	console.log('GET ALL IMAGES - ' + JSON.stringify(images));
+// Get existing files on base url and folder path
+exports.getFiles = function (req, res) {
+    request(baseUrl + req.params.folderName, function (error, response, body) {
+        var files = fileLinks(cheerio.load(body));
+        res.json({
+            files: files
+        }, 200);
+        console.log('GET FILES - ' + JSON.stringify(files));
+    });
 }
 
-exports.getImages = function(req, res) {
-  var path = process.cwd() + '/public/images/' + req.params.folderName;
-	fs.readdir(path, function (err, files) {
-	  if (err) {
-	    console.log(err);
-	    return;
-	  }
-		res.json({
-		images: files
-		}, 200);
-		console.log('GET IMAGES - ' + JSON.stringify(files));
-	});
+// Get all existing files from each existing folder on base url
+exports.getAllFiles = function (req, res) {
+    var files = [];
+
+    request(baseUrl, function (error, response, body) {
+        var folders = folderLinks(cheerio.load(body));
+        count = 0;
+
+        folders.forEach(function (folder) {
+            request(baseUrl + folder, function (error, response, body) {
+                var fileLinksOutput = fileLinks(cheerio.load(body));
+                for (var i = 0; i < fileLinksOutput.length; i++) {
+                    var file = {
+                        name: fileLinksOutput[i],
+                        directory: folder
+                    };
+                    files.push(file);
+                }
+                if (++count == folders.length) {
+                    res.json({
+                        files: files
+                    }, 200);
+                    console.log('GET ALL FILES - ' + JSON.stringify(files));
+                }
+
+            });
+        });
+    });
 }
 
-exports.deleteImage = function (req, res) {
-	var path = process.cwd() + '/public/images/' + req.params.folderName + '/' + req.params.imageName;
-	  if( fs.existsSync(path) ) {
-		fs.unlink(path, function (err) {
-		  if (err) {
-			console.log(err);
-			return;	  	
-		  } 
-			res.json(req.params.imageName, 200);
-			console.log('DELETE IMAGE - ' + JSON.stringify(req.params.imageName));
-		});
-	} else {
-		res.json(req.params.imageName, 504)		
-	}
-};
-
-exports.getCamera = function(req, res) {
-	res.json({
-		settings: settings
-	}, 200);
-	console.log('GET CAMERA - ' + JSON.stringify(settings));
+// Get camera settings
+exports.getCamera = function (req, res) {
+    res.json({
+        settings: settings
+    }, 200);
+    console.log('GET CAMERA - ' + JSON.stringify(settings));
 }
 
-exports.setCamera = function(req, res) {
-	settings = req.body;
- 	res.json(settings, 200);
-	console.log('SET CAMERA - ' + JSON.stringify(settings));
+// Start camera
+exports.startCamera = function (req, res) {
+    settings = req.body;
+
+    var date = new Date();
+    var minutes = date.getMinutes();
+    var hour = date.getHours();
+    var dirname = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear();
+    var pathname = "public/images/" + dirname;
+    var outputName = "time" + date.getHours() + "hr" + date.getMinutes() + "min";
+    shell.mkdir('-p', pathname);
+
+    var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
+    var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+
+    shell.cd(pathname);
+    shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
+        console.log('raspistill reached. output: ' + output + ' code: ' + code);
+        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi", function (code, output) {
+            console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+            shell.rm('*jpeg');
+            shell.cd('../../..');
+            var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+            console.log("this is scp " + scp);
+            shell.exec(scp, function (code, output) {
+                console.log('scp reached. output: ' + output + ' code: ' + code);
+                res.json(settings, 200);
+            });
+        });
+    });
+
+    console.log('START CAMERA - ' + JSON.stringify(settings));
 }
 
-exports.startCamera = function(req, res) {
-	var options = {
-		mode: "timelapse",
-		output: "public/images/test/image%d.jpg",
-		encoding: "jpg",
-		timelapse: (settings.hours * 3600000) + (settings.minutes * 60000) + (settings.seconds * 1000),
-		timeout: settings.endDate - settings.startDate, // settings must be date objects to work
-		width: 1000,
-		height: 1000
-	}
-	// camera = new RaspiCam(options);
-
-	// camera.on("start", function( err, timestamp ){
-	//   console.log("timelapse started at " + timestamp);
-	// });
-
-	// camera.on("read", function( err, timestamp, filename ){
-	//   console.log("timelapse image captured with filename: " + filename);
-	// });
-
-	// camera.on("exit", function( timestamp ){
-	//   console.log("timelapse child process has exited");
- // 	  res.json(options, 200);
-	// });
-
-	// camera.on("stop", function( err, timestamp ){
-	//   console.log("timelapse child process has been stopped at " + timestamp);
-	// });
-
-	// camera.start();
-
-	// setTimeout(function(){
-	//   camera.stop();
-	// }, options.timeout + 3000);
-
-	console.log('START CAMERA - ' + JSON.stringify(options));
-}
-
-exports.stopCamera = function(req, res) {
-    if(camera && typeof(camera.stop) == "function") {
-        camera.stop();
-    }
-	res.json(settings, 200);
-	console.log('STOP CAMERA - ' + JSON.stringify(settings));
-}
-
-exports.getShellCommand = function(req, res) {
- 	res.json(shellCommand, 200);
-	console.log('GET SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
-}
-
-exports.setShellCommand = function(req, res) {
-	shellCommand = {
-		text: req.body.text
-	}
- 	res.json(shellCommand, 200);
-	console.log('SET SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
-}
-
-exports.startShellCommand = function(req, res) {
-	shell.exec(shellCommand.text,function(code, output) {
-	  console.log('Exit code:', code);
-	  console.log('Program output:', output);
-	});
-	res.json(shellCommand.text, 200);
-	console.log('START SHELL COMMAND - ' + JSON.stringify(shellCommand.text));
-}
-
-exports.mihirsCommand = function(req, res) {
-	shell.cd('bash_scripts');
-	shell.exec('./time.sh ' + 10 + ' ' + 0 + ' ' + 1,function(code, output) {
-	  console.log('Exit code:', code);
-	  console.log('Program output:', output);
-	});
-	shell.cd('..');
-	res.json(200);
+// Stop camera
+exports.stopCamera = function (req, res) {
+    res.json(settings, 200);
+    console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }

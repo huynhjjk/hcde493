@@ -7,48 +7,10 @@
 		<div id="input" class="settings">
 			<h4>Take a photo every:</h4>
 			
-				Hours:   
-				<select ng-model="settings.hours">
-					<option selected="selected" value=0>0 </option>
-					<option value=1>1 </option>
-					<option value=2>2 </option>
-					<option value=3>3 </option>
-					<option value=4>4 </option>
-					<option value=5>5 </option>
-					<option value=6>6 </option>
-					<option value=7>7 </option>
-					<option value=8>8 </option>
-					<option value=9>9 </option>
-					<option value=10>10 </option>
-					<option value=11>11 </option>
-					<option value=12>12 </option>
-				</select>	
 				Minutes:
-				<select ng-model="settings.minutes">
-					<option selected="selected" value=0>0 </option>
-					<option value=5>5 </option>
-					<option value=10>10 </option>
-					<option value=15>15 </option>
-					<option value=20>20 </option>
-					<option value=25>25 </option>
-					<option value=30>30 </option>
-					<option value=35>35 </option>
-					<option value=40>40 </option>
-					<option value=45>45 </option>
-					<option value=50>50 </option>
-					<option value=55>55 </option>
-				</select>
+				<select ng-model="settings.intervalMinutes" ng-options="minute for minute in intervalMinutes"></select>
 				Seconds:
-				<select ng-model="settings.seconds">
-					<option value=0>0 </option>
-					<option selected="selected" value=10>10 </option>
-					<option value=20>20 </option>
-					<option value=30>30 </option>
-					<option value=40>40 </option>
-					<option value=50>50 </option>
-				</select>
-			
-	
+				<select ng-model="settings.intervalSeconds" ng-options="second for second in intervalSeconds"></select>
 		</div>		
 
 		<!-- <h3>Timer</h3> -->
@@ -57,45 +19,11 @@
 			<h4>Total Photo Session:</h4>
 			
 				Hours:   
-				<select ng-model="settings.durationHours">
-					<option value=0>0 </option>
-					<option selected="selected" value=1>1 </option>
-					<option value=2>2 </option>
-					<option value=3>3 </option>
-					<option value=4>4 </option>
-					<option value=5>5 </option>
-					<option value=6>6 </option>
-					<option value=7>7 </option>
-					<option value=8>8 </option>
-					<option value=9>9 </option>
-					<option value=10>10 </option>
-					<option value=11>11 </option>
-					<option value=12>12 </option>
-				</select>	
+				<select ng-model="settings.durationHours" ng-options="hour for hour in durationHours"></select>
 				Minutes:
-				<select ng-model="settings.durationMinutes">
-					<option selected="selected" value=0>0 </option>
-					<option value=5>5 </option>
-					<option value=10>10 </option>
-					<option value=15>15 </option>
-					<option value=20>20 </option>
-					<option value=25>25 </option>
-					<option value=30>30 </option>
-					<option value=35>35 </option>
-					<option value=40>40 </option>
-					<option value=45>45 </option>
-					<option value=50>50 </option>
-					<option value=55>55 </option>
-				</select>
+				<select ng-model="settings.durationMinutes" ng-options="minute for minute in durationMinutes"></select>
 				Seconds:
-				<select ng-model="settings.durationSeconds">
-					<option  selected="selected" value=0>0 </option>
-					<option value=10>10 </option>
-					<option value=20>20 </option>
-					<option value=30>30 </option>
-					<option value=40>40 </option>
-					<option value=50>50 </option>
-				</select>
+				<select ng-model="settings.durationSeconds" ng-options="second for second in durationSeconds"></select>
 			
 
 		</div>
@@ -104,26 +32,13 @@
 		<div id="output" class="settings">
 			<h4>Play the timelapse video at this rate:</h4>
 			
-				Frame rate:   
-				<select ng-model="settings.fps">
-					<option value=10>10 FPS</option>
-					<option selected value=20>20 FPS</option>
-					<option value=30>30 FPS</option>
-					<option value=40>40 FPS</option>
-					<option value=50>50 FPS</option>
-					<option value=60>60 FPS</option>
-				</select>	
+				Frames Per Second (FPS):   
+				<select ng-model="settings.fps" ng-options="frame for frame in fps"></select>
 			
 		</div>
-		<h4>See if fields bind to JSON data using ng-model</h4>
-		<pre>{{settings | json}}</pre> 
-		<div class="row">
-			<button type="button" class="btn btn-default col-sm-12" ng-click='tempStartCamera()'>Temp Start</button>
-		</div>
-		<br>
 		<div id="start-end-row" class="row">
 			<div class="col-sm-12">
-				<button type="button" class="btn btn-success btn-primary col-sm-6" ng-click='startCamera()'>GO</button>
+				<button type="button" id="startButton" class="btn btn-success btn-primary col-sm-6" ng-click='startCamera()'>GO</button>
 				<button type="btn" class="btn col-sm-4 col-sm-offset-2" ng-click='stopCamera()'>Stop</button>
 			</div>
 		</div>
@@ -135,30 +50,26 @@
 		<h2>Latest Videos</h2>
 		<div class="row">
 			<!-- The Most recent Timelapse Video-->
-			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="image in images" ng-if="$index == 0">
-				<div ng-if="images" class="text-center">
-					<img class="thumbnail img-responsive" ng-src="{{image.name | imagePath:image.directory}}" alt="{{image.name}}" ng-if="image.name.indexOf('jpg') != -1">	
-					<video width="100%" height="100%" controls ng-if="image.name.indexOf('jpg') == -1">
-					  <source ng-src="{{image.name | imagePath:image.directory}}" type="video/mp4">
-					</video>
-					<h4>{{image.name}} from {{image.directory}}</h4> 
+			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="file in files | reverse" ng-if="$index == 0">
+				<div ng-if="files" class="text-center">
+					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
+					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/>
+					<h4><a ng-href="{{file.name | filePath:file.directory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
 				</div>
 			</div>
 			<!-- /The Most recent Timelapse Video -->
 
 			<!-- The next four recent Timelapse Video -->
-			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="image in images" ng-if="$index > 0">
-				<div ng-if="images" class="text-center">
-					<img class="thumbnail img-responsive" ng-src="{{image.name | imagePath:image.directory}}" alt="{{image.name}}" ng-if="image.name.indexOf('jpg') != -1">	
-					<video width="100%" height="100%" controls ng-if="image.name.indexOf('jpg') == -1">
-					  <source ng-src="{{image.name | imagePath:image.directory}}" type="video/mp4">
-					</video>
-					<h4>{{image.name}} from {{image.directory}}</h4> 
+			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="$index > 0">
+				<div ng-if="files" class="text-center">
+					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
+					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/>
+					<h4><a ng-href="{{file.name | filePath:file.directory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
 				</div>
 			</div>
 			<!-- /The next four recent Timelapse Video -->
 		</div>
-		<button id="all-video" type="button" class="btn btn-default col-xs-12 col-sm-12 col-md-12" href="#/folders">All Videos<i class="fa fa-chevron-right pull-right"></i></button>
+		<a href="#/folders"><button id="all-video" type="button" class="btn btn-default col-xs-12 col-sm-12 col-md-12">All Videos<i class="fa fa-chevron-right pull-right"></i></button></a>
 	</div>
 
 
