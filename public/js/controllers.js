@@ -32,16 +32,15 @@ function DashboardCtrl($scope, $http, $route) {
 
   $scope.startCamera = function () {
   	if ($scope.checkValidations()) {
-  		alert('success');
-		    // var $btn = $("#startButton");
-		    // $btn.attr('disabled', true);
-		    // console.log('Camera has started.')
-		    // $http.put('/startCamera', $scope.settings).
-		    //   success(function(data, status, headers, config) {
-		    //       console.log('Camera has stopped and files have been converted.')
-		    //       $btn.attr('disabled', false);
-		    //       $route.reload();
-		    // });
+	    var $btn = $("#startButton");
+	    $btn.attr('disabled', true);
+	    console.log('Camera has started.')
+	    $http.put('/startCamera', $scope.settings).
+	      success(function(data, status, headers, config) {
+	          console.log('Camera has stopped and files have been converted.')
+	          $btn.attr('disabled', false);
+	          $route.reload();
+	    });
   	}
   }
 
