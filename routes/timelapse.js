@@ -81,7 +81,7 @@ exports.startCamera = function (req, res) {
     });
 
     camera.on("exit", function( timestamp ){
-        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpg index=1 caps=image/jpg,framerate=" + settings.fps + "/1 ! jpgdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpg", function (code, output) {
+        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpg index=1 caps=image/jpg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpg", function (code, output) {
             console.log('gst-launch reached. output: ' + output + ' code: ' + code);
             var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
             console.log("this is scp " + scp);
