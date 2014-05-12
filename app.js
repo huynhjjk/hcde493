@@ -49,6 +49,7 @@ app.get('/stopCamera', timelapse.stopCamera);
 
 // Timelapse Files
 app.get('/getAllFiles', timelapse.getAllFiles);
+app.delete('/deleteFile/:fileName', timelapse.deleteFile);
 
 
 // Start server

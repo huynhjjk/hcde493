@@ -82,3 +82,13 @@ exports.stopCamera = function (req, res) {
     res.json(settings, 200);
     console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }
+
+
+// Delete file
+exports.deleteFile = function (req, res) {
+    var deleteUrl = 'ssh jmzhwng@vergil.u.washington.edu rm student_html/Images/' + req.params.fileName;
+    shell.exec(deleteUrl, function (code, output) {
+        console.log('delete file reached. output: ' + output + ' code: ' + code);
+        res.json(req.params.fileName, 200);
+    }
+};

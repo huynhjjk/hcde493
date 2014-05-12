@@ -43,6 +43,14 @@ function DashboardCtrl($scope, $http, $route) {
     });
   }
 
+  $scope.deleteFile = function (fileName) {
+    $http.delete('/deleteFile/' + fileName).
+      success(function(data, status, headers, config) {
+        console.log('file has been deleted.');
+        $route.reload();
+      });
+  };
+
   $scope.msToTime = function(duration) {
     var milliseconds = parseInt((duration%1000)/100)
         , seconds = parseInt((duration/1000)%60)
