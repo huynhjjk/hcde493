@@ -108,6 +108,7 @@
 					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
 					<h4><a ng-href="{{file | filePath}}">{{file}}</a></h4> 
+					<button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button>
 				</div>
 			</div>
 			<!-- /The Most recent Timelapse Video -->
