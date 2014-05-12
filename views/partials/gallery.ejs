@@ -3,9 +3,10 @@
 <div class="row">
     <div class="col-xs-6 col-sm-6 col-md-3 img-grid" ng-repeat="file in files | reverse">
 		<div ng-if="files" class="text-center">
-			<img class="thumbnail img-responsive" ng-src="{{file | filePath:folderName}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1">	
-			<embed ng-src="{{file | filePath:folderName}}" ng-if="file.indexOf('jpeg') == -1"/>
-			<h4><a href="{{file | filePath:folderName}}">{{file}}</a></h4>
+			<img class="thumbnail img-responsive" ng-src="{{file | filePath: folderName}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
+			<a ng-href="{{file | filePath: folderName}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
+			<!-- <embed ng-src="{{file | filePath: folderName}}" ng-if="file.indexOf('jpeg') == -1"/> -->
+			<h4><a ng-href="{{file | filePath: folderName}}">{{file}}</h4> 
 		</div>
 	</div>
 </div>
