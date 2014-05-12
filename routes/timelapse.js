@@ -123,7 +123,7 @@ exports.startCamera = function (req, res) {
             console.log('gst-launch reached. output: ' + output + ' code: ' + code);
             shell.rm('*jpeg');
             // shell.cd('../../..');
-            var scp = "scp " + outputName + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName;
+            var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName;
             console.log("this is scp " + scp);
             shell.exec(scp, function (code, output) {
                 console.log('scp reached. output: ' + output + ' code: ' + code);
