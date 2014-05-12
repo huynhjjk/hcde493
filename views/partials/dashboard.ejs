@@ -3,7 +3,7 @@
 	<!-- Configuration -->
 	<div id="configuration" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<h2>Configuration</h2>
-
+		<pre>{{settings | json}}</pre>
 		<form  action="">
 			<div id="input" class="settings">
 				<h4>Take a photo every:</h4>
@@ -30,7 +30,7 @@
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 				<p>
-				Video Length: 0
+				Video Length: {{videoLength}}
 				</p>
 			</div>
 

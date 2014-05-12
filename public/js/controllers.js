@@ -8,13 +8,19 @@ function DashboardCtrl($scope, $http, $route) {
   $scope.durationHours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   $scope.durationMinutes = [0, 1, 2, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
   $scope.durationSeconds = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
-  /*$scope.videoLength = ($scope.intervalMinutes * 60000) + ($scope.intervalSeconds * 1000);*/
   
   $scope.fps = [10, 15, 20, 25, 30];
+
+	$scope.videoLength = 0;
 
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.settings = data.settings;
+		$scope.$watch('[settings.intervalMinutes, settings.intervalSeconds, settings.durationHours, settings.durationMinutes, settings.durationSeconds, settings.fps]', function () {
+			$scope.videoLength = ((($scope.settings.durationHours) + ($scope.settings.durationMinutes) + ($scope.settings.durationSeconds)) /
+								(($scope.settings.intervalMinutes) + ($scope.settings.intervalSeconds))) /
+								($scope.settings.fps);
+		}, true);
       console.log('Camera settings has been retrieved.')
     });
 

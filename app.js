@@ -43,6 +43,7 @@ app.get('/partials/:name', routes.partials);
 /* ------ TIMELAPSE API ------ */
 
 // Timelapse Controls
+app.get('/getCamera', timelapse.getCamera);
 app.put('/startCamera', timelapse.startCamera);
 app.get('/stopCamera', timelapse.stopCamera);
 
@@ -50,6 +51,7 @@ app.get('/stopCamera', timelapse.stopCamera);
 app.get('/getFolders', timelapse.getFolders);
 app.get('/getFiles/:folderName', timelapse.getFiles);
 app.get('/getAllFiles', timelapse.getAllFiles);
+
 
 // Start server
 
