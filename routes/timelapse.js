@@ -4,6 +4,9 @@ var request = require('request');
 var cheerio = require('cheerio');
 // Enable unix shell commands
 var shell = require('shelljs');
+// Enable Raspicam
+var RaspiCam = require("raspicam");
+
 
 // Default settings
 var settings = {
@@ -54,15 +57,30 @@ exports.getCamera = function (req, res) {
 // Start camera
 exports.startCamera = function (req, res) {
     settings = req.body;
-
     var date = new Date();
     var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
 
-    var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
-    var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+    var options = {
+        mode: "timelapse",
+        output: outputName,
+        encoding: "jpeg",
+        timelapse: (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
+        timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
+        width: 1280,
+        height: 720
+    }
 
-    shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
-        console.log('raspistill reached. output: ' + output + ' code: ' + code);
+    camera = new RaspiCam(options);
+
+    camera.on("start", function( err, timestamp ){
+      console.log("timelapse started at " + timestamp);
+    });
+
+    camera.on("read", function( err, timestamp, filename ){
+      console.log("timelapse image captured with filename: " + filename);
+    });
+
+    camera.on("exit", function( timestamp ){
         shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpeg", function (code, output) {
             console.log('gst-launch reached. output: ' + output + ' code: ' + code);
             var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
@@ -74,11 +92,39 @@ exports.startCamera = function (req, res) {
         });
     });
 
-    console.log('START CAMERA - ' + JSON.stringify(settings));
+    camera.on("stop", function( err, timestamp ){
+      console.log("timelapse child process has been stopped at " + timestamp);
+    });
+
+    camera.start();
+
+    // settings = req.body;
+
+    // var date = new Date();
+    // var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
+
+    // var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
+    // var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+
+    // shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
+    //     console.log('raspistill reached. output: ' + output + ' code: ' + code);
+    //     shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpeg", function (code, output) {
+    //         console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+    //         var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
+    //         console.log("this is scp " + scp);
+    //         shell.exec(scp, function (code, output) {
+    //             console.log('scp reached. output: ' + output + ' code: ' + code);
+    //             res.json(settings, 200);
+    //         });
+    //     });
+    // });
+
+    // console.log('START CAMERA - ' + JSON.stringify(settings));
 }
 
 // Stop camera
 exports.stopCamera = function (req, res) {
+    camera.stop();
     res.json(settings, 200);
     console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }
