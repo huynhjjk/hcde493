@@ -105,25 +105,16 @@ exports.startCamera = function (req, res) {
     settings = req.body;
 
     var date = new Date();
-    // var minutes = date.getMinutes();
-    // var hour = date.getHours();
-    // var dirname = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear();
-    // var pathname = "public/images/" + dirname;
     var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
-    // var outputName = "time" + date.getHours() + "hr" + date.getMinutes() + "min";
-    // shell.mkdir('-p', pathname);
 
     var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
     var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
-    // shell.cd(pathname);
     shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
         console.log('raspistill reached. output: ' + output + ' code: ' + code);
-        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi", function (code, output) {
+        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpeg", function (code, output) {
             console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-            shell.rm('*jpeg');
-            // shell.cd('../../..');
-            var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName;
+            var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
             console.log("this is scp " + scp);
             shell.exec(scp, function (code, output) {
                 console.log('scp reached. output: ' + output + ' code: ' + code);
