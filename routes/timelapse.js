@@ -62,7 +62,7 @@ exports.startCamera = function (req, res) {
 
     var options = {
         mode: "timelapse",
-        output: outputName,
+        output: "image%04d",
         encoding: "jpeg",
         timelapse: (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
         timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
