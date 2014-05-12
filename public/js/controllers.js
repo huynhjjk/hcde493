@@ -31,19 +31,17 @@ function DashboardCtrl($scope, $http, $route) {
     });
 
   $scope.startCamera = function () {
-  	if ($scope.isIntervalMinutesComplete() && $scope.isIntervalSecondsComplete() 
-  		&& $scope.isDurationHoursComplete() && $scope.isDurationMinutesComplete() 
-  		&& $scope.isDurationSecondsComplete() && $scope.isFPSComplete()
-  		&& $scope.isDurationGreaterThanInterval()) {
-		    var $btn = $("#startButton");
-		    $btn.attr('disabled', true);
-		    console.log('Camera has started.')
-		    $http.put('/startCamera', $scope.settings).
-		      success(function(data, status, headers, config) {
-		          console.log('Camera has stopped and files have been converted.')
-		          $btn.attr('disabled', false);
-		          $route.reload();
-		    });
+  	if ($scope.checkValidations()) {
+  		alert('success');
+		    // var $btn = $("#startButton");
+		    // $btn.attr('disabled', true);
+		    // console.log('Camera has started.')
+		    // $http.put('/startCamera', $scope.settings).
+		    //   success(function(data, status, headers, config) {
+		    //       console.log('Camera has stopped and files have been converted.')
+		    //       $btn.attr('disabled', false);
+		    //       $route.reload();
+		    // });
   	}
   }
 
@@ -53,6 +51,14 @@ function DashboardCtrl($scope, $http, $route) {
         console.log('Camera has stopped.')
     });
   }
+
+  	// Validations
+  	$scope.checkValidations = function() {
+		return $scope.isIntervalMinutesComplete() && $scope.isIntervalSecondsComplete() 
+		&& $scope.isDurationHoursComplete() && $scope.isDurationMinutesComplete() 
+		&& $scope.isDurationSecondsComplete() && $scope.isFPSComplete()
+		&& $scope.isDurationGreaterThanInterval();
+  	}
 
 	$scope.isIntervalMinutesComplete = function() {
         $scope.displayIntervalMinutesWarning = ($scope.settings.intervalMinutes == null) || ($scope.settings.intervalMinutes < 0);
