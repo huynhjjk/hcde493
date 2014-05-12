@@ -97,19 +97,10 @@ function DashboardCtrl($scope, $http, $route) {
 
 }
 
-function FoldersCtrl($scope, $http, $route) {
-  $http.get('/getFolders').
-    success(function(data, status, headers, config) {
-      $scope.folders = data.folders;
-      console.log('folders has been retrieved.');
-    });
-}
-
-function GalleryCtrl($scope, $http, $route, $routeParams) {
-  $scope.folderName = $routeParams.folderName;
-  $http.get('/getFiles/' + $scope.folderName).
+function VideosCtrl($scope, $http, $route) {
+  $http.get('/getAllFiles').
     success(function(data, status, headers, config) {
       $scope.files = data.files;
-      console.log('Files has been retrieved.');
+      console.log('All files has been retrieved.');
     });
 }

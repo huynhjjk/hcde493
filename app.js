@@ -48,8 +48,6 @@ app.put('/startCamera', timelapse.startCamera);
 app.get('/stopCamera', timelapse.stopCamera);
 
 // Timelapse Files
-app.get('/getFolders', timelapse.getFolders);
-app.get('/getFiles/:folderName', timelapse.getFiles);
 app.get('/getAllFiles', timelapse.getAllFiles);
 
 
