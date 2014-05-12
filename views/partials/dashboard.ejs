@@ -31,7 +31,7 @@
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 
-				<p ng-if="videoLength > 0">Video Length: {{videoLength}}</p>
+				<p ng-if="videoLength">Video Length: {{videoLength}}</p>
 
                 <div ng-show="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
                 <div ng-show="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
@@ -104,10 +104,10 @@
 			<!-- The Most recent Timelapse Video-->
 			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="file in files | reverse" ng-if="$index == 0">
 				<div ng-if="files" class="text-center">
-					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
-					<a ng-href="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>
-					<!-- <embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/> -->
-					<h4><a ng-href="{{file.name | filePath:file.directory}}">{{file.name}}</a> from <a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
+					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
+					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>
+					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
+					<h4><a ng-href="{{file | filePath}}">{{file}}</a></h4> 
 				</div>
 			</div>
 			<!-- /The Most recent Timelapse Video -->
@@ -115,10 +115,10 @@
 			<!-- The next four recent Timelapse Video -->
 			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="$index > 0">
 				<div ng-if="files" class="text-center">
-					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
-					<a ng-href="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
-					<!-- <embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/> -->
- 					<h4><a ng-href="{{file.name | filePath:file.adirectory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
+					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
+					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
+					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
+ 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a></h4> 
 				</div>
 			</div>
 			<!-- /The next four recent Timelapse Video -->

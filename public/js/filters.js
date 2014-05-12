@@ -9,12 +9,14 @@ app.filter('folderPath', function() {
       return folderUrl + folderName
     }
 });
+
 app.filter('filePath', function() {
-    return function(image, folderName) {
+    return function(image) {
       var baseUrl = "http://students.washington.edu/jmzhwng/Images/"
-      return baseUrl + folderName + "/" + image;
+      return baseUrl + image;
     }
 });
+
 app.filter('reverse', function() {
   return function(items) {
     if (items && (items.length > 1)) {

@@ -56,32 +56,40 @@ exports.getFiles = function (req, res) {
 
 // Get all existing files from each existing folder on base url
 exports.getAllFiles = function (req, res) {
-    var files = [];
-
     request(baseUrl, function (error, response, body) {
-        var folders = folderLinks(cheerio.load(body));
-        count = 0;
-
-        folders.forEach(function (folder) {
-            request(baseUrl + folder, function (error, response, body) {
-                var fileLinksOutput = fileLinks(cheerio.load(body));
-                for (var i = 0; i < fileLinksOutput.length; i++) {
-                    var file = {
-                        name: fileLinksOutput[i],
-                        directory: folder
-                    };
-                    files.push(file);
-                }
-                if (++count == folders.length) {
-                    res.json({
-                        files: files
-                    }, 200);
-                    console.log('GET ALL FILES - ' + JSON.stringify(files));
-                }
-
-            });
-        });
+        var files = fileLinks(cheerio.load(body));
+        res.json({
+            files: files
+        }, 200);
+        console.log('GET ALL FILES - ' + JSON.stringify(files));
     });
+
+    // var files = [];
+
+    // request(baseUrl, function (error, response, body) {
+    //     var folders = folderLinks(cheerio.load(body));
+    //     count = 0;
+
+    //     folders.forEach(function (folder) {
+    //         request(baseUrl + folder, function (error, response, body) {
+    //             var fileLinksOutput = fileLinks(cheerio.load(body));
+    //             for (var i = 0; i < fileLinksOutput.length; i++) {
+    //                 var file = {
+    //                     name: fileLinksOutput[i],
+    //                     directory: folder
+    //                 };
+    //                 files.push(file);
+    //             }
+    //             if (++count == folders.length) {
+    //                 res.json({
+    //                     files: files
+    //                 }, 200);
+    //                 console.log('GET ALL FILES - ' + JSON.stringify(files));
+    //             }
+
+    //         });
+    //     });
+    // });
 }
 
 // Get camera settings
@@ -97,24 +105,25 @@ exports.startCamera = function (req, res) {
     settings = req.body;
 
     var date = new Date();
-    var minutes = date.getMinutes();
-    var hour = date.getHours();
-    var dirname = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear();
-    var pathname = "public/images/" + dirname;
-    var outputName = "time" + date.getHours() + "hr" + date.getMinutes() + "min";
-    shell.mkdir('-p', pathname);
+    // var minutes = date.getMinutes();
+    // var hour = date.getHours();
+    // var dirname = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear();
+    // var pathname = "public/images/" + dirname;
+    var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
+    // var outputName = "time" + date.getHours() + "hr" + date.getMinutes() + "min";
+    // shell.mkdir('-p', pathname);
 
     var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
     var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
-    shell.cd(pathname);
+    // shell.cd(pathname);
     shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
         console.log('raspistill reached. output: ' + output + ' code: ' + code);
         shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps='image/jpeg,framerate=10/1' ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi", function (code, output) {
             console.log('gst-launch reached. output: ' + output + ' code: ' + code);
             shell.rm('*jpeg');
-            shell.cd('../../..');
-            var scp = "scp -r " + pathname + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+            // shell.cd('../../..');
+            var scp = "scp " + outputName + " jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName;
             console.log("this is scp " + scp);
             shell.exec(scp, function (code, output) {
                 console.log('scp reached. output: ' + output + ' code: ' + code);

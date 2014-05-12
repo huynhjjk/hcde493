@@ -5,11 +5,14 @@ function DashboardCtrl($scope, $http, $route) {
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.settings = data.settings;
-		$scope.$watch('[settings.intervalMinutes, settings.intervalSeconds, settings.durationHours, settings.durationMinutes, settings.durationSeconds, settings.fps]', function () {
-			$scope.videoLength = ((($scope.settings.durationHours) + ($scope.settings.durationMinutes) + ($scope.settings.durationSeconds)) /
-								(($scope.settings.intervalMinutes) + ($scope.settings.intervalSeconds))) /
-								($scope.settings.fps);
-		}, true);
+  		$scope.$watch('[settings.intervalMinutes, settings.intervalSeconds, settings.durationHours, settings.durationMinutes, settings.durationSeconds, settings.fps]', function () {
+  			var msDuration = ($scope.settings.durationHours * 3600000) + ($scope.settings.durationMinutes * 60000) + ($scope.settings.durationSeconds * 1000)
+        var msInterval = (($scope.settings.intervalMinutes * 60000) + ($scope.settings.intervalSeconds * 1000))
+        var msFps = ($scope.settings.fps);
+        var ms = (msDuration / msInterval) / (msFps);
+        $scope.videoLength = $scope.msToTime(ms * 1000);
+  		}, true);
+
       console.log('Camera settings has been retrieved.')
     });
 
@@ -40,13 +43,26 @@ function DashboardCtrl($scope, $http, $route) {
     });
   }
 
-  	// Validations
-  	$scope.checkValidations = function() {
-		return $scope.isIntervalMinutesComplete() && $scope.isIntervalSecondsComplete() 
-		&& $scope.isDurationHoursComplete() && $scope.isDurationMinutesComplete() 
-		&& $scope.isDurationSecondsComplete() && $scope.isFPSComplete()
-		&& $scope.isDurationGreaterThanInterval();
-  	}
+  $scope.msToTime = function(duration) {
+    var milliseconds = parseInt((duration%1000)/100)
+        , seconds = parseInt((duration/1000)%60)
+        , minutes = parseInt((duration/(1000*60))%60)
+        , hours = parseInt((duration/(1000*60*60))%24);
+
+    hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+    return hours + ":" + minutes + ":" + seconds + "." + milliseconds;
+  }
+
+	// Validations
+	$scope.checkValidations = function() {
+  	return $scope.isIntervalMinutesComplete() && $scope.isIntervalSecondsComplete() 
+    	&& $scope.isDurationHoursComplete() && $scope.isDurationMinutesComplete() 
+    	&& $scope.isDurationSecondsComplete() && $scope.isFPSComplete()
+    	&& $scope.isDurationGreaterThanInterval();
+	}
 
 	$scope.isIntervalMinutesComplete = function() {
         $scope.displayIntervalMinutesWarning = ($scope.settings.intervalMinutes == null) || ($scope.settings.intervalMinutes < 0);
