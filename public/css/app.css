@@ -126,6 +126,18 @@ footer {
   margin-top: 5px;
 }
 
+.folder-name {
+  display: block;
+}
+
+.folder-button {
+  margin-top: 30px;
+}
+
+.folder-button i {
+  font-size: 6em;
+}
+
 button {
   border-radius: 0 !important;
 }
