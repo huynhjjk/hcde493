@@ -9,8 +9,10 @@
 				<h4>Take a photo every:</h4>
 				Mins: 
 				<input type="number" ng-model="settings.intervalMinutes" min="0" max="59">
+
 				Secs:
 				<input type="number" ng-model="settings.intervalSeconds" min="0" max="59">
+
 			</div>	
 
 			<div id="timer" class="settings">
@@ -29,9 +31,19 @@
 				
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
-				<p>
-				Video Length: {{videoLength}}
-				</p>
+
+				<p ng-if="videoLength > 0">Video Length: {{videoLength}}</p>
+
+				<div id="warnings">
+	                <div class="alert-text" ng-show="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
+	                <div class="alert-text" ng-show="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
+	                <div class="alert-text" ng-show="displayDurationHoursWarning">* Duration Hours must be between 0 and 12 hours</div>
+	                <div class="alert-text" ng-show="displayDurationMinutesWarning">* Duration Minutes must be between 0 and 59 minutes</div>
+	                <div class="alert-text" ng-show="displayDurationSecondsWarning">* Duration Seconds must be between 0 and 59 seconds</div>
+	                <div class="alert-text" ng-show="displayFPSWarning">* FPS must be between 10 and 60</div>
+	                <div class="alert-text" ng-show="displayDurationWarning">* Duration must be greater than interval</div>
+				</div>
+
 			</div>
 
 			<!--
@@ -96,7 +108,7 @@
 			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="file in files | reverse" ng-if="$index == 0">
 				<div ng-if="files" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
-					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/>
+<!--					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/> -->
 					<h4><a ng-href="{{file.name | filePath:file.directory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
 				</div>
 			</div>
@@ -106,8 +118,8 @@
 			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="$index > 0">
 				<div ng-if="files" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{file.name | filePath:file.directory}}" alt="{{file.name}}" ng-if="file.name.indexOf('jpeg') != -1"/>
-					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/>
-					<h4><a ng-href="{{file.name | filePath:file.adirectory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
+<!--					<embed ng-src="{{file.name | filePath:file.directory}}" ng-if="file.name.indexOf('jpeg') == -1"/> -->
+ 					<h4><a ng-href="{{file.name | filePath:file.adirectory}}">{{file.name}}</a><p>from</p><a ng-href="{{file.directory | folderPath}}">{{file.directory}}</a></h4> 
 				</div>
 			</div>
 			<!-- /The next four recent Timelapse Video -->

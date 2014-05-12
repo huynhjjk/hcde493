@@ -31,15 +31,20 @@ function DashboardCtrl($scope, $http, $route) {
     });
 
   $scope.startCamera = function () {
-    var $btn = $("#startButton");
-    $btn.attr('disabled', true);
-    console.log('Camera has started.')
-    $http.put('/startCamera', $scope.settings).
-      success(function(data, status, headers, config) {
-          console.log('Camera has stopped and files have been converted.')
-          $btn.attr('disabled', false);
-          $route.reload();
-    });
+  	if ($scope.isIntervalMinutesComplete() && $scope.isIntervalSecondsComplete() 
+  		&& $scope.isDurationHoursComplete() && $scope.isDurationMinutesComplete() 
+  		&& $scope.isDurationSecondsComplete() && $scope.isFPSComplete()
+  		&& $scope.isDurationGreaterThanInterval()) {
+		    var $btn = $("#startButton");
+		    $btn.attr('disabled', true);
+		    console.log('Camera has started.')
+		    $http.put('/startCamera', $scope.settings).
+		      success(function(data, status, headers, config) {
+		          console.log('Camera has stopped and files have been converted.')
+		          $btn.attr('disabled', false);
+		          $route.reload();
+		    });
+  	}
   }
 
   $scope.stopCamera = function () {
@@ -48,6 +53,37 @@ function DashboardCtrl($scope, $http, $route) {
         console.log('Camera has stopped.')
     });
   }
+
+	$scope.isIntervalMinutesComplete = function() {
+        $scope.displayIntervalMinutesWarning = ($scope.settings.intervalMinutes == null) || ($scope.settings.intervalMinutes < 0);
+        return ($scope.displayIntervalMinutesWarning) ? false:true;
+	}
+	$scope.isIntervalSecondsComplete = function() {
+        $scope.displayIntervalSecondsWarning = ($scope.settings.intervalSeconds == null) || ($scope.settings.intervalSeconds < 0);
+        return ($scope.displayIntervalSecondsWarning) ? false:true;
+	}
+	$scope.isDurationHoursComplete = function() {
+        $scope.displayDurationHoursWarning = ($scope.settings.durationHours == null) || ($scope.settings.durationHours < 0);
+        return ($scope.displayDurationHoursWarning) ? false:true;
+	}
+	$scope.isDurationMinutesComplete = function() {
+        $scope.displayDurationMinutesWarning = ($scope.settings.durationMinutes == null) || ($scope.settings.durationMinutes < 0);
+        return ($scope.displayDurationMinutesWarning) ? false:true;
+	}
+	$scope.isDurationSecondsComplete = function() {
+        $scope.displayDurationSecondsWarning = ($scope.settings.durationSeconds == null) || ($scope.settings.durationSeconds < 0);
+        return ($scope.displayDurationSecondsWarning) ? false:true;
+	}
+	$scope.isFPSComplete = function() {
+        $scope.displayFPSWarning = ($scope.settings.fps == null) || ($scope.settings.fps < 0);
+        return ($scope.displayFPSWarning) ? false:true;
+	}
+	$scope.isDurationGreaterThanInterval = function() {
+        $scope.displayDurationWarning = 
+			(($scope.settings.intervalMinutes * 60000) + ($scope.settings.intervalSeconds * 1000)) >=
+			(($scope.settings.durationHours * 3600000) + ($scope.settings.durationMinutes * 60000) + ($scope.settings.durationSeconds * 1000));
+        return ($scope.displayDurationWarning) ? false:true;
+	}
 
 }
 
