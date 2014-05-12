@@ -63,7 +63,7 @@ exports.startCamera = function (req, res) {
     var options = {
         mode: "timelapse",
         output: "image%04d",
-        encoding: "jpeg",
+        encoding: "jpg",
         timelapse: (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000),
         timeout: (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000),
         width: 1280,
@@ -81,7 +81,7 @@ exports.startCamera = function (req, res) {
     });
 
     camera.on("exit", function( timestamp ){
-        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpeg", function (code, output) {
+        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpg", function (code, output) {
             console.log('gst-launch reached. output: ' + output + ' code: ' + code);
             var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
             console.log("this is scp " + scp);
