@@ -90,5 +90,5 @@ exports.deleteFile = function (req, res) {
     shell.exec(deleteUrl, function (code, output) {
         console.log('delete file reached. output: ' + output + ' code: ' + code);
         res.json(req.params.fileName, 200);
-    }
+    });
 };
