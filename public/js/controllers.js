@@ -31,7 +31,7 @@ function DashboardCtrl($scope, $http, $route, $filter) {
           $route.reload();
 	    }).
       error(function(data, status, headers, config) {
-          console.log('Camera has already started. Please wait until ' + $filter('date')($scope.countdown, 'MMM d, y h:mm:ss a'))
+          alert('Camera has already started. Please wait until ' + $filter('date')($scope.countdown, 'MMM d, y h:mm:ss a'))
       });
   	}
   }
