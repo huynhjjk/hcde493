@@ -1,7 +1,7 @@
 'use strict';
 
 /* Controllers */
-function DashboardCtrl($scope, $http, $route) {
+function DashboardCtrl($scope, $http, $route, $filter) {
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.settings = data.settings;
@@ -12,6 +12,8 @@ function DashboardCtrl($scope, $http, $route) {
         var ms = (msDuration / msInterval) / (msFps);
         $scope.videoLength = $scope.msToTime(ms * 1000);
   		}, true);
+      $scope.countdown = new Date($scope.settings.lock);
+      $scope.displayCountDown = ($scope.countdown > new Date());
 
       console.log('Camera settings has been retrieved.')
     });
@@ -21,24 +23,23 @@ function DashboardCtrl($scope, $http, $route) {
       $scope.files = data.files;
       console.log('All files has been retrieved.');
     });
-
   $scope.startCamera = function () {
   	if ($scope.checkValidations()) {
-	    var $btn = $("#startButton");
-	    $btn.attr('disabled', true);
-	    console.log('Camera has started.')
 	    $http.put('/startCamera', $scope.settings).
 	      success(function(data, status, headers, config) {
-	          console.log('Camera has stopped and files have been converted.')
-	          $btn.attr('disabled', false);
-	          $route.reload();
-	    });
+          console.log('Camera has stopped and files have been converted.')
+          $route.reload();
+	    }).
+      error(function(data, status, headers, config) {
+          console.log('Camera has already started. Please wait until ' + $filter('date')($scope.countdown, 'MMM d, y h:mm:ss a'))
+      });
   	}
   }
 
   $scope.stopCamera = function () {
     $http.get('/stopCamera').
       success(function(data, status, headers, config) {
+        $route.reload();
         console.log('Camera has stopped.')
     });
   }
@@ -111,4 +112,11 @@ function VideosCtrl($scope, $http, $route) {
       $scope.files = data.files;
       console.log('All files has been retrieved.');
     });
+  $scope.deleteFile = function (fileName) {
+    $http.delete('/deleteFile/' + fileName).
+      success(function(data, status, headers, config) {
+        console.log('file has been deleted.');
+        $route.reload();
+      });
+  };
 }

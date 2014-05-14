@@ -15,7 +15,8 @@ var settings = {
     durationHours: 0,
     durationMinutes: 1,
     durationSeconds: 0,
-    fps: 10
+    fps: 10,
+    lock: 0
 }
 
 // Base url for file output
@@ -56,32 +57,42 @@ exports.getCamera = function (req, res) {
 
 // Start camera
 exports.startCamera = function (req, res) {
-    settings = req.body;
+	if (settings.lock > new Date()) {
+		console.log('Lock is set at ' + JSON.stringify(settings.lock));
+		res.json(settings, 404);
+	} else {
+	    settings = req.body;
 
-    var date = new Date();
-    var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
+	    var date = new Date();
+	    var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
 
-    var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
-    var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+	    var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
+	    var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
-    shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
-        console.log('raspistill reached. output: ' + output + ' code: ' + code);
-        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpeg", function (code, output) {
-            console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-            var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
-            console.log("this is scp " + scp);
-            shell.exec(scp, function (code, output) {
-                console.log('scp reached. output: ' + output + ' code: ' + code);
-                res.json(settings, 200);
-            });
-        });
-    });
+		settings.lock = new Date();
+		settings.lock = new Date(settings.lock.getTime() + (timeout));
 
-    console.log('START CAMERA - ' + JSON.stringify(settings));
+        res.json(settings, 200);
+	    console.log('START CAMERA - ' + JSON.stringify(settings));
+
+	    shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
+	        console.log('raspistill reached. output: ' + output + ' code: ' + code);
+	        shell.exec("gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + outputName + ".avi && rm *jpeg", function (code, output) {
+	            console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+	            var scp = "scp " + outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + outputName + ".avi";
+	            console.log("this is scp " + scp);
+	            shell.exec(scp, function (code, output) {
+	                console.log('scp reached. output: ' + output + ' code: ' + code);
+	            });
+	        });
+	    });
+
+	}
 }
 
 // Stop camera
 exports.stopCamera = function (req, res) {
+	settings.lock = undefined;
     res.json(settings, 200);
     console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }

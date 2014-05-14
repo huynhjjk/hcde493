@@ -32,6 +32,8 @@
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 
 				<p ng-if="videoLength">Video Length: {{videoLength}}</p>
+				
+				<timer ng-if="displayCountDown" end-time="countdown">Wait Time: {{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
 
                 <div ng-show="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
                 <div ng-show="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
@@ -107,8 +109,7 @@
 					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
 					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
-					<h4><a ng-href="{{file | filePath}}">{{file}}</a></h4> 
-					<button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button>
+					<h4><a ng-href="{{file | filePath}}">{{file}}</a> <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button></h4> 
 				</div>
 			</div>
 			<!-- /The Most recent Timelapse Video -->
@@ -119,8 +120,7 @@
 					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
 					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
- 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a></h4> 
-					<button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button>
+ 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button></h4>
 				</div>
 			</div>
 			<!-- /The next four recent Timelapse Video -->
