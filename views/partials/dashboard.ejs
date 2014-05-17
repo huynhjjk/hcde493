@@ -8,15 +8,12 @@
 				<h4>Take a photo every:</h4>
 				Mins: 
 				<input type="number" ng-model="settings.intervalMinutes" min="0" max="59">
-
 				Secs:
 				<input type="number" ng-model="settings.intervalSeconds" min="0" max="59">
-
 			</div>	
 
 			<div id="timer" class="settings">
-				<h4>Total Photo Session:</h4>
-				
+				<h4>Total Photo Session:</h4>				
 				Hours:   
 				<input type="number" ng-model="settings.durationHours" min="0" max="12">
 				Mins:
@@ -25,17 +22,21 @@
 				<input type="number" ng-model="settings.durationSeconds" min="0" max="59">
 			</div>
 
-			<div id="output" class="settings">
+			<div id="fps" class="settings">
 				<h4>Play the timelapse video at this rate:</h4>
-				
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
-
 			</div>
 
-			<div>
+			<div id="output" class="settings">
+				<h4>Output:</h4>
+				File Name: 
+				<input type="input" ng-model="settings.outputName">
+			</div>
+
+			<div id="length">
 				<h4>Total timelapse video length:</h4>
-				<p ng-if="videoLength">Video Length: {{videoLength}}</p>
+				<p>Video Length: {{videoLength}}</p>
 			</div>
 
 			<div id="check">
