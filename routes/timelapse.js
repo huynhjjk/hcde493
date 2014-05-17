@@ -63,6 +63,7 @@ exports.startCamera = function (req, res) {
 	} else {
 	    settings = req.body;
 
+
 	    var date = new Date();
 	    var outputName = (date.getMonth() + 1) + "-" + date.getDate() + "-" + date.getFullYear() + "-" + date.getHours() + "hr" + date.getMinutes() + "min";
 
@@ -83,6 +84,7 @@ exports.startCamera = function (req, res) {
 	            console.log("this is scp " + scp);
 	            shell.exec(scp, function (code, output) {
 	                console.log('scp reached. output: ' + output + ' code: ' + code);
+                    res.render('index');
 	            });
 	        });
 	    });
