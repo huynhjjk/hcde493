@@ -31,9 +31,16 @@
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 
+			</div>
+
+			<div>
+				<h4>Total timelapse video length:</h4>
 				<p ng-if="videoLength">Video Length: {{videoLength}}</p>
-				
-				<timer ng-if="displayCountDown" end-time="countdown">Wait Time: {{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
+			</div>
+
+			<div id="check">
+
+				<timer id="timer" ng-if="displayCountDown" end-time="countdown">Wait Time: {{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
 
                 <div ng-show="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
                 <div ng-show="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
@@ -42,7 +49,6 @@
                 <div ng-show="displayDurationSecondsWarning">* Duration Seconds must be between 0 and 59 seconds</div>
                 <div ng-show="displayFPSWarning">* FPS must be between 10 and 60</div>
                 <div ng-show="displayDurationWarning">* Duration must be greater than interval</div>
-
 			</div>
 
 			<!--
@@ -102,12 +108,12 @@
 	<!-- Recent Videos -->
 	<div id="recent-vid"class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
 		<h2>Latest Videos</h2>
-		<div class="row">
+		<div class="row vids">
 			<!-- The Most recent Timelapse Video-->
 			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="($index < 4)">
 				<div ng-if="files" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
-					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
+					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><i class="fa fa-film"></i></a>					
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
  					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> 
  					<!-- <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button> -->

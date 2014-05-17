@@ -141,3 +141,19 @@ footer {
 button {
   border-radius: 0 !important;
 }
+
+.vids i {
+  color: black;
+  font-size: 60px;
+}
+
+#check {
+  color:red;
+}
+
+#check > #timer {
+  color: green;
+}
+/*.vids a {
+  color: black;
+}*/
