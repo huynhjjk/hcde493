@@ -9,8 +9,8 @@ function DashboardCtrl($scope, $http, $route, $filter) {
   			var msDuration = ($scope.settings.durationHours * 3600000) + ($scope.settings.durationMinutes * 60000) + ($scope.settings.durationSeconds * 1000)
         var msInterval = (($scope.settings.intervalMinutes * 60000) + ($scope.settings.intervalSeconds * 1000))
         var msFps = ($scope.settings.fps);
-        var ms = (msDuration / msInterval) / (msFps);
-        $scope.videoLength = $scope.msToTime(ms * 1000);
+        $scope.totalDuration = (msDuration / msInterval) / (msFps);
+        $scope.videoLength = $scope.msToTime($scope.totalDuration * 1000);
         $scope.settings.outputName = $filter('date')(new Date(), 'M-d-yy-h-mm-a');
   		}, true);
       $scope.countdown = new Date($scope.settings.lock);
@@ -58,11 +58,11 @@ function DashboardCtrl($scope, $http, $route, $filter) {
     , minutes = parseInt((duration/(1000*60))%60)
     , hours = parseInt((duration/(1000*60*60))%24);
 
-    hours = (hours < 10) ? hours : hours;
-    minutes = (minutes < 10) ? minutes : minutes;
-    seconds = (seconds < 10) ? seconds : seconds;
+    $scope.hours = (hours < 10) ? hours : hours;
+    $scope.minutes = (minutes < 10) ? minutes : minutes;
+    $scope.seconds = (seconds < 10) ? seconds : seconds;
 
-    return hours + " hours, " + minutes + " minutes, " + seconds + " seconds";
+    return $scope.hours + " hours, " + $scope.minutes + " minutes, " + $scope.seconds + " seconds";
   }
 
 	// Validations
@@ -70,7 +70,8 @@ function DashboardCtrl($scope, $http, $route, $filter) {
   	return $scope.isIntervalMinutesComplete() && $scope.isIntervalSecondsComplete() 
     	&& $scope.isDurationHoursComplete() && $scope.isDurationMinutesComplete() 
     	&& $scope.isDurationSecondsComplete() && $scope.isFPSComplete()
-    	&& $scope.isDurationGreaterThanInterval();
+    	&& $scope.isDurationGreaterThanInterval() && $scope.isTotalDurationNotInfinite()
+      && $scope.isVideoLengthGreaterThanOne();
 	}
 
 	$scope.isIntervalMinutesComplete = function() {
@@ -103,6 +104,15 @@ function DashboardCtrl($scope, $http, $route, $filter) {
 			(($scope.settings.durationHours * 3600000) + ($scope.settings.durationMinutes * 60000) + ($scope.settings.durationSeconds * 1000));
         return ($scope.displayDurationWarning) ? false:true;
 	}
+  $scope.isVideoLengthGreaterThanOne = function() {
+        $scope.displayVideoLengthWarning = ($scope.seconds < 1);
+        return ($scope.displayVideoLengthWarning) ? false:true;
+  }
+ $scope.isTotalDurationNotInfinite = function() {
+        $scope.displayTotalDurationWarning = ($scope.totalDuration === ($scope.totalDuration/0));
+        return ($scope.displayTotalDurationWarning) ? false:true;
+  }
+
 
 }
 
