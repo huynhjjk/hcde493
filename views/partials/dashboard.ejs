@@ -104,26 +104,17 @@
 		<h2>Latest Videos</h2>
 		<div class="row">
 			<!-- The Most recent Timelapse Video-->
-			<div class="col-xs-12 col-sm-12 col-md-12 img-grid" ng-repeat="file in files | reverse" ng-if="$index == 0">
+			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="($index < 4)">
 				<div ng-if="files" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
-					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>
+					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
-					<h4><a ng-href="{{file | filePath}}">{{file}}</a> <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button></h4> 
+ 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> 
+ 					<!-- <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button> -->
+ 					</h4>
 				</div>
 			</div>
-			<!-- /The Most recent Timelapse Video -->
-
-			<!-- The next four recent Timelapse Video -->
-			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="$index > 0">
-				<div ng-if="files" class="text-center">
-					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
-					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"><img ng-src="http://geeknation.com/geek/wp-content/themes/Geek/img/no-video-img.png"></a>					
-					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
- 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button></h4>
-				</div>
-			</div>
-			<!-- /The next four recent Timelapse Video -->
+			<!-- /The Most recent Timelapse Video-->
 		</div>
 		<a href="#/videos"><button id="all-video" type="button" class="btn btn-default col-xs-12 col-sm-12 col-md-12">All Videos<i class="fa fa-chevron-right pull-right"></i></button></a>
 	</div>

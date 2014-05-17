@@ -70,7 +70,7 @@ exports.startCamera = function (req, res) {
 	    var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
 
 		settings.lock = new Date();
-		settings.lock = new Date(settings.lock.getTime() + (timeout));
+		settings.lock = new Date(settings.lock.getTime() + (timeout) + (10 * 1000));
 
         res.json(settings, 200);
 	    console.log('START CAMERA - ' + JSON.stringify(settings));
