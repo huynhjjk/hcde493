@@ -5,7 +5,7 @@
 		<h2>Configuration</h2>
 		<form  action="">
 			<div id="input" class="settings">
-				<h4>Take a photo every:</h4>
+				<h4>Take a photo every: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
 				Mins: 
 				<input type="number" ng-model="settings.intervalMinutes" min="0" max="59">
 				Secs:
@@ -13,7 +13,7 @@
 			</div>	
 
 			<div id="timer" class="settings">
-				<h4>Total Photo Session:</h4>				
+				<h4>Total Photo Session: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>				
 				Hours:   
 				<input type="number" ng-model="settings.durationHours" min="0" max="12">
 				Mins:
@@ -23,39 +23,35 @@
 			</div>
 
 			<div id="fps" class="settings">
-				<h4>Play the timelapse video at this rate:</h4>
+				<h4>Play the timelapse video at this rate: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 			</div>
 
 			<div id="output" class="settings">
-				<h4>Output:</h4>
+				<h4>Output: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
 				File Name: 
 				<input type="input" ng-model="settings.outputName">
 			</div>
 
 			<div id="length">
-				<h4>Total timelapse video length:</h4>
+				<h4>Total timelapse video length: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
 				<p>Video Length: {{videoLength}}</p>
 			</div>
 
 			<div id="check">
 
-				<timer id="timer" ng-if="displayCountDown" end-time="countdown">Wait Time: {{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds.</timer>
+				<timer id="timer" ng-if="displayCountDown" end-time="countdown">Wait Time: {{days}} days, {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds</timer>
 
-                <div ng-show="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
-                <div ng-show="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
-                <div ng-show="displayDurationHoursWarning">* Duration Hours must be between 0 and 12 hours</div>
-                <div ng-show="displayDurationMinutesWarning">* Duration Minutes must be between 0 and 59 minutes</div>
-                <div ng-show="displayDurationSecondsWarning">* Duration Seconds must be between 0 and 59 seconds</div>
-                <div ng-show="displayFPSWarning">* FPS must be between 10 and 60</div>
-                <div ng-show="displayDurationWarning">* Duration must be greater than interval</div>
+                <div ng-if="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
+                <div ng-if="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
+                <div ng-if="displayDurationHoursWarning">* Duration Hours must be between 0 and 12 hours</div>
+                <div ng-if="displayDurationMinutesWarning">* Duration Minutes must be between 0 and 59 minutes</div>
+                <div ng-if="displayDurationSecondsWarning">* Duration Seconds must be between 0 and 59 seconds</div>
+                <div ng-if="displayFPSWarning">* FPS must be between 10 and 60</div>
+                <div ng-if="displayDurationWarning">* Duration must be greater than interval</div>
 			</div>
 
-			<!--
-			Total Frames = (total time/ interval)  
-			Video Length = (Total Frames / FPS )
-			-->
 			<div id="start-end-row" class="row">
 				<div class="col-xs-12">
 					<button type="button" id="startButton" class="btn btn-success btn-primary col-xs-5  col-sm-6" ng-click='startCamera()'>Start</button>
