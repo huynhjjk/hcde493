@@ -61,12 +61,15 @@ exports.startCamera = function (req, res) {
 		console.log('Lock is set at ' + JSON.stringify(settings.lock));
 		res.json(settings, 404);
 	} else {
+
 	    settings = req.body;
+        var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
+        var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
         settings.lock = new Date();
         settings.lock = new Date(settings.lock.getTime() + (timeout) + (1 * 60 * 1000));
 
-        var timelapse = (settings.intervalMinutes * 60000) + (settings.intervalSeconds * 1000);
-        var timeout = (settings.durationHours * 3600000) + (settings.durationMinutes * 60000) + (settings.durationSeconds * 1000);
+        res.json(settings, 200);
+
 
         var options = {
             mode: "timelapse",
@@ -90,7 +93,7 @@ exports.startCamera = function (req, res) {
 
         camera.on("exit", function( timestamp ){
             // Convert .jpg to .jpeg
-            shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/'", function (code, output) {
+            shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/' | sh", function (code, output) {
                 console.log('jpeg conversion complete. output: ' + output + ' code: ' + code);
                 // Convert all .jpeg images to .avi video
                 var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
@@ -112,7 +115,6 @@ exports.startCamera = function (req, res) {
         });
 
         camera.start();
-        res.json(settings, 200);
 	    console.log('START CAMERA - ' + JSON.stringify(settings));
 
 	    // shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
@@ -135,8 +137,8 @@ exports.startCamera = function (req, res) {
 // Stop camera
 exports.stopCamera = function (req, res) {
 	settings.lock = undefined;
-    camera.stop();
     res.json(settings, 200);
+    camera.stop();
     console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }
 
