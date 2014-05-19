@@ -73,8 +73,8 @@ exports.startCamera = function (req, res) {
 
         var options = {
             mode: "timelapse",
-            output: "image%04d.jpeg",
-            encoding: "jpeg",
+            output: "image%04d.jpg",
+            encoding: "jpg",
             timelapse: timelapse,
             timeout: timeout,
             width: 1280,
