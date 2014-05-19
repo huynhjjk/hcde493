@@ -70,66 +70,65 @@ exports.startCamera = function (req, res) {
 
         res.json(settings, 200);
 
+        // var options = {
+        //     mode: "timelapse",
+        //     output: "image%04d.jpg",
+        //     encoding: "jpg",
+        //     timelapse: timelapse,
+        //     timeout: timeout,
+        //     width: 1280,
+        //     height: 720
+        // }
 
-        var options = {
-            mode: "timelapse",
-            output: "image%04d.jpg",
-            encoding: "jpg",
-            timelapse: timelapse,
-            timeout: timeout,
-            width: 1280,
-            height: 720
-        }
+        // camera = new RaspiCam(options);
 
-        camera = new RaspiCam(options);
+        // camera.on("start", function( err, timestamp ){
+        //   console.log("timelapse started at " + timestamp);
+        // });
 
-        camera.on("start", function( err, timestamp ){
-          console.log("timelapse started at " + timestamp);
-        });
+        // camera.on("read", function( err, timestamp, filename ){
+        //   console.log("timelapse image captured with filename: " + filename);
+        // });
 
-        camera.on("read", function( err, timestamp, filename ){
-          console.log("timelapse image captured with filename: " + filename);
-        });
+        // camera.on("exit", function( timestamp ){
+        //     // Convert .jpg to .jpeg
+        //     shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/' | sh", function (code, output) {
+        //         console.log('jpeg conversion complete. output: ' + output + ' code: ' + code);
+        //         // Convert all .jpeg images to .avi video
+        //         var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
+        //         shell.exec(converter, function (code, output) {
+        //             console.log('gst-launch complete. output: ' + output + ' code: ' + code);
+        //             // SCP to web server
+        //             var scp = "scp " + settings.outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + settings.outputName + ".avi";
+        //             console.log("this is scp " + scp);
+        //             shell.exec(scp, function (code, output) {
+        //                 console.log('scp complete. output: ' + output + ' code: ' + code);
+        //                 res.render('index');
+        //             });
+        //         });
+        //     });
+        // });
 
-        camera.on("exit", function( timestamp ){
-            // Convert .jpg to .jpeg
-            shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/' | sh", function (code, output) {
-                console.log('jpeg conversion complete. output: ' + output + ' code: ' + code);
-                // Convert all .jpeg images to .avi video
-                var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
-                shell.exec(converter, function (code, output) {
-                    console.log('gst-launch complete. output: ' + output + ' code: ' + code);
-                    // SCP to web server
-                    var scp = "scp " + settings.outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + settings.outputName + ".avi";
-                    console.log("this is scp " + scp);
-                    shell.exec(scp, function (code, output) {
-                        console.log('scp complete. output: ' + output + ' code: ' + code);
-                        res.render('index');
-                    });
-                });
-            });
-        });
+        // camera.on("stop", function( err, timestamp ){
+        //   console.log("timelapse child process has been stopped at " + timestamp);
+        // });
 
-        camera.on("stop", function( err, timestamp ){
-          console.log("timelapse child process has been stopped at " + timestamp);
-        });
-
-        camera.start();
+        // camera.start();
 	    console.log('START CAMERA - ' + JSON.stringify(settings));
 
-	    // shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
-	    //     console.log('raspistill reached. output: ' + output + ' code: ' + code);
-     //        var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
-	    //     shell.exec(converter, function (code, output) {
-	    //         console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-	    //         var scp = "scp " + settings.outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + settings.outputName + ".avi";
-	    //         console.log("this is scp " + scp);
-	    //         shell.exec(scp, function (code, output) {
-	    //             console.log('scp reached. output: ' + output + ' code: ' + code);
-     //                res.render('index');
-	    //         });
-	    //     });
-	    // });
+	    shell.exec("raspistill -o image%04d.jpeg -tl" + " " + timelapse + " " + "-t" + " " + timeout + " -w 1280 -h 720", function (code, output) {
+	        console.log('raspistill reached. output: ' + output + ' code: ' + code);
+            var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
+	        shell.exec(converter, function (code, output) {
+	            console.log('gst-launch reached. output: ' + output + ' code: ' + code);
+	            var scp = "scp " + settings.outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + settings.outputName + ".avi";
+	            console.log("this is scp " + scp);
+	            shell.exec(scp, function (code, output) {
+	                console.log('scp reached. output: ' + output + ' code: ' + code);
+                    res.render('index');
+	            });
+	        });
+	    });
 
 	}
 }
