@@ -154,6 +154,26 @@ button {
 #check > #timer {
   color: green;
 }
+
+.settings i {
+  color: gray;
+  font-size: 15px;
+}
+
+.popover-content {
+    font-size: 12px;
+}
+
+#check {
+  margin-bottom: 20px;
+}
+
+#length {
+  padding: 10px;
+  background-color: #b4b4b4;
+  text-align: center;
+}
+
 /*.vids a {
   color: black;
 }*/

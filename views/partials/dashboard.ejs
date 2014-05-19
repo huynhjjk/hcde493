@@ -2,10 +2,11 @@
 
 	<!-- Configuration -->
 	<div id="configuration" class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
 		<h2>Configuration</h2>
 		<form  action="">
 			<div id="input" class="settings">
-				<h4>Take a photo every: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
+				<h4>Take a photo every: <i class="fa fa-question-circle" popover="Tooltip" popover-trigger="mouseenter"></i> </h4>
 				Mins: 
 				<input type="number" ng-model="settings.intervalMinutes" min="0" max="59">
 				Secs:
@@ -13,7 +14,7 @@
 			</div>	
 
 			<div id="timer" class="settings">
-				<h4>Total Photo Session: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>				
+				<h4>Total Photo Session: <i class="fa fa-question-circle" popover="Tooltip" popover-trigger="mouseenter"></i></h4>				
 				Hours:   
 				<input type="number" ng-model="settings.durationHours" min="0" max="12">
 				Mins:
@@ -23,21 +24,21 @@
 			</div>
 
 			<div id="fps" class="settings">
-				<h4>Play the timelapse video at this rate: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
+				<h4>Play the timelapse video at this rate: <i class="fa fa-question-circle" popover="Tooltip" popover-trigger="mouseenter"></i></h4>
 				Frames Per Second (FPS):   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 			</div>
 
+			<div id="length" class="settings">
+				<!-- <h4>Total timelapse video length: </h4> -->
+				<span><strong>Output timelapse video Length:</strong> {{videoLength}} <i class="fa fa-question-circle" popover="Tooltip" popover-trigger="mouseenter"></i></span>
+			</div>
+<!--
 			<div id="output" class="settings">
-				<h4>Output: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
+				<h4>Output: <i class="fa fa-question-circle" popover="Tooltip" popover-trigger="mouseenter"></i></h4>
 				File Name: {{settings.outputName}}
-<!--				<input type="input" ng-model="settings.outputName"> -->
 			</div>
-
-			<div id="length">
-				<h4>Total timelapse video length: <span class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover="Tooltip" class="glyphicon glyphicon-question-sign" class="glyphicon glyphicon-question-sign" popover-trigger="mouseenter"></span></h4>
-				<p>Video Length: {{videoLength}}</p>
-			</div>
+-->
 
 			<div id="check">
 
