@@ -93,8 +93,8 @@ exports.startCamera = function (req, res) {
 
         camera.on("exit", function( timestamp ){
             // Convert .jpg to .jpeg
-            // shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/' | sh", function (code, output) {
-                // console.log('jpeg conversion complete. output: ' + output + ' code: ' + code);
+            shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/' | sh", function (code, output) {
+                console.log('jpeg conversion complete. output: ' + output + ' code: ' + code);
                 // Convert all .jpeg images to .avi video
                 var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
                 shell.exec(converter, function (code, output) {
@@ -107,7 +107,7 @@ exports.startCamera = function (req, res) {
                         res.render('index');
                     });
                 });
-            // });
+            });
         });
 
         camera.on("stop", function( err, timestamp ){
