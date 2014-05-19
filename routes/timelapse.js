@@ -137,7 +137,7 @@ exports.startCamera = function (req, res) {
 exports.stopCamera = function (req, res) {
 	settings.lock = undefined;
     res.json(settings, 200);
-    camera.stop();
+    // camera.stop();
     console.log('STOP CAMERA - ' + JSON.stringify(settings));
 }
 
