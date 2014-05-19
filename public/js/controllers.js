@@ -9,8 +9,8 @@ function DashboardCtrl($scope, $http, $route, $filter) {
   			var msDuration = ($scope.settings.durationHours * 3600000) + ($scope.settings.durationMinutes * 60000) + ($scope.settings.durationSeconds * 1000)
         var msInterval = (($scope.settings.intervalMinutes * 60000) + ($scope.settings.intervalSeconds * 1000))
         var msFps = ($scope.settings.fps);
-        $scope.totalDuration = (msDuration / msInterval) / (msFps);
-        $scope.videoLength = $scope.msToTime($scope.totalDuration * 1000);
+        $scope.totalDuration = ((msDuration / msInterval) / (msFps)) * 1000;
+        $scope.videoLength = $scope.msToTime($scope.totalDuration);
         $scope.settings.outputName = $filter('date')(new Date(), 'M-d-yy-h-mm-a');
   		}, true);
       $scope.countdown = new Date($scope.settings.lock);
@@ -105,7 +105,7 @@ function DashboardCtrl($scope, $http, $route, $filter) {
         return ($scope.displayDurationWarning) ? false:true;
 	}
   $scope.isVideoLengthGreaterThanOne = function() {
-        $scope.displayVideoLengthWarning = ($scope.seconds < 1);
+        $scope.displayVideoLengthWarning = ($scope.totalDuration < 1000);
         return ($scope.displayVideoLengthWarning) ? false:true;
   }
  $scope.isTotalDurationNotInfinite = function() {
