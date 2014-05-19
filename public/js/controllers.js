@@ -11,7 +11,7 @@ function DashboardCtrl($scope, $http, $route, $filter) {
         var msFps = ($scope.settings.fps);
         $scope.totalDuration = ((msDuration / msInterval) / (msFps)) * 1000;
         $scope.videoLength = $scope.msToTime($scope.totalDuration);
-        $scope.settings.outputName = $filter('date')(new Date(), 'M-d-yy-h-mm-a');
+        $scope.settings.outputName = $filter('date')(new Date(), 'M-d-yy(h_mm_a)');
   		}, true);
       $scope.countdown = new Date($scope.settings.lock);
       $scope.displayCountDown = ($scope.countdown > new Date());
