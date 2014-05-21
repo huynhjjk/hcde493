@@ -29,7 +29,7 @@ function DashboardCtrl($scope, $http, $route, $filter) {
 	    $http.put('/startCamera', $scope.settings).
 	      success(function(data, status, headers, config) {
           console.log('Camera has stopped and files have been converted.')
-          // $route.reload();
+          $route.reload();
 	    }).
       error(function(data, status, headers, config) {
           alert('Camera has already started. Please wait until ' + $filter('date')($scope.countdown, 'MMM d, y h:mm:ss a'))

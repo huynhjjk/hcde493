@@ -162,6 +162,7 @@ button {
 
 .popover-content {
     font-size: 12px;
+    font-weight: normal;
 }
 
 #check {
@@ -172,6 +173,15 @@ button {
   padding: 10px;
   background-color: #b4b4b4;
   text-align: center;
+}
+
+
+#new-vid {
+  font-size: 10px;
+  color: red;
+  position: absolute;
+  left: 33px;
+  top: 73px;
 }
 
 /*.vids a {
