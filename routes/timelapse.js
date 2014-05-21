@@ -8,6 +8,7 @@ var shell = require('shelljs');
 var RaspiCam = require("raspicam");
 
 
+
 // Web url for getting the videos
 var webUrl = "http://students.washington.edu/jmzhwng/Images/";
 
