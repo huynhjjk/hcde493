@@ -21,6 +21,7 @@ var scpUrl = sshUrl + ":/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
 var videosPath = "student_html/Images/";
 
 
+
 // Default settings
 var settings = {
     intervalMinutes: 0,
