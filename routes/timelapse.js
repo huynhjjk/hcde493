@@ -7,6 +7,20 @@ var shell = require('shelljs');
 // Enable Raspicam
 var RaspiCam = require("raspicam");
 
+
+// Web url for getting the videos
+var webUrl = "http://students.washington.edu/jmzhwng/Images/";
+
+// ssh url
+var sshUrl = "jmzhwng@vergil.u.washington.edu";
+
+// Scp url for sending the videos
+var scpUrl = sshUrl + ":/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+
+// video path for deleting videos
+var videosPath = "student_html/Images/";
+
+
 // Default settings
 var settings = {
     intervalMinutes: 0,
@@ -18,9 +32,6 @@ var settings = {
     fps: 10,
     lock: 0
 }
-
-// Base url for file output
-var baseUrl = 'http://students.washington.edu/jmzhwng/Images/';
 
 // Get only attributes containing '-'
 function folderLinks($) {
@@ -36,9 +47,9 @@ function fileLinks($) {
     });
 }
 
-// Get all existing files from each existing folder on base url
+// Get all existing files from each existing folder on web url
 exports.getAllFiles = function (req, res) {
-    request(baseUrl, function (error, response, body) {
+    request(webUrl, function (error, response, body) {
         var files = fileLinks(cheerio.load(body));
         res.json({
             files: files
@@ -121,7 +132,7 @@ exports.startCamera = function (req, res) {
             var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
 	        shell.exec(converter, function (code, output) {
 	            console.log('gst-launch reached. output: ' + output + ' code: ' + code);
-	            var scp = "scp " + settings.outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + settings.outputName + ".avi";
+	            var scp = "scp " + settings.outputName + ".avi " + scpUrl + " && rm " + settings.outputName + ".avi";
 	            console.log("this is scp " + scp);
 	            shell.exec(scp, function (code, output) {
 	                console.log('scp reached. output: ' + output + ' code: ' + code);
@@ -144,7 +155,7 @@ exports.stopCamera = function (req, res) {
 
 // Delete file
 exports.deleteFile = function (req, res) {
-    var deleteUrl = 'ssh jmzhwng@vergil.u.washington.edu rm student_html/Images/' + req.params.fileName;
+    var deleteUrl = 'ssh ' + sshUrl + ' rm ' + videosPath + req.params.fileName;
     shell.exec(deleteUrl, function (code, output) {
         console.log('delete file reached. output: ' + output + ' code: ' + code);
         res.json(req.params.fileName, 200);

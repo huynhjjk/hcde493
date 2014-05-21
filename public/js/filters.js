@@ -5,8 +5,8 @@
 var app = angular.module('myApp.filters', [])
 app.filter('filePath', function() {
     return function(image) {
-      var baseUrl = "http://students.washington.edu/jmzhwng/Images/"
-      return baseUrl + image;
+      var webUrl = "http://students.washington.edu/jmzhwng/Images/"
+      return webUrl + image;
     }
 });
 app.filter('reverse', function() {
