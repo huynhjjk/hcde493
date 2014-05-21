@@ -108,12 +108,13 @@ footer {
   margin-right: 10px;
 }
 
-#start, #stop {
-  margin-top: 50px;
-}
-
 #start-end-row {
   margin-bottom: 30px;
+}
+
+#startButton, #all-video {
+  height: 44px;
+  font-size: 14px;
 }
 
 #all-video {
