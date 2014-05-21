@@ -26,7 +26,7 @@
 			<div id="fps" class="settings">
 				<h4>Play the timelapse video at this rate: <i class="fa fa-question-circle" popover="Tooltip" popover-trigger="mouseenter"></i></h4>
 				Frames Per Second (FPS):   
-				<input type="number" ng-model="settings.fps" min="1" max="60">
+				<input type="number" ng-model="settings.fps" min="10" max="60">
 			</div>
 
 			<div id="length" class="settings">
@@ -49,7 +49,7 @@
                 <div ng-if="displayDurationHoursWarning">* Duration Hours must be between 0 and 12 hours</div>
                 <div ng-if="displayDurationMinutesWarning">* Duration Minutes must be between 0 and 59 minutes</div>
                 <div ng-if="displayDurationSecondsWarning">* Duration Seconds must be between 0 and 59 seconds</div>
-                <div ng-if="displayFPSWarning">* FPS must be between 1 and 60</div>
+                <div ng-if="displayFPSWarning">* FPS must be between 10 and 60</div>
                 <div ng-if="displayDurationWarning">* Duration must be greater than interval</div>
                 <div ng-if="displayTotalDurationWarning">* Duration is invalid</div>
                 <div ng-if="displayVideoLengthWarning">* Video Length must be greater than 1 second</div>
