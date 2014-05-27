@@ -118,7 +118,6 @@ footer {
 }
 
 #all-video {
-  background-color: #b4b4b4;
   margin-bottom: 20px;
   margin-top: 20px;
 }
@@ -138,10 +137,10 @@ footer {
 .folder-button i {
   font-size: 6em;
 }
-
+/*
 button {
   border-radius: 0 !important;
-}
+}*/
 
 .vids i {
   color: black;
@@ -182,8 +181,21 @@ button {
   color: red;
   position: absolute;
   left: 33px;
-  top: 73px;
 }
+
+@media only screen and (max-width: 461px) {
+  #new-vid {
+    top: 73px;
+  }
+}
+
+@media only screen and (min-width: 460px) {
+  #new-vid {
+    top: 55px;
+  }
+}
+
+
 
 /*.vids a {
   color: black;
