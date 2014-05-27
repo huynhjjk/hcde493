@@ -24,18 +24,26 @@ function DashboardCtrl($scope, $http, $route, $filter) {
       $scope.files = data.files;
       console.log('All files has been retrieved.');
     });
-  $scope.startCamera = function () {
-  	if ($scope.checkValidations()) {
-	    $http.put('/startCamera', $scope.settings).
-	      success(function(data, status, headers, config) {
-          console.log('Camera has stopped and files have been converted.')
-          $route.reload();
-	    }).
-      error(function(data, status, headers, config) {
-          alert('Camera has already started. Please wait until ' + $filter('date')($scope.countdown, 'MMM d, y h:mm:ss a'))
-      });
-  	}
-  }
+
+ $scope.startCamera = function () {
+   if ($scope.checkValidations()) {
+        var retVal = confirm("Are you sure you want to begin? This action is irreversable and you will have to wait until the countdown is complete.");
+        if (retVal == true) {
+            $http.put('/startCamera', $scope.settings).
+              success(function(data, status, headers, config) {
+                console.log('Camera has stopped and files have been converted.')
+                $route.reload();
+            }).
+            error(function(data, status, headers, config) {
+                alert('Camera has already started. Please wait until ' + $filter('date')($scope.countdown, 'MMM d, y h:mm:ss a'))
+            });
+            return true;
+        } else {
+            return false;
+        }
+    }
+ }
+
 
   $scope.stopCamera = function () {
     $http.get('/stopCamera').
