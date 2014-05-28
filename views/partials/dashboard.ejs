@@ -115,9 +115,9 @@
 			<div class="col-xs-6 col-sm-6 col-md-6 img-grid" ng-repeat="file in files | reverse" ng-if="($index < 4)">
 				<div ng-if="files" class="text-center">
 					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
-					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><i class="fa fa-film"></i></a>					
+					<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><i class="fa fa-film"></i><span id="new-vid" ng-if="$index == 0">NEW</span></a>					
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
- 					<h4><span id="new-vid" ng-if="$index == 0">NEW</span><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> 
+ 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> 
  					<!-- <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button> -->
  					</h4>
 				</div>				

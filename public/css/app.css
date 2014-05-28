@@ -180,22 +180,8 @@ button {
   font-size: 10px;
   color: red;
   position: absolute;
-  left: 33px;
+  left: 185px;
 }
-
-@media only screen and (max-width: 461px) {
-  #new-vid {
-    top: 73px;
-  }
-}
-
-@media only screen and (min-width: 460px) {
-  #new-vid {
-    top: 55px;
-  }
-}
-
-
 
 /*.vids a {
   color: black;
