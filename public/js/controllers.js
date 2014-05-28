@@ -123,7 +123,6 @@ function VideosCtrl($scope, $http, $route) {
       console.log('All files has been retrieved.');
     });
 
-
   $scope.deleteFile = function (fileName) {
     var retVal = confirm("Are you sure you want to delete the file: " + fileName + "? This action is irreversable.");
     if (retVal == true) {
