@@ -180,7 +180,7 @@ button {
   font-size: 10px;
   color: red;
   position: absolute;
-  left: 185px;
+  margin-left: 5px;
 }
 
 /*.vids a {
