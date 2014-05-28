@@ -3,9 +3,9 @@
     <div class="col-xs-6 col-sm-6 col-md-3 img-grid" ng-repeat="file in files | reverse">
 		<div ng-if="files" class="text-center">
 			<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
-			<a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><i class="fa fa-film"></i></a>					
+			<div><a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><i class="fa fa-film"></i></a><a href="" ng-click='deleteFile(file)'><i id="remove-button" class="fa fa-times"></i></a></div>					
 			<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
-			<h4><a ng-href="{{file | filePath}}">{{file}}</a> <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button></h4> 
+			<h4><a ng-href="{{file | filePath}}">{{file}}</a> <!--<button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button>--></h4> 
 		</div>
 	</div>
 </div>

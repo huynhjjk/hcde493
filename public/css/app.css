@@ -176,11 +176,15 @@ button {
 }
 
 
-#new-vid {
+#new-vid, #remove-button {
   font-size: 10px;
   color: red;
   position: absolute;
   margin-left: 5px;
+}
+
+#remove-button {
+  font-size: 16px;
 }
 
 /*.vids a {

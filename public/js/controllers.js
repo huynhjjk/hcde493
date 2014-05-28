@@ -53,14 +53,6 @@ function DashboardCtrl($scope, $http, $route, $filter) {
     });
   }
 
-  $scope.deleteFile = function (fileName) {
-    $http.delete('/deleteFile/' + fileName).
-      success(function(data, status, headers, config) {
-        console.log('file has been deleted.');
-        $route.reload();
-      });
-  };
-
   $scope.msToTime = function(duration) {
     var seconds = parseInt((duration/1000)%60)
     , minutes = parseInt((duration/(1000*60))%60)
@@ -130,11 +122,20 @@ function VideosCtrl($scope, $http, $route) {
       $scope.files = data.files;
       console.log('All files has been retrieved.');
     });
+
+
   $scope.deleteFile = function (fileName) {
-    $http.delete('/deleteFile/' + fileName).
-      success(function(data, status, headers, config) {
-        console.log('file has been deleted.');
-        $route.reload();
-      });
+    var retVal = confirm("Are you sure you want to delete the file: " + fileName + "? This action is irreversable.");
+    if (retVal == true) {
+      $http.delete('/deleteFile/' + fileName).
+        success(function(data, status, headers, config) {
+          console.log('file has been deleted.');
+          $route.reload();
+        });
+        return true;
+    } else {
+        return false;
+    }
   };
+
 }
