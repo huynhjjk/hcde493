@@ -121,7 +121,7 @@ exports.stopCamera = function (req, res) {
 exports.deleteFile = function (req, res) {
     var deleteUrl = 'ssh ' + sshUrl + ' rm ' + videosPath + req.params.fileName;
     shell.exec(deleteUrl, function (code, output) {
-        console.log('delete file reached. output: ' + output + ' code: ' + code);
         res.json(req.params.fileName, 200);
+	    console.log('DELETE FILE - ' + JSON.stringify(req.params.fileName));
     });
 };
