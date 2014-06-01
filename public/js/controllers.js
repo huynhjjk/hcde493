@@ -23,8 +23,11 @@ function DashboardCtrl($scope, $http, $route, $filter) {
     success(function(data, status, headers, config) {
       $scope.files = data.files;
       console.log('All files has been retrieved.');
+    })
+    .error(function(data, status, headers, config) {
+        alert(status + ' error due to changes in privacy policy by UW IT: ' + data);  
     });
-
+    
  $scope.startCamera = function () {
    if ($scope.checkValidations()) {
         var retVal = confirm("Are you sure you want to begin? This action is irreversable and you will have to wait until the countdown is complete.");
@@ -121,6 +124,9 @@ function VideosCtrl($scope, $http, $route) {
     success(function(data, status, headers, config) {
       $scope.files = data.files;
       console.log('All files has been retrieved.');
+    })
+    .error(function(data, status, headers, config) {
+        alert(status + ' error due to changes in privacy policy by UW IT: ' + data);  
     });
 
   $scope.deleteFile = function (fileName) {

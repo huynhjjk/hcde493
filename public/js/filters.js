@@ -5,7 +5,7 @@
 var app = angular.module('myApp.filters', [])
 app.filter('filePath', function() {
     return function(image) {
-      var webUrl = "http://students.washington.edu/jmzhwng/Images/"
+      var webUrl = "http://depts.washington.edu/uwtclute/Images/"
       return webUrl + image;
     }
 });

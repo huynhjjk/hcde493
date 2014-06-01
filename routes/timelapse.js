@@ -8,18 +8,18 @@ var shell = require('shelljs');
 var RaspiCam = require("raspicam");
 
 
-
 // Web url for getting the videos
-var webUrl = "http://students.washington.edu/jmzhwng/Images/";
+var webUrl = "http://depts.washington.edu/uwtclute/Images/";
 
 // ssh url
-var sshUrl = "jmzhwng@vergil.u.washington.edu";
+
+var sshUrl = "uwtclute@ovid.u.washington.edu";
 
 // Scp url for sending the videos
-var scpUrl = sshUrl + ":/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images";
+var scpUrl = sshUrl + ":/nfs/bronfs/uwfs/hw00/d95/uwtclute/Images";
 
 // video path for deleting videos
-var videosPath = "student_html/Images/";
+var videosPath = "public_html/Images/";
 
 
 
@@ -52,11 +52,16 @@ function fileLinks($) {
 // Get all existing files from each existing folder on web url
 exports.getAllFiles = function (req, res) {
     request(webUrl, function (error, response, body) {
-        var files = fileLinks(cheerio.load(body));
-        res.json({
-            files: files
-        }, 200);
-        console.log('GET ALL FILES - ' + JSON.stringify(files));
+    	if (error) {
+	        res.json(error, 500);
+    		console.log('Error due to changes in privacy policy by UW IT: ' + error);    		
+    	} else {
+	        var files = fileLinks(cheerio.load(body));
+	        res.json({
+	            files: files
+	        }, 200);
+	        console.log('GET ALL FILES - ' + JSON.stringify(files));
+    	}
     });
 }
 
@@ -82,49 +87,6 @@ exports.startCamera = function (req, res) {
         settings.lock = new Date(settings.lock.getTime() + (timeout) + (1 * 60 * 1000));
 
         res.json(settings, 200);
-
-        // var options = {
-        //     mode: "timelapse",
-        //     output: "image%04d.jpg",
-        //     encoding: "jpg",
-        //     timelapse: timelapse,
-        //     timeout: timeout,
-        //     width: 1280,
-        //     height: 720
-        // }
-
-        // camera = new RaspiCam(options);
-
-        // camera.on("start", function( err, timestamp ){
-        //   console.log("timelapse started at " + timestamp);
-        // });
-
-        // camera.on("read", function( err, timestamp, filename ){
-        //   console.log("timelapse image captured with filename: " + filename);
-        // });
-
-        // camera.on("exit", function( timestamp ){
-        //     // Convert .jpg to .jpeg
-        //     shell.exec("ls -d *.jpg | sed -e 's/.*/mv & &/' -e 's/jpg$/jpeg/' | sh", function (code, output) {
-        //         console.log('jpeg conversion complete. output: ' + output + ' code: ' + code);
-        //         // Convert all .jpeg images to .avi video
-        //         var converter = "gst-launch-1.0 multifilesrc location=image%04d.jpeg index=1 caps=image/jpeg,framerate=" + settings.fps + "/1 ! jpegdec ! omxh264enc ! avimux ! filesink location=" + settings.outputName + ".avi && rm *jpeg"
-        //         shell.exec(converter, function (code, output) {
-        //             console.log('gst-launch complete. output: ' + output + ' code: ' + code);
-        //             // SCP to web server
-        //             var scp = "scp " + settings.outputName + ".avi jmzhwng@vergil.u.washington.edu:/nfs/bronfs/uwfs/dw00/d96/jmzhwng/Images && rm " + settings.outputName + ".avi";
-        //             console.log("this is scp " + scp);
-        //             shell.exec(scp, function (code, output) {
-        //                 console.log('scp complete. output: ' + output + ' code: ' + code);
-        //                 res.render('index');
-        //             });
-        //         });
-        //     });
-        // });
-
-        // camera.on("stop", function( err, timestamp ){
-        //   console.log("timelapse child process has been stopped at " + timestamp);
-        // });
 
         // camera.start();
 	    console.log('START CAMERA - ' + JSON.stringify(settings));
