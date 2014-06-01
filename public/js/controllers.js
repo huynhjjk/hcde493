@@ -25,7 +25,7 @@ function DashboardCtrl($scope, $http, $route, $location, $filter) {
       console.log('All files has been retrieved.');
     })
     .error(function(data, status, headers, config) {
-        alert(status + ' error due to changes in privacy policy by UW IT: ' + data);  
+        console.log(status + ' error due to changes in privacy policy by UW IT: ' + data);  
     });
 
  $scope.startCamera = function () {
