@@ -6,7 +6,7 @@
 		<h2>Configuration</h2>
 		<form  action="">
 			<div id="input" class="settings">
-				<h4>Take a photo every: <i class="fa fa-question-circle" popover="The time that the time-lapse camera takes in between shots" popover-trigger="mouseenter"></i> </h4>
+				<h4>Take a photo every (Interval): <i class="fa fa-question-circle" popover="The time that the time-lapse camera takes in between shots" popover-trigger="mouseenter"></i> </h4>
 				Mins: 
 				<input type="number" ng-model="settings.intervalMinutes" min="0" max="59">
 				Secs:
@@ -14,7 +14,7 @@
 			</div>	
 
 			<div id="timer" class="settings">
-				<h4>Total Photo Session: <i class="fa fa-question-circle" popover="The total duration for the time-lapse camera to take photos" popover-trigger="mouseenter"></i></h4>				
+				<h4>Total Photo Session (Duration): <i class="fa fa-question-circle" popover="The total duration for the time-lapse camera to take photos" popover-trigger="mouseenter"></i></h4>				
 				Hours:   
 				<input type="number" ng-model="settings.durationHours" min="0" max="12">
 				Mins:
@@ -24,8 +24,8 @@
 			</div>
 
 			<div id="fps" class="settings">
-				<h4>Play the timelapse video at this rate: <i class="fa fa-question-circle" popover="The rate that the output video will be playing at. FPS is the number of photos that will be played in a second" popover-trigger="mouseenter"></i></h4>
-				Frames Per Second (FPS):   
+				<h4>Play the timelapse video at (FPS): <i class="fa fa-question-circle" popover="The rate that the output video will be playing at. FPS is the number of photos that will be played in a second (Min:10FPS, Max:60FPS)" popover-trigger="mouseenter"></i></h4>
+				Frames Per Second:   
 				<input type="number" ng-model="settings.fps" min="10" max="60">
 			</div>
 
@@ -42,17 +42,17 @@
 
 			<div id="check">
 
-				<timer id="timer" ng-if="displayCountDown" end-time="countdown">Refresh the browser in: {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds</timer>
+				<timer id="timer" ng-if="displayCountDown" end-time="countdown">Refresh the browser in: {{hours}} hours, {{minutes}} minutes, {{seconds}} seconds <button type="btn-small" ng-click='refresh()'><i class="fa fa-refresh"></i></button></timer>
 
                 <div ng-if="displayIntervalMinutesWarning">* Interval Minutes must be between 0 and 59 minutes</div>
                 <div ng-if="displayIntervalSecondsWarning">* Interval Seconds must be between 0 and 59 seconds</div>
-                <div ng-if="displayDurationHoursWarning">* Duration Hours must be between 0 and 12 hours</div>
-                <div ng-if="displayDurationMinutesWarning">* Duration Minutes must be between 0 and 59 minutes</div>
+                <div ng-if="displayDurationHoursWarning">* Duration must be between 0 and 12 hours</div>
+                <div ng-if="displayDurationMinutesWarning">*  Duration Minutes must be between 0 and 59 minutes</div>
                 <div ng-if="displayDurationSecondsWarning">* Duration Seconds must be between 0 and 59 seconds</div>
                 <div ng-if="displayFPSWarning">* FPS must be between 10 and 60</div>
-                <div ng-if="displayDurationWarning">* Duration must be greater than interval</div>
+                <div ng-if="displayDurationWarning">* Duration must be greater than Interval</div>
                 <div ng-if="displayTotalDurationWarning">* Duration is invalid</div>
-                <div ng-if="displayVideoLengthWarning">* Video Length must be greater than 1 second</div>
+                <div ng-if="displayVideoLengthWarning">* Output video length must be greater than 1 second</div>
 			</div>
 
 			<div id="start-end-row" class="row">
@@ -68,7 +68,7 @@
 
 
 		<!--<div id="input" class="settings">
-			<h4>Take a photo every:</h4>
+			<h4>Take a photo every (Interval):</h4>
 			
 				Mins:
 				<select ng-model="settings.intervalMinutes" ng-options="minute for minute in intervalMinutes"></select>
@@ -79,7 +79,7 @@
 		<!--
 		<div id="timer" class="settings">
 
-			<h4>Total Photo Session:</h4>
+			<h4>Total photo session (Duration):</h4>
 			
 				Hours:   
 				<select ng-model="settings.durationHours" ng-options="hour for hour in durationHours"></select>

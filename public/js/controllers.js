@@ -1,7 +1,7 @@
 'use strict';
 
 /* Controllers */
-function DashboardCtrl($scope, $http, $route, $filter) {
+function DashboardCtrl($scope, $http, $route, $location, $filter) {
   $http.get('/getCamera').
     success(function(data, status, headers, config) {
       $scope.settings = data.settings;
@@ -27,7 +27,7 @@ function DashboardCtrl($scope, $http, $route, $filter) {
     .error(function(data, status, headers, config) {
         alert(status + ' error due to changes in privacy policy by UW IT: ' + data);  
     });
-    
+
  $scope.startCamera = function () {
    if ($scope.checkValidations()) {
         var retVal = confirm("Are you sure you want to begin? This action is irreversable and you will have to wait until the countdown is complete.");
@@ -48,13 +48,18 @@ function DashboardCtrl($scope, $http, $route, $filter) {
  }
 
 
-  $scope.stopCamera = function () {
-    $http.get('/stopCamera').
-      success(function(data, status, headers, config) {
-        $route.reload();
-        console.log('Camera has stopped.')
-    });
-  }
+  // $scope.stopCamera = function () {
+  //   $http.get('/stopCamera').
+  //     success(function(data, status, headers, config) {
+  //       $route.reload();
+  //       console.log('Camera has stopped.')
+  //   });
+  // }
+
+   $scope.refresh = function () {
+    $route.reload();
+   }
+
 
   $scope.msToTime = function(duration) {
     var seconds = parseInt((duration/1000)%60)
