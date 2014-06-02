@@ -117,7 +117,7 @@
 					<img class="thumbnail img-responsive" ng-src="{{file | filePath}}" alt="{{file}}" ng-if="file.indexOf('jpeg') != -1"/>
 					<div><a ng-href="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1" target="__blank"><i class="fa fa-film"></i><span id="new-vid" ng-if="$index == 0">NEW</span></a></div>					
 					<!-- <embed ng-src="{{file | filePath}}" ng-if="file.indexOf('jpeg') == -1"/> -->
- 					<h4><a ng-href="{{file | filePath:file.adirectory}}">{{file}}</a> 
+ 					<h4><a ng-href="{{file | filePath:file.adirectory}}" target="__blank">{{file}}</a> 
  					<!-- <button type="btn" class="btn btn-danger" ng-click='deleteFile(file)'>Delete</button> -->
  					</h4>
 				</div>				
